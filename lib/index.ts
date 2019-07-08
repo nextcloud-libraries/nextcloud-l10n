@@ -10,6 +10,13 @@ export function getLocale(): string {
     return OC.getLocale()
 }
 
+/**
+ * Returns the user's language
+ */
+export function getLanguage(): string {
+    return OC.getLanguage()
+}
+
 interface TranslationOptions {
     escaped?: boolean
 }
