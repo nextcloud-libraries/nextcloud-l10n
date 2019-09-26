@@ -7,6 +7,11 @@ declare var OC: OC16to17;
  * Returns the user's locale
  */
 export function getLocale(): string {
+    if (typeof OC === 'undefined') {
+        console.warn('No OC found')
+        return 'en'
+    }
+
     return OC.getLocale()
 }
 
@@ -14,6 +19,11 @@ export function getLocale(): string {
  * Returns the user's language
  */
 export function getLanguage(): string {
+    if (typeof OC === 'undefined') {
+        console.warn('No OC found')
+        return 'en';
+    }
+
     return OC.getLanguage()
 }
 
@@ -32,6 +42,11 @@ interface TranslationOptions {
  * @return {string}
  */
 export function translate(app: string, text: string, vars?: object, count?: Number, options?: TranslationOptions): string {
+    if (typeof OC === 'undefined') {
+        console.warn('No OC found')
+        return text
+    }
+
     return OC.L10N.translate(app, text, vars, count, options)
 }
 
@@ -48,5 +63,10 @@ export function translate(app: string, text: string, vars?: object, count?: Numb
  */
 
 export function translatePlural(app: string, textSingular: string, textPlural: string, count: Number, vars?: object, options?: TranslationOptions): string {
+    if (typeof OC === 'undefined') {
+        console.warn('No OC found')
+        return textSingular
+    }
+
     return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options)
 }
