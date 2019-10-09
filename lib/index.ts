@@ -151,6 +151,6 @@ export function getMonthNamesShort(): String[] {
         console.warn('No monthNamesShort found')
         return ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
     }
-    
+
     return window.monthNamesShort
 }
