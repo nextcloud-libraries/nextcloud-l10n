@@ -33,7 +33,7 @@
     "babel-jest": "^24.9.0",
     "browserslist-config-nextcloud": "0.0.1",
     "jest": "^24.9.0",
-    "typescript": "3.6.3"
+    "typescript": "3.6.4"
   },
   "browserslist": [
     "extends browserslist-config-nextcloud"
