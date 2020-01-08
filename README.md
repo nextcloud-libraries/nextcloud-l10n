@@ -1,5 +1,16 @@
 # @nextcloud/l10n
-Nextcloud L10n helpers for apps and libraries
+
+[![Build Status](https://travis-ci.com/nextcloud/nextcloud-l10n.svg?branch=master)](https://travis-ci.com/nextcloud/nextcloud-l10n)
+[![npm](https://img.shields.io/npm/v/@nextcloud/l10n.svg)](https://www.npmjs.com/package/@nextcloud/l10n)
+[![Documentation](https://img.shields.io/badge/Documentation-online-brightgreen)](https://nextcloud.github.io/nextcloud-l10n/)
+
+Nextcloud L10n helpers for apps and libraries.
+
+## Installation
+
+```
+npm i -S @nextcloud/l10n
+```
 
 ## Usage
 
