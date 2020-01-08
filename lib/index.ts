@@ -37,11 +37,11 @@ interface TranslationOptions {
  * @param {string} app the id of the app for which to translate the string
  * @param {string} text the string to translate
  * @param {object} vars map of placeholder key to value
- * @param {Number} number to replace %n with
+ * @param {number} number to replace %n with
  * @param {object} [options] options object
  * @return {string}
  */
-export function translate(app: string, text: string, vars?: object, count?: Number, options?: TranslationOptions): string {
+export function translate(app: string, text: string, vars?: object, count?: number, options?: TranslationOptions): string {
     if (typeof OC === 'undefined') {
         console.warn('No OC found')
         return text
@@ -62,7 +62,7 @@ export function translate(app: string, text: string, vars?: object, count?: Numb
  * @return {string}
  */
 
-export function translatePlural(app: string, textSingular: string, textPlural: string, count: Number, vars?: object, options?: TranslationOptions): string {
+export function translatePlural(app: string, textSingular: string, textPlural: string, count: number, vars?: object, options?: TranslationOptions): string {
     if (typeof OC === 'undefined') {
         console.warn('No OC found')
         return textSingular
@@ -76,7 +76,7 @@ export function translatePlural(app: string, textSingular: string, textPlural: s
  *
  * @return {number}
  */
-export function getFirstDay(): Number {
+export function getFirstDay(): number {
     if (typeof window.firstDay === 'undefined') {
         console.warn('No firstDay found')
         return 1
@@ -88,9 +88,9 @@ export function getFirstDay(): Number {
 /**
  * Get a list of day names (full names)
  *
- * @return {String[]}
+ * @return {string[]}
  */
-export function getDayNames(): String[] {
+export function getDayNames(): string[] {
     if (typeof window.dayNames === 'undefined') {
         console.warn('No dayNames found')
         return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -102,9 +102,9 @@ export function getDayNames(): String[] {
 /**
  * Get a list of day names (short names)
  *
- * @return {String[]}
+ * @return {string[]}
  */
-export function getDayNamesShort(): String[] {
+export function getDayNamesShort(): string[] {
     if (typeof window.dayNamesShort === 'undefined') {
         console.warn('No dayNamesShort found')
         return ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
@@ -116,9 +116,9 @@ export function getDayNamesShort(): String[] {
 /**
  * Get a list of day names (minified names)
  *
- * @return {String[]}
+ * @return {string[]}
  */
-export function getDayNamesMin(): String[] {
+export function getDayNamesMin(): string[] {
     if (typeof window.dayNamesMin === 'undefined') {
         console.warn('No dayNamesMin found')
         return ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
@@ -130,9 +130,9 @@ export function getDayNamesMin(): String[] {
 /**
  * Get a list of month names (full names)
  *
- * @return {String[]}
+ * @return {string[]}
  */
-export function getMonthNames(): String[] {
+export function getMonthNames(): string[] {
     if (typeof window.monthNames === 'undefined') {
         console.warn('No monthNames found')
         return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -144,9 +144,9 @@ export function getMonthNames(): String[] {
 /**
  * Get a list of month names (short names)
  *
- * @return {String[]}
+ * @return {string[]}
  */
-export function getMonthNamesShort(): String[] {
+export function getMonthNamesShort(): string[] {
     if (typeof window.monthNamesShort === 'undefined') {
         console.warn('No monthNamesShort found')
         return ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
