@@ -28,7 +28,7 @@ export function getLanguage(): string {
 }
 
 interface TranslationOptions {
-    escaped?: boolean
+    escape?: boolean
 }
 
 /**
