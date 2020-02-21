@@ -3,17 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@nextcloud/l10n</title>
+	<title>TranslationOptions | @nextcloud/l10n</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 <header>
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">@nextcloud/l10n</a>
+					<a href="../index.html" class="title">@nextcloud/l10n</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -51,130 +51,120 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="translationoptions.html">TranslationOptions</a>
 				</li>
 			</ul>
-			<h1>@nextcloud/l10n</h1>
+			<h1>Interface TranslationOptions</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#nextcloudl10n" id="nextcloudl10n" style="color: inherit; text-decoration: none;">
-					<h1>@nextcloud/l10n</h1>
-				</a>
-				<p><a href="https://travis-ci.com/nextcloud/nextcloud-l10n"><img src="https://travis-ci.com/nextcloud/nextcloud-l10n.svg?branch=master" alt="Build Status"></a>
-					<a href="https://www.npmjs.com/package/@nextcloud/l10n"><img src="https://img.shields.io/npm/v/@nextcloud/l10n.svg" alt="npm"></a>
-				<a href="https://nextcloud.github.io/nextcloud-l10n/"><img src="https://img.shields.io/badge/Documentation-online-brightgreen" alt="Documentation"></a></p>
-				<p>Nextcloud L10n helpers for apps and libraries.</p>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
-				<pre><code><span class="hljs-built_in">npm</span> i -S @nextcloud/l10n</code></pre>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
-				</a>
-				<a href="#ocl10n-abstraction" id="ocl10n-abstraction" style="color: inherit; text-decoration: none;">
-					<h3>OC.L10n abstraction</h3>
-				</a>
-				<p>You can use helpers in this package in order generate code that also works when it&#39;s not loaded on a Nextcloud page. This is primary useful for testing. The logic will just return the original string if the global variable <code>OC</code> isn&#39;t found.</p>
-				<p>In order to not break the l10n string extraction scripts, make sure to alias the imported function to match the legacy syntax:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> {translate <span class="hljs-keyword">as</span> t, translatePlural <span class="hljs-keyword">as</span> n} <span class="hljs-keyword">from</span> <span class="hljs-string">'@nextcloud/l10n'</span>
-
-t(<span class="hljs-string">'myapp'</span>, <span class="hljs-string">'Hello!'</span>)
-n(<span class="hljs-string">'myapp'</span>, <span class="hljs-string">'%n cloud'</span>, <span class="hljs-string">'%n clouds'</span>, <span class="hljs-number">100</span>)</code></pre>
-				<p>See the <a href="https://docs.nextcloud.com/server/stable/developer_manual/app/view/l10n.html">localization docs</a> for more info.</p>
-				<a href="#independent-translation" id="independent-translation" style="color: inherit; text-decoration: none;">
-					<h3>Independent translation</h3>
-				</a>
-				<p>You can use this package to translate your app or library independent of Nextcloud. For that you need .po(t) files. These can be extracted with <a href="https://github.com/lukasgeiter/gettext-extractor">gettext-extractor</a>.</p>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { getGettextBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nextcloud/l10n/gettext'</span>
-
-<span class="hljs-keyword">const</span> lang = <span class="hljs-string">'sv'</span>
-<span class="hljs-keyword">const</span> po = ... <span class="hljs-comment">// Use https://github.com/smhg/gettext-parser to read and convert your .po(t) file</span>
-
-<span class="hljs-keyword">const</span> gt = getGettextBuilder()
-    .detectLocale()
-    .addTranslation(<span class="hljs-string">'sv'</span>, po)
-    .build()</code></pre>
-				<a href="#translate-single-string" id="translate-single-string" style="color: inherit; text-decoration: none;">
-					<h4>Translate single string</h4>
-				</a>
-				<pre><code class="language-js">gt.gettext(<span class="hljs-string">'my source string'</span>)</code></pre>
-				<a href="#placeholders" id="placeholders" style="color: inherit; text-decoration: none;">
-					<h4>Placeholders</h4>
-				</a>
-				<pre><code class="language-js">gt.gettext(<span class="hljs-string">'this is a {placeholder}. and this is {key2}'</span>, {
-    <span class="hljs-attr">placeholder</span>: <span class="hljs-string">'test'</span>,
-    <span class="hljs-attr">key2</span>: <span class="hljs-string">'also a test'</span>,
-})</code></pre>
-				<p>See <a href="https://docs.nextcloud.com/server/latest/developer_manual/app/view/l10n.html">the developer docs for general guidelines</a>.</p>
-				<a href="#translate-plurals" id="translate-plurals" style="color: inherit; text-decoration: none;">
-					<h4>Translate plurals</h4>
-				</a>
-				<pre><code class="language-js">gt.ngettext(<span class="hljs-string">'%n Mississippi'</span>, <span class="hljs-string">'%n Mississippi'</span>, <span class="hljs-number">3</span>)</code></pre>
-				<p>See <a href="https://docs.nextcloud.com/server/latest/developer_manual/app/view/l10n.html">the developer docs for general guidelines</a>.</p>
-			</div>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">TranslationOptions</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="translationoptions.html#escape" class="tsd-kind-icon">escape</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="escape" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> escape</h3>
+					<div class="tsd-signature tsd-kind-icon">escape<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nextcloud/nextcloud-l10n/blob/1e9660c/lib/index.ts#L31">index.ts:31</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
-						<a href="classes/gettextbuilder.html" class="tsd-kind-icon">Gettext<wbr>Builder</a>
+						<a href="../classes/gettextbuilder.html" class="tsd-kind-icon">Gettext<wbr>Builder</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/gettextwrapper.html" class="tsd-kind-icon">Gettext<wbr>Wrapper</a>
+						<a href="../classes/gettextwrapper.html" class="tsd-kind-icon">Gettext<wbr>Wrapper</a>
 					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/translationoptions.html" class="tsd-kind-icon">Translation<wbr>Options</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="translationoptions.html" class="tsd-kind-icon">Translation<wbr>Options</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="translationoptions.html#escape" class="tsd-kind-icon">escape</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#oc" class="tsd-kind-icon">OC</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#oc" class="tsd-kind-icon">OC</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#window" class="tsd-kind-icon">window</a>
+						<a href="../globals.html#window" class="tsd-kind-icon">window</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getdaynames" class="tsd-kind-icon">get<wbr>Day<wbr>Names</a>
+						<a href="../globals.html#getdaynames" class="tsd-kind-icon">get<wbr>Day<wbr>Names</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getdaynamesmin" class="tsd-kind-icon">get<wbr>Day<wbr>Names<wbr>Min</a>
+						<a href="../globals.html#getdaynamesmin" class="tsd-kind-icon">get<wbr>Day<wbr>Names<wbr>Min</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getdaynamesshort" class="tsd-kind-icon">get<wbr>Day<wbr>Names<wbr>Short</a>
+						<a href="../globals.html#getdaynamesshort" class="tsd-kind-icon">get<wbr>Day<wbr>Names<wbr>Short</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getfirstday" class="tsd-kind-icon">get<wbr>First<wbr>Day</a>
+						<a href="../globals.html#getfirstday" class="tsd-kind-icon">get<wbr>First<wbr>Day</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getgettextbuilder" class="tsd-kind-icon">get<wbr>Gettext<wbr>Builder</a>
+						<a href="../globals.html#getgettextbuilder" class="tsd-kind-icon">get<wbr>Gettext<wbr>Builder</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getlanguage" class="tsd-kind-icon">get<wbr>Language</a>
+						<a href="../globals.html#getlanguage" class="tsd-kind-icon">get<wbr>Language</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getlocale" class="tsd-kind-icon">get<wbr>Locale</a>
+						<a href="../globals.html#getlocale" class="tsd-kind-icon">get<wbr>Locale</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getmonthnames" class="tsd-kind-icon">get<wbr>Month<wbr>Names</a>
+						<a href="../globals.html#getmonthnames" class="tsd-kind-icon">get<wbr>Month<wbr>Names</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getmonthnamesshort" class="tsd-kind-icon">get<wbr>Month<wbr>Names<wbr>Short</a>
+						<a href="../globals.html#getmonthnamesshort" class="tsd-kind-icon">get<wbr>Month<wbr>Names<wbr>Short</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#translate" class="tsd-kind-icon">translate</a>
+						<a href="../globals.html#translate" class="tsd-kind-icon">translate</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#translateplural" class="tsd-kind-icon">translate<wbr>Plural</a>
+						<a href="../globals.html#translateplural" class="tsd-kind-icon">translate<wbr>Plural</a>
 					</li>
 				</ul>
 			</nav>
@@ -245,7 +235,7 @@ n(<span class="hljs-string">'myapp'</span>, <span class="hljs-string">'%n cloud'
 	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
