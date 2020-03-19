@@ -36,9 +36,9 @@
     "@types/node-gettext": "^2.0.1",
     "babel-jest": "^25.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "gettext-parser": "^4.0.2",
+    "gettext-parser": "^4.0.3",
     "jest": "^25.1.0",
-    "typedoc": "^0.16.7",
+    "typedoc": "^0.16.11",
     "typescript": "3.8.3"
   },
   "browserslist": [
