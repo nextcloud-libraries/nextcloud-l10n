@@ -23,23 +23,23 @@
     "url": "https://github.com/nextcloud/nextcloud-l10n"
   },
   "dependencies": {
-    "core-js": "3.6.4",
+    "core-js": "^3.6.4",
     "node-gettext": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.8.4",
-    "@babel/core": "7.9.0",
-    "@babel/preset-env": "7.9.0",
-    "@babel/preset-typescript": "7.9.0",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-typescript": "^7.9.0",
     "@nextcloud/browserslist-config": "^1.0.0",
-    "@nextcloud/typings": "^0.1.6",
+    "@nextcloud/typings": "^0.1.7",
     "@types/node-gettext": "^2.0.1",
     "babel-jest": "^25.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "gettext-parser": "^4.0.3",
     "jest": "^25.1.0",
-    "typedoc": "^0.17.2",
-    "typescript": "3.8.3"
+    "typedoc": "^0.17.3",
+    "typescript": "^3.8.3"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
