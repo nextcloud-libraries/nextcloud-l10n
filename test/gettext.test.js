@@ -3,6 +3,15 @@ import { po } from 'gettext-parser'
 import { getGettextBuilder } from '../lib/gettext'
 
 describe('gettext', () => {
+
+    beforeEach(() => {
+        jest.spyOn(console, 'warn')
+    })
+
+    afterEach(() => {
+        console.warn.mockRestore()
+    })
+
     it('falls back to the original string', () => {
         const gt = getGettextBuilder()
             .setLanguage('de')
@@ -11,6 +20,27 @@ describe('gettext', () => {
         const translation = gt.gettext('Settings')
 
         expect(translation).toEqual('Settings')
+    })
+
+    it('does not log in production', () => {
+        const gt = getGettextBuilder()
+            .setLanguage('de')
+            .build()
+
+        gt.gettext('Settings')
+
+        expect(console.warn).not.toHaveBeenCalled()
+    })
+
+    it('has optional debug logs', () => {
+        const gt = getGettextBuilder()
+            .setLanguage('de')
+            .enableDebugMode()
+            .build()
+
+        gt.gettext('Settings')
+
+        expect(console.warn).toHaveBeenCalled()
     })
 
     it('falls back to the original singular string', () => {
