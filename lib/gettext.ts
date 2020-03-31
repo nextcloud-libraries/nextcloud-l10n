@@ -6,6 +6,7 @@ class GettextBuilder {
 
     private locale?: string
     private translations = {}
+    private debug = false
 
     setLanguage(language: string): GettextBuilder {
         this.locale = language
@@ -21,8 +22,13 @@ class GettextBuilder {
         return this
     }
 
+    enableDebugMode(): GettextBuilder {
+        this.debug = true
+        return this
+    }
+
     build(): GettextWrapper {
-        return new GettextWrapper(this.locale || 'en', this.translations)
+        return new GettextWrapper(this.locale || 'en', this.translations, this.debug)
     }
 
 }
@@ -31,8 +37,10 @@ class GettextWrapper {
 
     private gt: GetText
 
-    constructor(locale: string, data: any) {
-        this.gt = new GetText()
+    constructor(locale: string, data: any, debug: boolean) {
+        this.gt = new GetText({
+            debug,
+        })
 
         for (let key in data) {
             this.gt.addTranslations(key, 'messages', data[key])
