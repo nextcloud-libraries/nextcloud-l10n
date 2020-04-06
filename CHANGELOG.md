@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.1 - 2020-04-06
+### Changed
+- Dependency updates
+### Fixed
+- Update vulnerable packages
+
 ## 1.2.0 - 2020-03-19
 ### Added
 - Optional debug mode with logging, no console.warn for production builds
