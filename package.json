@@ -29,7 +29,7 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "@babel/preset-typescript": "^7.9.0",
     "@nextcloud/browserslist-config": "^1.0.0",
     "@nextcloud/typings": "^0.1.7",
@@ -38,7 +38,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "gettext-parser": "^4.0.3",
     "jest": "^25.1.0",
-    "typedoc": "^0.17.3",
+    "typedoc": "^0.17.4",
     "typescript": "^3.8.3"
   },
   "browserslist": [
