@@ -40,6 +40,7 @@ class GettextWrapper {
     constructor(locale: string, data: any, debug: boolean) {
         this.gt = new GetText({
             debug,
+            sourceLocale: 'en',
         })
 
         for (let key in data) {
