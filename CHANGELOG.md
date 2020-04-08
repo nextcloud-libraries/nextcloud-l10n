@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.3 - 2020-04-08
+### Changed
+- Dependency updates
+### Fixed
+- Source locale of translations is now set to 'en', so fewer warnings are printed
+
 ## 1.2.2 - 2020-04-06
 ### Fixed
 - Update vulnerable packages
