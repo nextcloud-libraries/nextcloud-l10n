@@ -1,7 +1,7 @@
 /// <reference types="@nextcloud/typings" />
 
-declare var OC: Nextcloud.v16.OC | Nextcloud.v17.OC | Nextcloud.v18.OC;
-declare var window: Nextcloud.v16.WindowWithGlobals | Nextcloud.v17.WindowWithGlobals | Nextcloud.v18.WindowWithGlobals;
+declare var OC: Nextcloud.v16.OC | Nextcloud.v17.OC | Nextcloud.v18.OC | Nextcloud.v19.OC;
+declare var window: Nextcloud.v16.WindowWithGlobals | Nextcloud.v17.WindowWithGlobals | Nextcloud.v18.WindowWithGlobals | Nextcloud.v19.WindowWithGlobals;
 
 /**
  * Returns the user's locale
