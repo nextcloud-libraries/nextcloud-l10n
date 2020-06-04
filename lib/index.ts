@@ -15,6 +15,10 @@ export function getLocale(): string {
     return OC.getLocale()
 }
 
+export function getCanonicalLocale(): string {
+	return getLocale().replace(/_/g, '-')
+}
+
 /**
  * Returns the user's language
  */
