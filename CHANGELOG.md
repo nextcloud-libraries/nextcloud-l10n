@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.4.0 - 2020-08-31
+### Added
+- Nextcloud 20 support
+### Changed
+- Dependency updates
+
 ## 1.3.0 - 2020-06-04
 ### Added
 - getCanonicalLocale
