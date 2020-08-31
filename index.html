@@ -81,40 +81,40 @@
 				</a>
 				<p>You can use helpers in this package in order generate code that also works when it&#39;s not loaded on a Nextcloud page. This is primary useful for testing. The logic will just return the original string if the global variable <code>OC</code> isn&#39;t found.</p>
 				<p>In order to not break the l10n string extraction scripts, make sure to alias the imported function to match the legacy syntax:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> {translate <span class="hljs-keyword">as</span> t, translatePlural <span class="hljs-keyword">as</span> n} <span class="hljs-keyword">from</span> <span class="hljs-string">'@nextcloud/l10n'</span>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> {translate <span class="hljs-keyword">as</span> t, translatePlural <span class="hljs-keyword">as</span> n} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@nextcloud/l10n&#x27;</span>
 
-t(<span class="hljs-string">'myapp'</span>, <span class="hljs-string">'Hello!'</span>)
-n(<span class="hljs-string">'myapp'</span>, <span class="hljs-string">'%n cloud'</span>, <span class="hljs-string">'%n clouds'</span>, <span class="hljs-number">100</span>)</code></pre>
+t(<span class="hljs-string">&#x27;myapp&#x27;</span>, <span class="hljs-string">&#x27;Hello!&#x27;</span>)
+n(<span class="hljs-string">&#x27;myapp&#x27;</span>, <span class="hljs-string">&#x27;%n cloud&#x27;</span>, <span class="hljs-string">&#x27;%n clouds&#x27;</span>, <span class="hljs-number">100</span>)</code></pre>
 				<p>See the <a href="https://docs.nextcloud.com/server/stable/developer_manual/app/view/l10n.html">localization docs</a> for more info.</p>
 				<a href="#independent-translation" id="independent-translation" style="color: inherit; text-decoration: none;">
 					<h3>Independent translation</h3>
 				</a>
 				<p>You can use this package to translate your app or library independent of Nextcloud. For that you need .po(t) files. These can be extracted with <a href="https://github.com/lukasgeiter/gettext-extractor">gettext-extractor</a>.</p>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { getGettextBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nextcloud/l10n/gettext'</span>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { getGettextBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@nextcloud/l10n/gettext&#x27;</span>
 
-<span class="hljs-keyword">const</span> lang = <span class="hljs-string">'sv'</span>
+<span class="hljs-keyword">const</span> lang = <span class="hljs-string">&#x27;sv&#x27;</span>
 <span class="hljs-keyword">const</span> po = ... <span class="hljs-comment">// Use https://github.com/smhg/gettext-parser to read and convert your .po(t) file</span>
 
 <span class="hljs-keyword">const</span> gt = getGettextBuilder()
     .detectLocale()
-    .addTranslation(<span class="hljs-string">'sv'</span>, po)
+    .addTranslation(<span class="hljs-string">&#x27;sv&#x27;</span>, po)
     .build()</code></pre>
 				<a href="#translate-single-string" id="translate-single-string" style="color: inherit; text-decoration: none;">
 					<h4>Translate single string</h4>
 				</a>
-				<pre><code class="language-js">gt.gettext(<span class="hljs-string">'my source string'</span>)</code></pre>
+				<pre><code class="language-js">gt.gettext(<span class="hljs-string">&#x27;my source string&#x27;</span>)</code></pre>
 				<a href="#placeholders" id="placeholders" style="color: inherit; text-decoration: none;">
 					<h4>Placeholders</h4>
 				</a>
-				<pre><code class="language-js">gt.gettext(<span class="hljs-string">'this is a {placeholder}. and this is {key2}'</span>, {
-    <span class="hljs-attr">placeholder</span>: <span class="hljs-string">'test'</span>,
-    <span class="hljs-attr">key2</span>: <span class="hljs-string">'also a test'</span>,
+				<pre><code class="language-js">gt.gettext(<span class="hljs-string">&#x27;this is a {placeholder}. and this is {key2}&#x27;</span>, {
+    <span class="hljs-attr">placeholder</span>: <span class="hljs-string">&#x27;test&#x27;</span>,
+    <span class="hljs-attr">key2</span>: <span class="hljs-string">&#x27;also a test&#x27;</span>,
 })</code></pre>
 				<p>See <a href="https://docs.nextcloud.com/server/latest/developer_manual/app/view/l10n.html">the developer docs for general guidelines</a>.</p>
 				<a href="#translate-plurals" id="translate-plurals" style="color: inherit; text-decoration: none;">
 					<h4>Translate plurals</h4>
 				</a>
-				<pre><code class="language-js">gt.ngettext(<span class="hljs-string">'%n Mississippi'</span>, <span class="hljs-string">'%n Mississippi'</span>, <span class="hljs-number">3</span>)</code></pre>
+				<pre><code class="language-js">gt.ngettext(<span class="hljs-string">&#x27;%n Mississippi&#x27;</span>, <span class="hljs-string">&#x27;%n Mississippi&#x27;</span>, <span class="hljs-number">3</span>)</code></pre>
 				<p>See <a href="https://docs.nextcloud.com/server/latest/developer_manual/app/view/l10n.html">the developer docs for general guidelines</a>.</p>
 			</div>
 		</div>
@@ -207,6 +207,5 @@ n(<span class="hljs-string">'myapp'</span>, <span class="hljs-string">'%n cloud'
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
