@@ -14,7 +14,7 @@ class GettextBuilder {
     }
 
     detectLocale(): GettextBuilder {
-        return this.setLanguage(getLanguage())
+        return this.setLanguage(getLanguage().replace('-', '_'))
     }
 
     addTranslation(language: string, data: any): GettextBuilder {
