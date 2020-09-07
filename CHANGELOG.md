@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.4.1 - 2020-09-07
+### Changed
+- Dependency updates
+### Fixed
+- Language detection of languages that have a `_` in their code (#172)
+
 ## 1.4.0 - 2020-08-31
 ### Added
 - Nextcloud 20 support
