@@ -3,6 +3,8 @@
 declare var OC: Nextcloud.v16.OC | Nextcloud.v17.OC | Nextcloud.v18.OC | Nextcloud.v19.OC | Nextcloud.v20.OC;
 declare var window: Nextcloud.v16.WindowWithGlobals | Nextcloud.v17.WindowWithGlobals | Nextcloud.v18.WindowWithGlobals | Nextcloud.v19.WindowWithGlobals;
 
+import { decode as decodeHtml } from 'html-entities'
+
 /**
  * Returns the user's locale
  */
@@ -51,7 +53,7 @@ export function translate(app: string, text: string, vars?: object, count?: numb
         return text
     }
 
-    return OC.L10N.translate(app, text, vars, count, options)
+    return decodeHtml(OC.L10N.translate(app, text, vars, count, options))
 }
 
 /**
@@ -72,7 +74,7 @@ export function translatePlural(app: string, textSingular: string, textPlural: s
         return textSingular
     }
 
-    return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options)
+    return decodeHtml(OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options))
 }
 
 /**
