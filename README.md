@@ -27,7 +27,7 @@ t('myapp', 'Hello!')
 n('myapp', '%n cloud', '%n clouds', 100)
 ```
 
-See the [localization docs](https://docs.nextcloud.com/server/stable/developer_manual/app/view/l10n.html) for more info.
+See the [localization docs](https://docs.nextcloud.com/server/stable/developer_manual/basics/front-end/l10n.html) for more info.
 
 ### Independent translation
 
@@ -60,7 +60,7 @@ gt.gettext('this is a {placeholder}. and this is {key2}', {
 })
 ```
 
-See [the developer docs for general guidelines](https://docs.nextcloud.com/server/latest/developer_manual/app/view/l10n.html).
+See [the developer docs for general guidelines](https://docs.nextcloud.com/server/stable/developer_manual/basics/front-end/l10n.html).
 
 #### Translate plurals
 
@@ -68,4 +68,4 @@ See [the developer docs for general guidelines](https://docs.nextcloud.com/serve
 gt.ngettext('%n Mississippi', '%n Mississippi', 3)
 ```
 
-See [the developer docs for general guidelines](https://docs.nextcloud.com/server/latest/developer_manual/app/view/l10n.html).
+See [the developer docs for general guidelines](https://docs.nextcloud.com/server/stable/developer_manual/basics/front-end/l10n.html).
