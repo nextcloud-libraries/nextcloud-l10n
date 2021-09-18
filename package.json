@@ -34,7 +34,7 @@
     "@nextcloud/browserslist-config": "^1.0.0",
     "@nextcloud/typings": "^1.0.0",
     "@types/node-gettext": "^3.0",
-    "babel-jest": "^26.0.1",
+    "babel-jest": "^27.2.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "gettext-parser": "^4.0.3",
     "jest": "^26.0.1",
