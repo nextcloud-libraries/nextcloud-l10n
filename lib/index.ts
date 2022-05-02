@@ -1,6 +1,8 @@
 /// <reference types="@nextcloud/typings" />
 
-declare var OC: Nextcloud.v16.OC | Nextcloud.v17.OC | Nextcloud.v18.OC | Nextcloud.v19.OC | Nextcloud.v20.OC;
+declare var OC: Nextcloud.v16.OC | Nextcloud.v17.OC | Nextcloud.v18.OC | Nextcloud.v19.OC |
+                Nextcloud.v20.OC | Nextcloud.v21.OC | Nextcloud.v22.OC | Nextcloud.v23.OC |
+                Nextcloud.v24.OC;
 declare var window: Nextcloud.v16.WindowWithGlobals | Nextcloud.v17.WindowWithGlobals | Nextcloud.v18.WindowWithGlobals | Nextcloud.v19.WindowWithGlobals;
 
 /**
