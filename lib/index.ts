@@ -9,12 +9,7 @@ declare var window: Nextcloud.v16.WindowWithGlobals | Nextcloud.v17.WindowWithGl
  * Returns the user's locale
  */
 export function getLocale(): string {
-    if (typeof OC === 'undefined') {
-        console.warn('No OC found')
-        return 'en'
-    }
-
-    return OC.getLocale()
+    return document.documentElement.dataset.locale || 'en'
 }
 
 export function getCanonicalLocale(): string {
@@ -25,12 +20,7 @@ export function getCanonicalLocale(): string {
  * Returns the user's language
  */
 export function getLanguage(): string {
-    if (typeof OC === 'undefined') {
-        console.warn('No OC found')
-        return 'en';
-    }
-
-    return OC.getLanguage()
+    return document.documentElement.lang || 'en'
 }
 
 interface TranslationOptions {
