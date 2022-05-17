@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.6.0 - 2022-05-10
+### Changed
+- Dependency updates
+- Remove dependency on OC for `getLocale` and `getLanguage`
+
+## 1.5.0 - 2022-05-10
+Superseeded by v1.6.0 as the release was empty.
+
 ## 1.4.1 - 2020-09-07
 ### Changed
 - Dependency updates
