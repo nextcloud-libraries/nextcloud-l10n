@@ -9,29 +9,23 @@ import {
 } from '../lib/index'
 
 describe('getCanonicalLocale', () => {
-    let locale
+    const setLocale = (locale) => document.documentElement.setAttribute('data-locale', locale)
 
-    beforeEach(() => {
-        locale = undefined
-        window.OC = {
-            getLocale: () => locale
-        }
-    })
     afterEach(() => {
-        delete window.OC
+        setLocale('')
     })
 
     it('Returns primary locales as is', () => {
-        locale = 'de'
+        setLocale('de')
         expect(getCanonicalLocale()).toEqual('de')
-        locale = 'zu'
+        setLocale('zu')
         expect(getCanonicalLocale()).toEqual('zu')
     })
 
     it('Returns extended locales with hyphens', () => {
-        locale = 'az_Cyrl_AZ'
+        setLocale('az_Cyrl_AZ')
         expect(getCanonicalLocale()).toEqual('az-Cyrl-AZ')
-        locale = 'de_DE'
+        setLocale('de_DE')
         expect(getCanonicalLocale()).toEqual('de-DE')
     })
 })
