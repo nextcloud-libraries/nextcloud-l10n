@@ -1,10 +1,13 @@
 {
     "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "esModuleInterop": true,
+        "target": "ES2022",
+        "module": "ES2020",
+        "outDir": "./dist/esm",
         "declaration": true,
-        "outDir": "./dist",
+        "declarationDir": "./dist",
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
         "strict": true,
         "lib": [
             "es6",
