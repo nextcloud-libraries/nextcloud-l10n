@@ -1,9 +1,13 @@
 /// <reference types="@nextcloud/typings" />
 
-declare var OC: Nextcloud.v16.OC | Nextcloud.v17.OC | Nextcloud.v18.OC | Nextcloud.v19.OC |
-                Nextcloud.v20.OC | Nextcloud.v21.OC | Nextcloud.v22.OC | Nextcloud.v23.OC |
-                Nextcloud.v24.OC;
-declare var window: Nextcloud.v16.WindowWithGlobals | Nextcloud.v17.WindowWithGlobals | Nextcloud.v18.WindowWithGlobals | Nextcloud.v19.WindowWithGlobals;
+declare var window: Nextcloud.v16.WindowWithGlobals
+    | Nextcloud.v17.WindowWithGlobals
+    | Nextcloud.v18.WindowWithGlobals
+    | Nextcloud.v19.WindowWithGlobals;
+
+import DOMPurify from 'dompurify'
+import escapeHTML from 'escape-html'
+import { getAppTranslations } from './registry'
 
 /**
  * Returns the user's locale
@@ -24,7 +28,10 @@ export function getLanguage(): string {
 }
 
 interface TranslationOptions {
-    escape?: boolean
+    /** enable/disable auto escape of placeholders (by default enabled) */
+    escape?: boolean,
+    /** enable/disable sanitization (by default enabled) */
+    sanitize?: boolean,
 }
 
 /**
@@ -37,13 +44,44 @@ interface TranslationOptions {
  * @param {object} [options] options object
  * @return {string}
  */
-export function translate(app: string, text: string, vars?: object, count?: number, options?: TranslationOptions): string {
-    if (typeof OC === 'undefined') {
-        console.warn('No OC found')
+export function translate(app: string, text: string, vars?: Record<string, any>, number?: number, options?: TranslationOptions): string {
+    const defaultOptions = {
+        escape: true,
+        sanitize: true,
+    }
+    const allOptions = Object.assign({}, defaultOptions, options || {})
+
+    const identity = (value) => value
+    const optSanitize = allOptions.sanitize ? DOMPurify.sanitize : identity
+    const optEscape = allOptions.escape ? escapeHTML : identity
+
+    // TODO: cache this function to avoid inline recreation
+    // of the same function over and over again in case
+    // translate() is used in a loop
+    const _build = (text: string, vars?: Record<string, any>, number?: number) => {
         return text
+            .replace(/%n/g, '' + number)
+            .replace(/{([^{}]*)}/g, (match, key) => {
+                if (vars === undefined || !(key in vars)) return optSanitize(match)
+
+                const r = vars[key]
+                if (typeof r === 'string' || typeof r === 'number') {
+                    return optSanitize(optEscape(r))
+                } else {
+                    return optSanitize(match)
+                }
+            }
+        )
     }
 
-    return OC.L10N.translate(app, text, vars, count, options)
+    const bundle = getAppTranslations(app)
+    const translation = bundle.translations[text] || text
+
+    if (typeof vars === 'object' || number !== undefined) {
+        return optSanitize(_build(translation, vars, number))
+    } else {
+        return optSanitize(translation)
+    }
 }
 
 /**
@@ -52,19 +90,30 @@ export function translate(app: string, text: string, vars?: object, count?: numb
  * @param {string} app the id of the app for which to translate the string
  * @param {string} textSingular the string to translate for exactly one object
  * @param {string} textPlural the string to translate for n objects
- * @param {number} count number to determine whether to use singular or plural
+ * @param {number} number number to determine whether to use singular or plural
  * @param {Object} vars of placeholder key to value
  * @param {object} options options object
  * @return {string}
  */
 
-export function translatePlural(app: string, textSingular: string, textPlural: string, count: number, vars?: object, options?: TranslationOptions): string {
-    if (typeof OC === 'undefined') {
-        console.warn('No OC found')
-        return textSingular
+export function translatePlural(app: string, textSingular: string, textPlural: string, number: number, vars?: object, options?: TranslationOptions): string {
+    const identifier = '_' + textSingular + '_::_' + textPlural + '_'
+    const bundle = getAppTranslations(app)
+    const value = bundle.translations[identifier]
+
+    if (typeof (value) !== 'undefined') {
+        const translation = value
+        if (Array.isArray(translation)) {
+            const plural = bundle.pluralFunction(number)
+            return translate(app, translation[plural], vars, number, options)
+        }
     }
 
-    return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options)
+    if (number === 1) {
+        return translate(app, textSingular, vars, number, options)
+    } else {
+        return translate(app, textPlural, vars, number, options)
+    }
 }
 
 /**

@@ -34,6 +34,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "dompurify": "^2.4.1",
+    "escape-html": "^1.0.3",
     "node-gettext": "^3.0.0"
   },
   "devDependencies": {
