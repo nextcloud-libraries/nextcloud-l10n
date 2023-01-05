@@ -37,10 +37,15 @@ interface TranslationOptions {
  * @param {object} [options] options object
  * @return {string}
  */
-export function translate(app: string, text: string, vars?: object, count?: number, options?: TranslationOptions): string {
+export function translate(app: string, text: string, vars: object = {}, count?: number, options?: TranslationOptions): string {
     if (typeof OC === 'undefined') {
         console.warn('No OC found')
         return text
+            .replace(/%n/g, count?.toString() || '')
+            .replace(/{([^{}]*)}/g, function(a, b) {
+                const r = vars[b]
+                return r
+            })
     }
 
     return OC.L10N.translate(app, text, vars, count, options)
@@ -58,10 +63,15 @@ export function translate(app: string, text: string, vars?: object, count?: numb
  * @return {string}
  */
 
-export function translatePlural(app: string, textSingular: string, textPlural: string, count: number, vars?: object, options?: TranslationOptions): string {
+export function translatePlural(app: string, textSingular: string, textPlural: string, count: number, vars: object = {}, options?: TranslationOptions): string {
     if (typeof OC === 'undefined') {
         console.warn('No OC found')
         return textSingular
+            .replace(/%n/g, count?.toString() || '')
+            .replace(/{([^{}]*)}/g, function(a, b) {
+                const r = vars[b]
+                return r
+            })
     }
 
     return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options)
