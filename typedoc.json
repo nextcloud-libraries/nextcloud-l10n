@@ -1,0 +1,10 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "entryPoints": ["./lib/index.ts", "./lib/gettext.ts"],
+    "out": "dist/doc",
+    "excludePrivate": true,
+    "navigationLinks": {
+        "GitHub": "https://github.com/nextcloud/nextcloud-l10n/",
+        "Nextcloud": "https://docs.nextcloud.com/server/stable/developer_manual/basics/front-end/l10n.html"
+    }
+}
