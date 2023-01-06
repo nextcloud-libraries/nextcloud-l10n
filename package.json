@@ -60,5 +60,9 @@
   ],
   "jest": {
     "testEnvironment": "@happy-dom/jest-environment"
+  },
+  "engines": {
+    "node": "^16.0.0",
+    "npm": "^7.0.0 || ^8.0.0"
   }
 }
