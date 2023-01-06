@@ -45,6 +45,14 @@ jobs:
           npm ci
           npm run build
 
+      - name: Check typings
+        run: |
+          npm run check-types
+ 
+      - name: Check browser compatibility
+        run: |
+          npm run check-es-compat
+
       - name: npm test
         run: |
           npm test
