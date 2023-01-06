@@ -1,7 +1,27 @@
+/**
+ * This module provides functionality to translate applications independent from Nextcloud
+ * 
+ * @packageDocumentation
+ * @module @nextcloud/l10n/gettext
+ * @example
+ * ```js
+import { getGettextBuilder } from '@nextcloud/l10n/gettext'
+
+const gt = getGettextBuilder()
+            .detectLocale() // or use setLanguage()
+            .addTranslation(/* ... *\/)
+            .build()
+
+gt.gettext('some string to translate')
+```
+ */
 import GetText from "node-gettext"
 
 import { getLanguage } from "."
 
+/**
+ * @notExported
+ */
 class GettextBuilder {
 
     private locale?: string
@@ -13,6 +33,7 @@ class GettextBuilder {
         return this
     }
 
+    /** Try to detect locale from context with `en` as fallback value */
     detectLocale(): GettextBuilder {
         return this.setLanguage(getLanguage().replace('-', '_'))
     }
@@ -33,6 +54,9 @@ class GettextBuilder {
 
 }
 
+/**
+ * @notExported
+ */
 class GettextWrapper {
 
     private gt: GetText
@@ -50,7 +74,7 @@ class GettextWrapper {
         this.gt.setLocale(locale)
     }
 
-    private subtitudePlaceholders(translated: string, vars: object): string {
+    private subtitudePlaceholders(translated: string, vars: Record<string, string | number>): string {
         return translated.replace(/{([^{}]*)}/g, (a, b) => {
             const r = vars[b]
             if (typeof r === 'string' || typeof r === 'number') {
@@ -61,14 +85,16 @@ class GettextWrapper {
         })
     }
 
-    gettext(original: string, placeholders: object = {}): string {
+    /** Get translated string (singular form), optionally with placeholders */
+    gettext(original: string, placeholders: Record<string, string | number> = {}): string {
         return this.subtitudePlaceholders(
             this.gt.gettext(original),
             placeholders
         )
     }
 
-    ngettext(singular: string, plural: string, count: number, placeholders: object = {}): string {
+    /** Get translated string with plural forms */
+    ngettext(singular: string, plural: string, count: number, placeholders: Record<string, string | number> = {}): string {
         return this.subtitudePlaceholders(
             this.gt.ngettext(singular, plural, count).replace(/%n/g, count.toString()),
             placeholders

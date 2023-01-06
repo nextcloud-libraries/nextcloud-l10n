@@ -10,6 +10,7 @@ import { generateFilePath } from '@nextcloud/router'
 import DOMPurify from 'dompurify'
 import escapeHTML from 'escape-html'
 
+/** @notExported */
 interface TranslationOptions {
 	/** enable/disable auto escape of placeholders (by default enabled) */
 	escape?: boolean
