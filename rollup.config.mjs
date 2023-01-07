@@ -11,8 +11,8 @@ const config = (input, output) => ({
 	external,
 	plugins: [
 		typescript({
-            declaration: true,
-        }),
+			declaration: true,
+		}),
 	],
 	output: [output],
 })
