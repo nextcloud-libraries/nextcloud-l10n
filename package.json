@@ -41,8 +41,9 @@
   },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^2.3.0",
-    "@nextcloud/typings": "^1.0.0",
+    "@nextcloud/typings": "^1.6.0",
     "@rollup/plugin-typescript": "^11.0.0",
+    "@types/jest": "^29.2.5",
     "@types/node-gettext": "^3.0",
     "@zamiell/typedoc-plugin-not-exported": "^0.2.0",
     "check-es-compat": "^2.2.0",
