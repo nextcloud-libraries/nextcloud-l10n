@@ -87,6 +87,18 @@ describe('gettext', () => {
         expect(translation).toEqual('I wish Nextcloud were written in Rust')
     })
 
+    it('is fault tolerant to invalid placeholders', () => {
+        const gt = getGettextBuilder()
+            .setLanguage('de')
+            .build()
+
+        const translation = gt.gettext('This is {value}', {
+            value: false
+        })
+
+        expect(translation).toEqual('This is {value}')
+    })
+
     it('used nextcloud-style placeholder replacement for plurals', () => {
         const gt = getGettextBuilder()
             .setLanguage('de')
@@ -143,6 +155,27 @@ msgstr[2] "%n slika uklonjenih"
         const translation = gt.ngettext('One file removed', '%n files removed', 2)
 
         expect(translation).toEqual('2 slika uklonjenih')
+    })
+
+    it('falls back to english', () => {
+        const pot = `msgid ""
+msgstr ""
+"Last-Translator: Translator, 2023\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "abc"
+msgstr "xyz"
+`
+        // Do not set local explicitly, so 'en' should be used
+        const gt = getGettextBuilder()
+            .addTranslation('en', po.parse(pot))
+            .build()
+
+        const translation = gt.gettext('abc')
+
+        expect(translation).toEqual('xyz')
     })
 
     it('does not escape special chars', () => {
