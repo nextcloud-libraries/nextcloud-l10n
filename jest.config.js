@@ -8,7 +8,7 @@ module.exports = {
 			'ts-jest', {
 				tsconfig: 'tests/tsconfig.json',
 			},
-		]
+		],
 	},
 	transformIgnorePatterns: [],
 }
