@@ -25,6 +25,10 @@ export function getLocale(): string {
 	return document.documentElement.dataset.locale || 'en'
 }
 
+/**
+ * Returns user's locale in canonical form
+ * E.g. `en-US` instead of `en_US`
+ */
 export function getCanonicalLocale(): string {
 	return getLocale().replace(/_/g, '-')
 }
@@ -49,7 +53,7 @@ export function getLanguage(): string {
 export function translate(
 	app: string,
 	text: string,
-	vars?: Record<string, any>,
+	vars?: Record<string, string | number>,
 	number?: number,
 	options?: TranslationOptions
 ): string {
@@ -66,7 +70,7 @@ export function translate(
 	// TODO: cache this function to avoid inline recreation
 	// of the same function over and over again in case
 	// translate() is used in a loop
-	const _build = (text: string, vars?: Record<string, any>, number?: number) => {
+	const _build = (text: string, vars?: Record<string, string | number>, number?: number) => {
 		return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
 			if (vars === undefined || !(key in vars)) {
 				return optSanitize(match)
@@ -92,7 +96,7 @@ export function translate(
 }
 
 /**
- * Translate a plural string
+ * Translate a string containing an object which possibly requires a plural form
  *
  * @param {string} app the id of the app for which to translate the string
  * @param {string} textSingular the string to translate for exactly one object
@@ -106,7 +110,7 @@ export function translatePlural(
 	textSingular: string,
 	textPlural: string,
 	number: number,
-	vars?: object,
+	vars?: Record<string, string | number>,
 	options?: TranslationOptions
 ): string {
 	const identifier = '_' + textSingular + '_::_' + textPlural + '_'
@@ -136,7 +140,7 @@ export function translatePlural(
  * the translations are loaded
  * @return {Promise} promise
  */
-export function loadTranslations(appName: string, callback: (...args: any[]) => any) {
+export function loadTranslations(appName: string, callback: (...args: []) => unknown) {
 	// already available ?
 	if (hasAppTranslations(appName) || getLocale() === 'en') {
 		const deferred = $.Deferred()
