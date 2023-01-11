@@ -143,11 +143,7 @@ export function translatePlural(
 export function loadTranslations(appName: string, callback: (...args: []) => unknown) {
 	// already available ?
 	if (hasAppTranslations(appName) || getLocale() === 'en') {
-		const deferred = $.Deferred()
-		const promise = deferred.promise()
-		promise.then(callback)
-		deferred.resolve()
-		return promise
+		return Promise.resolve().then(callback)
 	}
 
 	const url = generateFilePath(appName, 'l10n', getLocale() + '.json')
@@ -177,6 +173,7 @@ export function loadTranslations(appName: string, callback: (...args: []) => unk
 			if (result.translations) {
 				register(appName, result.translations)
 			}
+			return result
 		})
 		.then(callback)
 }
