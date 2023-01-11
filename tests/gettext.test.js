@@ -1,118 +1,118 @@
 import { po } from 'gettext-parser'
 
-import { getGettextBuilder } from '../lib/gettext'
+import { getGettextBuilder } from '../lib/gettext.ts'
 
 describe('gettext', () => {
 
-    beforeEach(() => {
-        jest.spyOn(console, 'warn')
-    })
+	beforeEach(() => {
+		jest.spyOn(console, 'warn')
+	})
 
-    afterEach(() => {
-        console.warn.mockRestore()
-    })
+	afterEach(() => {
+		console.warn.mockRestore()
+	})
 
-    it('falls back to the original string', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('de')
-            .build()
+	it('falls back to the original string', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('de')
+			.build()
 
-        const translation = gt.gettext('Settings')
+		const translation = gt.gettext('Settings')
 
-        expect(translation).toEqual('Settings')
-    })
+		expect(translation).toEqual('Settings')
+	})
 
-    it('does not log in production', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('de')
-            .build()
+	it('does not log in production', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('de')
+			.build()
 
-        gt.gettext('Settings')
+		gt.gettext('Settings')
 
-        expect(console.warn).not.toHaveBeenCalled()
-    })
+		expect(console.warn).not.toHaveBeenCalled()
+	})
 
-    it('has optional debug logs', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('de')
-            .enableDebugMode()
-            .build()
+	it('has optional debug logs', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('de')
+			.enableDebugMode()
+			.build()
 
-        gt.gettext('Settings')
+		gt.gettext('Settings')
 
-        expect(console.warn).toHaveBeenCalled()
-    })
+		expect(console.warn).toHaveBeenCalled()
+	})
 
-    it('falls back to the original singular string', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('en')
-            .build()
+	it('falls back to the original singular string', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('en')
+			.build()
 
-        const translated = gt.ngettext('%n Setting', '%n Settings', 1)
+		const translated = gt.ngettext('%n Setting', '%n Settings', 1)
 
-        expect(translated).toEqual('1 Setting')
-    })
+		expect(translated).toEqual('1 Setting')
+	})
 
-    it('falls back to the original plural string', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('en')
-            .build()
+	it('falls back to the original plural string', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('en')
+			.build()
 
-        const translated = gt.ngettext('%n Setting', '%n Settings', 2)
+		const translated = gt.ngettext('%n Setting', '%n Settings', 2)
 
-        expect(translated).toEqual('2 Settings')
-    })
+		expect(translated).toEqual('2 Settings')
+	})
 
-    it('detects en as default locale/language', () => {
-        const detected = getGettextBuilder()
-            .detectLocale()
-            .build()
+	it('detects en as default locale/language', () => {
+		const detected = getGettextBuilder()
+			.detectLocale()
+			.build()
 
-        const manual = getGettextBuilder()
-            .setLanguage('en')
-            .build()
+		const manual = getGettextBuilder()
+			.setLanguage('en')
+			.build()
 
-        expect(detected).toEqual(manual)
-    })
+		expect(detected).toEqual(manual)
+	})
 
-    it('used nextcloud-style placeholder replacement', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('de')
-            .build()
+	it('used nextcloud-style placeholder replacement', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('de')
+			.build()
 
-        const translation = gt.gettext('I wish Nextcloud were written in {lang}', {
-            lang: 'Rust'
-        })
+		const translation = gt.gettext('I wish Nextcloud were written in {lang}', {
+			lang: 'Rust',
+		})
 
-        expect(translation).toEqual('I wish Nextcloud were written in Rust')
-    })
+		expect(translation).toEqual('I wish Nextcloud were written in Rust')
+	})
 
-    it('is fault tolerant to invalid placeholders', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('de')
-            .build()
+	it('is fault tolerant to invalid placeholders', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('de')
+			.build()
 
-        const translation = gt.gettext('This is {value}', {
-            value: false
-        })
+		const translation = gt.gettext('This is {value}', {
+			value: false,
+		})
 
-        expect(translation).toEqual('This is {value}')
-    })
+		expect(translation).toEqual('This is {value}')
+	})
 
-    it('used nextcloud-style placeholder replacement for plurals', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('de')
-            .build()
+	it('used nextcloud-style placeholder replacement for plurals', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('de')
+			.build()
 
-        const translation = gt.ngettext('%n {what} Setting', '%n {what} Settings', 2, {
-            what: 'test',
-        })
+		const translation = gt.ngettext('%n {what} Setting', '%n {what} Settings', 2, {
+			what: 'test',
+		})
 
-        expect(translation).toEqual('2 test Settings')
-    })
+		expect(translation).toEqual('2 test Settings')
+	})
 
-    it('translates', () => {
-        const pot = `msgid ""
+	it('translates', () => {
+		const pot = `msgid ""
 msgstr ""
 "Last-Translator: Translator, 2020\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -122,19 +122,19 @@ msgstr ""
 msgid "abc"
 msgstr "def"
 `
-        const gt = getGettextBuilder()
-            .setLanguage('sv')
-            .addTranslation('sv', po.parse(pot))
-            .build()
+		const gt = getGettextBuilder()
+			.setLanguage('sv')
+			.addTranslation('sv', po.parse(pot))
+			.build()
 
-        const translation = gt.gettext('abc')
+		const translation = gt.gettext('abc')
 
-        expect(translation).toEqual('def')
-    })
+		expect(translation).toEqual('def')
+	})
 
-    it('translates plurals', () => {
-        // From https://www.gnu.org/software/gettext/manual/html_node/Translating-plural-forms.html
-        const pot = `msgid ""
+	it('translates plurals', () => {
+		// From https://www.gnu.org/software/gettext/manual/html_node/Translating-plural-forms.html
+		const pot = `msgid ""
 msgstr ""
 "Last-Translator: Translator, 2020\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,18 +147,18 @@ msgstr[0] "%n slika uklonjenih"
 msgstr[1] "%n slika uklonjenih"
 msgstr[2] "%n slika uklonjenih"
 `
-        const gt = getGettextBuilder()
-            .setLanguage('sv')
-            .addTranslation('sv', po.parse(pot))
-            .build()
+		const gt = getGettextBuilder()
+			.setLanguage('sv')
+			.addTranslation('sv', po.parse(pot))
+			.build()
 
-        const translation = gt.ngettext('One file removed', '%n files removed', 2)
+		const translation = gt.ngettext('One file removed', '%n files removed', 2)
 
-        expect(translation).toEqual('2 slika uklonjenih')
-    })
+		expect(translation).toEqual('2 slika uklonjenih')
+	})
 
-    it('falls back to english', () => {
-        const pot = `msgid ""
+	it('falls back to english', () => {
+		const pot = `msgid ""
 msgstr ""
 "Last-Translator: Translator, 2023\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -168,24 +168,24 @@ msgstr ""
 msgid "abc"
 msgstr "xyz"
 `
-        // Do not set local explicitly, so 'en' should be used
-        const gt = getGettextBuilder()
-            .addTranslation('en', po.parse(pot))
-            .build()
+		// Do not set local explicitly, so 'en' should be used
+		const gt = getGettextBuilder()
+			.addTranslation('en', po.parse(pot))
+			.build()
 
-        const translation = gt.gettext('abc')
+		const translation = gt.gettext('abc')
 
-        expect(translation).toEqual('xyz')
-    })
+		expect(translation).toEqual('xyz')
+	})
 
-    it('does not escape special chars', () => {
-        const gt = getGettextBuilder()
-            .setLanguage('de')
-            .build()
+	it('does not escape special chars', () => {
+		const gt = getGettextBuilder()
+			.setLanguage('de')
+			.build()
 
-        const translation = gt.gettext('test & stuff')
+		const translation = gt.gettext('test & stuff')
 
-        expect(translation).toEqual('test & stuff')
-    })
+		expect(translation).toEqual('test & stuff')
+	})
 
 })
