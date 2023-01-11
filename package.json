@@ -20,6 +20,8 @@
     "check-es-compat": "check-es-compat dist/*.js",
     "check-types": "tsc --noEmit",
     "dev": "rollup -c -w",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix lib tests",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },
@@ -41,6 +43,7 @@
   },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^2.3.0",
+    "@nextcloud/eslint-config": "^8.2.0",
     "@nextcloud/typings": "^1.6.0",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/jest": "^29.2.5",

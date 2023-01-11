@@ -1,0 +1,24 @@
+{
+	"extends": [
+		"@nextcloud"
+	],
+	"ignorePatterns": ["dist"],
+	"overrides": [
+		{
+			"files": ["tests/*.js"],
+			"rules": {
+				"n/no-unpublished-import": "off",
+				// Todo: convert tests to TS then drop overrides below
+				"n/no-missing-import": "off",
+				"import/no-unresolved": "off",
+				"import/extensions": "off"
+			}
+		},
+		{
+			"files": ["*.config.*js"],
+			"rules": {
+				"n/no-unpublished-import": "off"
+			}
+		}
+	]
+}
