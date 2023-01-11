@@ -1,7 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
-        "target": "ES2020",
+        "target": "ES2019", // ES2020 requires Safari 13+
         "module": "ES2020",
         "declaration": true,
         "esModuleInterop": true,
