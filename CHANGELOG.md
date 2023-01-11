@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.0.0-beta.0 - 2023-01-11
+
+[Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v1.6.0...v2.0.0-beta.0)
+
+### Fixed
+- Provide all translation related functions [\#542](https://github.com/nextcloud/nextcloud-l10n/pull/542) ([susnux](https://github.com/susnux))
+- Fix building and deploying documentaton [\#546](https://github.com/nextcloud/nextcloud-l10n/pull/546) ([susnux](https://github.com/susnux))
+
 ## 1.6.0 - 2022-05-10
 ### Changed
 - Dependency updates
