@@ -1,6 +1,6 @@
 /// <reference types="@nextcloud/typings" />
 
-declare var window: Nextcloud.v24.WindowWithGlobals
+declare let window: Nextcloud.v24.WindowWithGlobals
 
 /**
  * Get the first day of the week

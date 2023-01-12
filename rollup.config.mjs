@@ -1,8 +1,8 @@
 import typescript from '@rollup/plugin-typescript'
-import { createRequire } from 'node:module';
+import { createRequire } from 'node:module'
 
-const require = createRequire(import.meta.url);
-const pkg = require('./package.json');
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
 
 const external = [...Object.keys(pkg.dependencies)]
 
@@ -33,5 +33,5 @@ export default [
 	config('./lib/gettext.ts', {
 		file: 'dist/gettext.js',
 		format: 'cjs',
-	})
+	}),
 ]
