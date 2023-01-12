@@ -2,13 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2.0.0-beta.0 - 2023-01-11
+## 2.0.0 - 2023-01-12
 
-[Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v1.6.0...v2.0.0-beta.0)
+[Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v1.6.0...v2.0.0)
+### Changed
+From 2.0.0, this package is standalone and do not rely on window OC variables to function.
 
 ### Fixed
 - Provide all translation related functions [\#542](https://github.com/nextcloud/nextcloud-l10n/pull/542) ([susnux](https://github.com/susnux))
-- Fix building and deploying documentaton [\#546](https://github.com/nextcloud/nextcloud-l10n/pull/546) ([susnux](https://github.com/susnux))
+- Fix building and deploying documentation [\#546](https://github.com/nextcloud/nextcloud-l10n/pull/546) ([susnux](https://github.com/susnux))
 
 ## 1.6.0 - 2022-05-10
 ### Changed
