@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.0.1 - 2023-01-19
+
+[Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v2.0.0...v2.0.1)
+
+### Fixed
+- fix\(config\): fix npmignore config [\#563](https://github.com/nextcloud/nextcloud-l10n/pull/563) ([skjnldsv](https://github.com/skjnldsv))
+- fix\(config\): fix tsconfig out dir typings [\#562](https://github.com/nextcloud/nextcloud-l10n/pull/562) ([skjnldsv](https://github.com/skjnldsv))
+- Fix standalone registration [\#556](https://github.com/nextcloud/nextcloud-l10n/pull/556) ([ShGKme](https://github.com/ShGKme))
+
+### Changed
+- Dependency updates
+
 ## 2.0.0 - 2023-01-12
 
 [Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v1.6.0...v2.0.0)
