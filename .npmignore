@@ -1,1 +1,8 @@
 node_modules/
+.github/
+lib/
+tests/
+.eslint*
+*.config.*
+tsconfig.json
+typedoc.json
