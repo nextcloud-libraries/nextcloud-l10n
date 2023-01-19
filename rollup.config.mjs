@@ -10,9 +10,7 @@ const config = (input, output) => ({
 	input,
 	external,
 	plugins: [
-		typescript({
-			declaration: true,
-		}),
+		typescript(),
 	],
 	output: [output],
 })
