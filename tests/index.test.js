@@ -2,6 +2,8 @@ import {
 	getCanonicalLocale,
 	translate,
 	translatePlural,
+	register,
+	_unregister,
 } from '../lib/index'
 
 const setLocale = (locale) => document.documentElement.setAttribute('data-locale', locale)
@@ -76,5 +78,65 @@ describe('getCanonicalLocale', () => {
 		expect(getCanonicalLocale()).toEqual('az-Cyrl-AZ')
 		setLocale('de_DE')
 		expect(getCanonicalLocale()).toEqual('de-DE')
+	})
+})
+
+describe('register', () => {
+	beforeEach(() => {
+		setLocale('de_DE')
+		window._oc_l10n_registry_translations = undefined
+		window._oc_l10n_registry_plural_functions = undefined
+	})
+
+	it('initial', () => {
+		register('app', {
+			Application: 'Anwendung',
+			'_%n guest_::_%n guests_': ['%n Gast', '%n Gäste'],
+		})
+		expect(translate('app', 'Application')).toBe('Anwendung')
+		expect(translatePlural('app', '%n guest', '%n guests', 1)).toBe('1 Gast')
+		expect(translatePlural('app', '%n guest', '%n guests', 2)).toBe('2 Gäste')
+	})
+
+	it('extend', () => {
+		window._oc_l10n_registry_translations = {
+			app: {
+				Application: 'Anwendung',
+			},
+		}
+		window._oc_l10n_registry_plural_functions = {
+			app: (t) => t === 1 ? 0 : 1,
+		}
+		register('app', {
+			Translation: 'Übersetzung',
+		})
+		expect(translate('app', 'Application')).toBe('Anwendung')
+		expect(translate('app', 'Translation')).toBe('Übersetzung')
+	})
+
+	it('with another app', () => {
+		window._oc_l10n_registry_translations = {
+			core: {
+				'Hello world!': 'Hallo Welt!',
+			},
+		}
+		window._oc_l10n_registry_plural_functions = {
+			core: (t) => t === 1 ? 0 : 1,
+		}
+		register('app', {
+			Application: 'Anwendung',
+		})
+		expect(translate('core', 'Hello world!')).toBe('Hallo Welt!')
+		expect(translate('app', 'Application')).toBe('Anwendung')
+	})
+
+	it('unregister', () => {
+		window._oc_l10n_registry_translations = {}
+		window._oc_l10n_registry_plural_functions = {}
+		register('app', {
+			Application: 'Anwendung',
+		})
+		_unregister('app')
+		expect(translate('app', 'Application')).toBe('Application')
 	})
 })

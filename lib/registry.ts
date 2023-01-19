@@ -36,6 +36,12 @@ export function registerAppTranslations(
 	translations: Translations,
 	pluralFunction: PluralFunction
 ) {
+	if (window._oc_l10n_registry_translations === undefined) {
+		window._oc_l10n_registry_translations = {}
+	}
+	if (window._oc_l10n_registry_plural_functions === undefined) {
+		window._oc_l10n_registry_plural_functions = {}
+	}
 	if (!hasAppTranslations(appId)) {
 		setAppTranslations(appId, translations, pluralFunction)
 	} else {
@@ -61,19 +67,14 @@ export function unregisterAppTranslations(appId: string) {
  */
 export function getAppTranslations(appId: string): AppTranslations {
 	if (
-		typeof window._oc_l10n_registry_translations === 'undefined'
-		|| typeof window._oc_l10n_registry_plural_functions === 'undefined'
+		typeof window._oc_l10n_registry_translations?.[appId] === 'undefined'
+		|| typeof window._oc_l10n_registry_plural_functions?.[appId] === 'undefined'
 	) {
-		console.warn('No OC L10N registry found')
-		return {
-			translations: {},
-			pluralFunction: (number: number) => number,
-		}
+		console.warn(`No translation for appId "${appId}" have been registered`)
 	}
-
 	return {
-		translations: window._oc_l10n_registry_translations[appId] || {},
-		pluralFunction: window._oc_l10n_registry_plural_functions[appId],
+		translations: window._oc_l10n_registry_translations?.[appId] ?? {},
+		pluralFunction: window._oc_l10n_registry_plural_functions?.[appId] ?? ((number: number) => number),
 	}
 }
 
