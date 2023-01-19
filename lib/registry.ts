@@ -1,10 +1,13 @@
-export type Translations = Record<string, string | undefined>
+/// <reference types="@nextcloud/typings" />
+export type Translations = Record<string, string | string[] | undefined>
 export type PluralFunction = (number: number) => number
 
-declare let window: {
-	_oc_l10n_registry_translations: Record<string, Translations>
-	_oc_l10n_registry_plural_functions: Record<string, PluralFunction>
+export interface NextcloudWindowWithRegistry extends Nextcloud.v25.WindowWithGlobals {
+	_oc_l10n_registry_translations?: Record<string, Translations>
+	_oc_l10n_registry_plural_functions?: Record<string, PluralFunction>
 }
+
+declare const window: NextcloudWindowWithRegistry
 
 interface AppTranslations {
 	translations: Translations
@@ -36,17 +39,19 @@ export function registerAppTranslations(
 	translations: Translations,
 	pluralFunction: PluralFunction
 ) {
-	if (window._oc_l10n_registry_translations === undefined) {
-		window._oc_l10n_registry_translations = {}
-	}
-	if (window._oc_l10n_registry_plural_functions === undefined) {
-		window._oc_l10n_registry_plural_functions = {}
-	}
-	if (!hasAppTranslations(appId)) {
-		setAppTranslations(appId, translations, pluralFunction)
-	} else {
-		extendAppTranslations(appId, translations, pluralFunction)
-	}
+	window._oc_l10n_registry_translations = Object.assign(
+		window._oc_l10n_registry_translations || {},
+		{
+			[appId]: Object.assign(window._oc_l10n_registry_translations?.[appId] || {}, translations),
+		}
+	)
+
+	window._oc_l10n_registry_plural_functions = Object.assign(
+		window._oc_l10n_registry_plural_functions || {},
+		{
+			[appId]: pluralFunction,
+		}
+	)
 }
 
 /**
@@ -55,8 +60,8 @@ export function registerAppTranslations(
  * @param {string} appId the app id
  */
 export function unregisterAppTranslations(appId: string) {
-	delete window._oc_l10n_registry_translations[appId]
-	delete window._oc_l10n_registry_plural_functions[appId]
+	delete window._oc_l10n_registry_translations?.[appId]
+	delete window._oc_l10n_registry_plural_functions?.[appId]
 }
 
 /**
@@ -75,42 +80,5 @@ export function getAppTranslations(appId: string): AppTranslations {
 	return {
 		translations: window._oc_l10n_registry_translations?.[appId] ?? {},
 		pluralFunction: window._oc_l10n_registry_plural_functions?.[appId] ?? ((number: number) => number),
-	}
-}
-
-/**
- * Set new translations and plural function for an app
- *
- * @param {string} appId the app id
- * @param {object} translations the translations list
- * @param {Function} pluralFunction the plural function
- */
-function setAppTranslations(
-	appId: string,
-	translations: Translations,
-	pluralFunction: PluralFunction
-) {
-	window._oc_l10n_registry_translations[appId] = translations
-	window._oc_l10n_registry_plural_functions[appId] = pluralFunction
-}
-
-/**
- * Extend translations for an app
- *
- * @param {string} appId the app id
- * @param {object} translations the translations list
- * @param {Function} [pluralFunction] the plural function (will override old value if given)
- */
-function extendAppTranslations(
-	appId: string,
-	translations: Translations,
-	pluralFunction?: PluralFunction
-) {
-	window._oc_l10n_registry_translations[appId] = Object.assign(
-		window._oc_l10n_registry_translations[appId],
-		translations
-	)
-	if (typeof pluralFunction === 'function') {
-		window._oc_l10n_registry_plural_functions[appId] = pluralFunction
 	}
 }

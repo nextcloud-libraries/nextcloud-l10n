@@ -89,7 +89,11 @@ export function translate(
 	const translation = bundle.translations[text] || text
 
 	if (typeof vars === 'object' || number !== undefined) {
-		return optSanitize(_build(translation, vars, number))
+		return optSanitize(_build(
+			typeof translation === 'string' ? translation : translation[0],
+			vars,
+			number
+		))
 	} else {
 		return optSanitize(translation)
 	}

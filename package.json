@@ -22,7 +22,7 @@
     "dev": "rollup -c -w",
     "lint": "eslint .",
     "lint:fix": "eslint --fix lib tests",
-    "test": "jest",
+    "test": "jest --verbose",
     "test:watch": "jest --watchAll"
   },
   "keywords": [
