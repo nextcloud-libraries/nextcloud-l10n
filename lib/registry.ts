@@ -1,4 +1,4 @@
-export type Translations = Record<string, string | undefined>
+export type Translations = Record<string, string | string[] | undefined>
 export type PluralFunction = (number: number) => number
 
 declare let window: {
