@@ -211,10 +211,6 @@ export function getPlural(number: number) {
 		language = 'xbr'
 	}
 
-	if (typeof language === 'undefined' || language === '') {
-		return number === 1 ? 0 : 1
-	}
-
 	if (language.length > 3) {
 		language = language.substring(0, language.lastIndexOf('-'))
 	}
