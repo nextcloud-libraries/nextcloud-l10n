@@ -1,7 +1,39 @@
 /// <reference types="@nextcloud/typings" />
+
+/**
+ * Translation bundle
+ *
+ * @example For German translation
+ * ```json
+	{
+		"some": "einige",
+		"_%n tree_::_%n trees_": [
+			"%n Baum",
+			"%n Bäume"
+		]
+	}
+```
+ */
 export type Translations = Record<string, string | string[] | undefined>
+
+/**
+ * Function for getting plural form index from translated number
+ *
+ * @param number Input number to translate
+ * @return Index of translation plural form
+ * @example For most languages, like English or German
+ * ```js
+(number:number) => number === 1 ? 0 : 1
+```
+ */
 export type PluralFunction = (number: number) => number
 
+/**
+ * Extended window interface with translation registry
+ * Exported just for internal testing purpose
+ *
+ * @private
+ */
 export interface NextcloudWindowWithRegistry extends Nextcloud.v25.WindowWithGlobals {
 	_oc_l10n_registry_translations?: Record<string, Translations>
 	_oc_l10n_registry_plural_functions?: Record<string, PluralFunction>
