@@ -86,11 +86,12 @@ export function translate(
 	}
 
 	const bundle = getAppTranslations(app)
-	const translation = bundle.translations[text] || text
+	let translation = bundle.translations[text] || text
+	translation = Array.isArray(translation) ? translation[0] : translation
 
 	if (typeof vars === 'object' || number !== undefined) {
 		return optSanitize(_build(
-			typeof translation === 'string' ? translation : translation[0],
+			translation,
 			vars,
 			number
 		))
