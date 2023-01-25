@@ -3,9 +3,9 @@ import { po } from 'gettext-parser'
 import { getGettextBuilder } from '../lib/gettext.ts'
 
 describe('gettext', () => {
-
 	beforeEach(() => {
 		jest.spyOn(console, 'warn')
+		console.warn.mockImplementation(() => {})
 	})
 
 	afterEach(() => {
