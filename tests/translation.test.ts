@@ -4,7 +4,6 @@ import {
 	getLanguage,
 	getLocale,
 	getPlural,
-	loadTranslations,
 	register,
 	translate,
 	translatePlural,
@@ -240,5 +239,26 @@ describe('register', () => {
 		})
 		_unregister('app')
 		expect(translate('app', 'Application')).toBe('Application')
+	})
+})
+
+describe('getPlural', () => {
+	it('can handle brazillian Portuguese', () => {
+		// special because brazillian Portuguese use sigular for 0 and 1 wheras Portuguese use plural for 0
+		setLanguage('pt-BR')
+		expect(getPlural(0)).toBe(0)
+		expect(getPlural(2)).toBe(1) // ensure no fallback to `default`
+	})
+
+	it('can handle language designators with regions', () => {
+		setLanguage('de-CH')
+		// default for unknown is 0 for all input so we can assume it works if we get 1
+		expect(getPlural(0)).toBe(1)
+	})
+
+	it('has a fallback', () => {
+		setLanguage('xxx')
+		expect(getPlural(0)).toBe<number>(0)
+		expect(getPlural(1)).toBe<number>(0)
 	})
 })
