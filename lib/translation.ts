@@ -146,25 +146,28 @@ export function translatePlural(
  * @return {Promise} promise
  */
 export function loadTranslations(appName: string, callback: (...args: []) => unknown) {
-	// already available ?
+	interface TranslationBundle {
+		translations: Translations
+		pluralForm: string
+	}
+
 	if (hasAppTranslations(appName) || getLocale() === 'en') {
 		return Promise.resolve().then(callback)
 	}
 
 	const url = generateFilePath(appName, 'l10n', getLocale() + '.json')
 
-	const promise = new Promise<{
-		translations: Translations
-		pluralForm: string
-	}>((resolve, reject) => {
+	const promise = new Promise<TranslationBundle>((resolve, reject) => {
 		const request = new XMLHttpRequest()
-		request.open('GET', url, false)
+		request.open('GET', url, true)
 		request.onerror = () => {
-			reject(new Error(request.statusText))
+			reject(new Error(request.statusText || 'Network error'))
 		}
 		request.onload = () => {
 			if (request.status >= 200 && request.status < 300) {
-				resolve(JSON.parse(request.responseText))
+				const bundle = JSON.parse(request.responseText)
+				if (bundle?.translations) resolve(bundle)
+				else reject(new Error('Invalid content of translation bundle'))
 			} else {
 				reject(new Error(request.statusText))
 			}
@@ -175,9 +178,7 @@ export function loadTranslations(appName: string, callback: (...args: []) => unk
 	// load JSON translation bundle per AJAX
 	return promise
 		.then((result) => {
-			if (result.translations) {
-				register(appName, result.translations)
-			}
+			register(appName, result.translations)
 			return result
 		})
 		.then(callback)
