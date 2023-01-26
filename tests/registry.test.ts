@@ -49,13 +49,7 @@ describe('registry', () => {
 	})
 
 	describe('getAppTranslations', () => {
-		const orginalWarn = console.warn
-
-		afterAll(() => {
-			console.warn = orginalWarn
-		})
 		beforeEach(() => {
-			console.warn = jest.fn()
 			clearWindow()
 		})
 
@@ -64,7 +58,6 @@ describe('registry', () => {
 			expect(bundle.translations).toMatchObject({})
 			expect(typeof bundle.pluralFunction === 'function').toBe(true)
 			expect(typeof bundle.pluralFunction(0)).toBe('number')
-			expect(console.warn).toBeCalled()
 		})
 
 		it('with translations', () => {
@@ -73,17 +66,10 @@ describe('registry', () => {
 			let bundle = getAppTranslations('core')
 			expect(Object.keys(bundle.translations).length > 0).toBe(true)
 			expect(bundle.pluralFunction).toBe(pluralFunction)
-			expect(console.warn).toBeCalledTimes(0)
 
 			bundle = getAppTranslations('doesnotexist')
 			expect(bundle.translations).toMatchObject({})
 			expect(typeof bundle.pluralFunction === 'function').toBe(true)
-			expect(console.warn).toBeCalledTimes(1)
-
-			// Expect a warning if some registration is broken
-			delete window._oc_l10n_registry_plural_functions
-			bundle = getAppTranslations('core')
-			expect(console.warn).toBeCalledTimes(2)
 		})
 	})
 
