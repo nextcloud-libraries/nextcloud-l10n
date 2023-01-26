@@ -103,12 +103,6 @@ export function unregisterAppTranslations(appId: string) {
  * @return {object}
  */
 export function getAppTranslations(appId: string): AppTranslations {
-	if (
-		typeof window._oc_l10n_registry_translations?.[appId] === 'undefined'
-		|| typeof window._oc_l10n_registry_plural_functions?.[appId] === 'undefined'
-	) {
-		console.warn(`No translation for appId "${appId}" have been registered`)
-	}
 	return {
 		translations: window._oc_l10n_registry_translations?.[appId] ?? {},
 		pluralFunction: window._oc_l10n_registry_plural_functions?.[appId] ?? ((number: number) => number),
