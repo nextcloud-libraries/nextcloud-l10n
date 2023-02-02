@@ -1,6 +1,6 @@
 import { MockXhrServer, newServer } from 'mock-xmlhttprequest'
 
-import { loadTranslations, register, translate, _unregister } from '../lib/translation'
+import { loadTranslations, register, translate, unregister } from '../lib/translation'
 
 const setLocale = (locale) => document.documentElement.setAttribute('data-locale', locale)
 
@@ -73,7 +73,7 @@ describe('loadTranslations', () => {
 		} catch (e) {
 			expect(e).toBe('Unexpected error')
 		} finally {
-			_unregister('myapp')
+			unregister('myapp')
 		}
 	})
 

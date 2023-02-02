@@ -7,7 +7,7 @@ import {
 	register,
 	translate,
 	translatePlural,
-	_unregister,
+	unregister,
 } from '../lib/translation'
 
 declare const window: NextcloudWindowWithRegistry
@@ -237,7 +237,7 @@ describe('register', () => {
 		register('app', {
 			Application: 'Anwendung',
 		})
-		_unregister('app')
+		unregister('app')
 		expect(translate('app', 'Application')).toBe('Application')
 	})
 })
