@@ -195,9 +195,14 @@ export function register(appName: string, bundle: Translations) {
 }
 
 /**
- * @private
+ * Unregister all translations of an app
+ *
+ * @param appName name of the app
+ * @since 2.1.0
  */
-export const _unregister = unregisterAppTranslations
+export function unregister(appName: string) {
+	return unregisterAppTranslations(appName)
+}
 
 /**
  * Get array index of translations for a plural form
