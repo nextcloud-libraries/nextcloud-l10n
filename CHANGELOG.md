@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.1.0 - 2023-02-25
+
+[Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v2.0.1...v2.1.0)
+
+### Added
+- `unregister` is now part of the public API [\#579](https://github.com/nextcloud/nextcloud-l10n/pull/579) ([susnux](https://github.com/susnux))
+
+### Fixed
+- Export the `Translations` type and add missing documentation [\#566](https://github.com/nextcloud/nextcloud-l10n/pull/566) ([susnux](https://github.com/susnux))
+- Fix singular translation in edge cases where plural strings are provided [\#570](https://github.com/nextcloud/nextcloud-l10n/pull/570) ([susnux](https://github.com/susnux))
+- Make loading translations use async XMLHttpRequest [\#571](https://github.com/nextcloud/nextcloud-l10n/pull/571) ([susnux](https://github.com/susnux))
+- Removed warning "no app translation was registered" [\#572](https://github.com/nextcloud/nextcloud-l10n/pull/572) ([ShGKme](https://github.com/ShGKme))
+
+### Changed
+- Added tests and increased code coverage
+- Dependency updates
+
 ## 2.0.1 - 2023-01-19
 
 [Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v2.0.0...v2.0.1)
