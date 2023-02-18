@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@nextcloud/router": "^2.0.0",
-    "dompurify": "^2.4.1",
+    "dompurify": "^3.0.0",
     "escape-html": "^1.0.3",
     "node-gettext": "^3.0.0"
   },
