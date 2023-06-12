@@ -6,10 +6,12 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
     "./gettext": {
+      "types": "./dist/gettext.d.ts",
       "import": "./dist/gettext.mjs",
       "require": "./dist/gettext.js"
     }
