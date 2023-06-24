@@ -14,5 +14,6 @@ console.warn(n('my-app', 'Got an error', 'Got multiple errors', 2));
 
 export type { Translations } from './registry'
 
-export * from './translation'
 export * from './date'
+export * from './locale'
+export * from './translation'

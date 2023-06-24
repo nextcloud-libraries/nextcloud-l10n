@@ -1,10 +1,11 @@
+import type { Translations } from './registry'
+import { getLanguage, getLocale } from './locale'
 import {
 	getAppTranslations,
 	hasAppTranslations,
 	registerAppTranslations,
 	unregisterAppTranslations,
 } from './registry'
-import type { Translations } from './registry'
 import { generateFilePath } from '@nextcloud/router'
 
 import DOMPurify from 'dompurify'
@@ -16,28 +17,6 @@ interface TranslationOptions {
 	escape?: boolean
 	/** enable/disable sanitization (by default enabled) */
 	sanitize?: boolean
-}
-
-/**
- * Returns the user's locale
- */
-export function getLocale(): string {
-	return document.documentElement.dataset.locale || 'en'
-}
-
-/**
- * Returns user's locale in canonical form
- * E.g. `en-US` instead of `en_US`
- */
-export function getCanonicalLocale(): string {
-	return getLocale().replace(/_/g, '-')
-}
-
-/**
- * Returns the user's language
- */
-export function getLanguage(): string {
-	return document.documentElement.lang || 'en'
 }
 
 /**
