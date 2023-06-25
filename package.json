@@ -25,7 +25,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix lib tests",
     "test": "jest --verbose",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [
     "nextcloud"
