@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.2.0 - 2023-06-26
+
+[Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v2.1.0...v2.2.0)
+
+### Added
+- `isRTL` was added to check whether a given, or the current, language is read right-to-left [\#639](https://github.com/nextcloud/nextcloud-l10n/pull/639) ([susnux](https://github.com/susnux))
+
+### Fixed
+- Add typings to the package exports to fix build for Typescript projects using `node16` or `nodenext` module resolution [\#633](https://github.com/nextcloud/nextcloud-l10n/pull/633) ([susnux](https://github.com/susnux))
+- Update exported `NextcloudWindowWithRegistry` type for Nextcloud 27 [\#640](https://github.com/nextcloud/nextcloud-l10n/pull/640) ([susnux](https://github.com/susnux))
+
+### Changed
+- Update node engines to next LTS (Node 20 + NPM 9)
+- Dependency updates
+
 ## 2.1.0 - 2023-02-25
 
 [Full Changelog](https://github.com/nextcloud/nextcloud-l10n/compare/v2.0.1...v2.1.0)

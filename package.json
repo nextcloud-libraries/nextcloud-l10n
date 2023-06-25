@@ -1,7 +1,7 @@
 {
   "name": "@nextcloud/l10n",
-  "version": "2.1.0",
-  "description": "",
+  "version": "2.2.0",
+  "description": "Nextcloud L10n helpers for apps and libraries",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -68,5 +68,9 @@
   "engines": {
     "node": "^20.0.0",
     "npm": "^9.0.0"
-  }
+  },
+  "files": [
+    "CHANGELOG.md",
+    "dist"
+  ]
 }
