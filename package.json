@@ -68,5 +68,9 @@
   "engines": {
     "node": "^20.0.0",
     "npm": "^9.0.0"
-  }
+  },
+  "files": [
+    "CHANGELOG.md",
+    "dist"
+  ]
 }
