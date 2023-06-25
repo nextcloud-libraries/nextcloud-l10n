@@ -19,19 +19,25 @@ describe('loadTranslations', () => {
 					},
 				}),
 			})
-			.addHandler('GET', '/invalid/l10n/de.json', {
-				status: 200,
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					strings: {
-						'Hello world!': 'Hallo Welt!',
-					},
-				}),
-			})
+			// Response with empty body
 			.addHandler('GET', '/empty/l10n/de.json', {
 				status: 200,
 				headers: { 'Content-Type': 'application/json' },
 				body: '',
+			})
+			// Response contains JSON but no translations
+			.addHandler('GET', '/missing-bundle/l10n/de.json', {
+				status: 200,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({}),
+			})
+			// Response contains JSON but the translations are invalid
+			.addHandler('GET', '/invalid/l10n/de.json', {
+				status: 200,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					translations: 'invalid',
+				}),
 			})
 			.addHandler('GET', '/404/l10n/de.json', {
 				status: 404,
@@ -104,8 +110,6 @@ describe('loadTranslations', () => {
 			expect(translate('myapp', 'Hello world!')).toBe('Hallo Welt!')
 		} catch (e) {
 			expect(e).toBe('Unexpected error')
-		} finally {
-			console.warn(server.getRequestLog()[0])
 		}
 	})
 
@@ -153,10 +157,21 @@ describe('loadTranslations', () => {
 		}
 	})
 
-	it('does reject on empty bundle', async () => {
+	it('does reject on missing bundle', async () => {
 		const callback = jest.fn()
 		try {
-			await loadTranslations('invalid', callback)
+			await loadTranslations('missing-bundle', callback)
+			expect('').toBe('Unexpected pass')
+		} catch (e) {
+			expect(e instanceof Error).toBe(true)
+			expect((<Error>e).message).toBe('Invalid content of translation bundle')
+		}
+	})
+
+	it('does reject on empty response', async () => {
+		const callback = jest.fn()
+		try {
+			await loadTranslations('empty', callback)
 			expect('').toBe('Unexpected pass')
 		} catch (e) {
 			expect(e instanceof Error).toBe(true)

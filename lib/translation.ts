@@ -144,9 +144,13 @@ export function loadTranslations(appName: string, callback: (...args: []) => unk
 		}
 		request.onload = () => {
 			if (request.status >= 200 && request.status < 300) {
-				const bundle = JSON.parse(request.responseText)
-				if (bundle?.translations) resolve(bundle)
-				else reject(new Error('Invalid content of translation bundle'))
+				try {
+					const bundle = JSON.parse(request.responseText)
+					if (typeof bundle.translations === 'object') resolve(bundle)
+				} catch (error) {
+					// error is probably a SyntaxError due to invalid response text, this is handled by next line
+				}
+				reject(new Error('Invalid content of translation bundle'))
 			} else {
 				reject(new Error(request.statusText))
 			}
