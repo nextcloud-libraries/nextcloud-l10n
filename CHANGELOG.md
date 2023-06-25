@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Add typings to the package exports to fix build for Typescript projects using `node16` or `nodenext` module resolution [\#633](https://github.com/nextcloud/nextcloud-l10n/pull/633) ([susnux](https://github.com/susnux))
 - Update exported `NextcloudWindowWithRegistry` type for Nextcloud 27 [\#640](https://github.com/nextcloud/nextcloud-l10n/pull/640) ([susnux](https://github.com/susnux))
+- Harden `loadTranslations` by handling edge cases where invalid data is retrieved [\#644](https://github.com/nextcloud/nextcloud-l10n/pull/644) ([susnux](https://github.com/susnux))
 
 ### Changed
 - Update node engines to next LTS (Node 20 + NPM 9)
