@@ -34,7 +34,7 @@ export type PluralFunction = (number: number) => number
  *
  * @private
  */
-export interface NextcloudWindowWithRegistry extends Nextcloud.v25.WindowWithGlobals {
+export interface NextcloudWindowWithRegistry extends Nextcloud.v27.WindowWithGlobals {
 	_oc_l10n_registry_translations?: Record<string, Translations>
 	_oc_l10n_registry_plural_functions?: Record<string, PluralFunction>
 }
