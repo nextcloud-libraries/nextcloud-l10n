@@ -1,8 +1,5 @@
 import type { NextcloudWindowWithRegistry } from '../lib/registry'
 import {
-	getCanonicalLocale,
-	getLanguage,
-	getLocale,
 	getPlural,
 	register,
 	translate,
@@ -14,50 +11,6 @@ declare const window: NextcloudWindowWithRegistry
 
 const setLocale = (locale: string) => document.documentElement.setAttribute('data-locale', locale)
 const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
-
-describe('getCanonicalLocale', () => {
-	afterEach(() => {
-		setLocale('')
-	})
-
-	it('Returns primary locales as is', () => {
-		setLocale('de')
-		expect(getCanonicalLocale()).toEqual('de')
-		setLocale('zu')
-		expect(getCanonicalLocale()).toEqual('zu')
-	})
-
-	it('Returns extended locales with hyphens', () => {
-		setLocale('az_Cyrl_AZ')
-		expect(getCanonicalLocale()).toEqual('az-Cyrl-AZ')
-		setLocale('de_DE')
-		expect(getCanonicalLocale()).toEqual('de-DE')
-	})
-})
-
-test('getLanguage', () => {
-	document.documentElement.removeAttribute('lang')
-	// Expect fallback
-	expect(getLanguage()).toBe('en')
-	setLanguage('')
-	expect(getLanguage()).toBe('en')
-
-	// Expect value
-	setLanguage('zu')
-	expect(getLanguage()).toBe('zu')
-})
-
-test('getLocale', () => {
-	document.documentElement.removeAttribute('data-locale')
-	// Expect fallback
-	expect(getLocale()).toBe('en')
-	setLocale('')
-	expect(getLocale()).toBe('en')
-
-	// Expect value
-	setLocale('de_DE')
-	expect(getLocale()).toBe('de_DE')
-})
 
 describe('translate', () => {
 	const mockWindowDE = () => {
