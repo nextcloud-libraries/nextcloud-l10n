@@ -52,14 +52,18 @@ export function translate(
 	const _build = (text: string, vars?: Record<string, string | number>, number?: number) => {
 		return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
 			if (vars === undefined || !(key in vars)) {
-				return optSanitize(match)
+				return optEscape(match)
 			}
 
-			const r = vars[key]
-			if (typeof r === 'string' || typeof r === 'number') {
-				return optSanitize(optEscape(r))
+			const replacement = vars[key]
+			if (typeof replacement === 'string' || typeof replacement === 'number') {
+				return optEscape(`${replacement}`)
 			} else {
-				return optSanitize(match)
+				/* This should not happen,
+				 * but the variables are used defined so not allowed types could still be given,
+				 * in this case ignore the replacement and use the placeholder
+				 */
+				return optEscape(match)
 			}
 		})
 	}

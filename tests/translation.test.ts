@@ -42,6 +42,12 @@ describe('translate', () => {
 		expect(translation).toBe('Hallo <del>Name</del>')
 	})
 
+	it('without placeholder HTML escaping on links', () => {
+		const text = 'Hello {start}Nextcloud{end}'
+		const translation = translate('core', text, { start: '<a href="https://nextcloud.com">', end: '</a>' }, undefined, { escape: false })
+		expect(translation).toBe('Hello <a href="https://nextcloud.com">Nextcloud</a>')
+	})
+
 	it('with placeholder HTML escaping', () => {
 		const text = 'Hello {name}'
 		const translation = translate('core', text, { name: '<del>Name</del>' })
