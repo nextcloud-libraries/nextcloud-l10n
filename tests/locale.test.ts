@@ -2,7 +2,7 @@ import {
 	getCanonicalLocale,
 	getLanguage,
 	getLocale,
-	isRTL
+	isRTL,
 } from '../lib/locale'
 
 const setLocale = (locale: string) => document.documentElement.setAttribute('data-locale', locale)

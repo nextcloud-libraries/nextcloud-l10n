@@ -196,17 +196,65 @@ describe('register', () => {
 })
 
 describe('getPlural', () => {
+	it('handles single form language like Azerbaijani', () => {
+		setLanguage('az')
+		expect(getPlural(0)).toBe(0)
+		expect(getPlural(1)).toBe(0)
+		expect(getPlural(2)).toBe(0)
+	})
+
+	it('handles single plural language like Amharic', () => {
+		setLanguage('am')
+		expect(getPlural(0)).toBe(0)
+		expect(getPlural(1)).toBe(0)
+		expect(getPlural(2)).toBe(1)
+	})
+
+	it('handles single plural language with plural zero like Afrikaans', () => {
+		setLanguage('af')
+		expect(getPlural(0)).toBe(1)
+		expect(getPlural(1)).toBe(0)
+		expect(getPlural(2)).toBe(1)
+	})
+
+	it('can handle Czech and Slovak', () => {
+		// Three forms, special cases for 1 and 2, 3, 4
+		setLanguage('cs')
+		expect(getPlural(0)).toBe(2)
+		expect(getPlural(1)).toBe(0)
+		expect(getPlural(2)).toBe(1)
+		expect(getPlural(3)).toBe(1)
+		expect(getPlural(4)).toBe(1)
+		expect(getPlural(5)).toBe(2)
+	})
+
+	it('can handle Gaeilge (Irish)', () => {
+		// Three forms, special cases for one and two
+		setLanguage('ga')
+		expect(getPlural(0)).toBe(2)
+		expect(getPlural(1)).toBe(0)
+		expect(getPlural(2)).toBe(1)
+		expect(getPlural(3)).toBe(2)
+	})
+
+	// special because brazillian Portuguese use sigular for 0 and 1 wheras Portuguese use plural for 0
 	it('can handle brazillian Portuguese', () => {
-		// special because brazillian Portuguese use sigular for 0 and 1 wheras Portuguese use plural for 0
+		// check Portuguese
+		setLanguage('pt')
+		expect(getPlural(0)).toBe(1)
+		expect(getPlural(1)).toBe(0)
+		expect(getPlural(2)).toBe(1)
+		// check brazillian Portuguese
 		setLanguage('pt-BR')
 		expect(getPlural(0)).toBe(0)
+		expect(getPlural(1)).toBe(0)
 		expect(getPlural(2)).toBe(1) // ensure no fallback to `default`
 	})
 
 	it('can handle language designators with regions', () => {
-		setLanguage('de-CH')
+		setLanguage('be-BY')
 		// default for unknown is 0 for all input so we can assume it works if we get 1
-		expect(getPlural(0)).toBe(1)
+		expect(getPlural(0)).toBe(2)
 	})
 
 	it('has a fallback', () => {
