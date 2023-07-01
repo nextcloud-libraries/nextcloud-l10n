@@ -58,7 +58,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "mock-xmlhttprequest": "^8.2.0",
     "rollup": "^3.26.0",
-    "ts-jest": "^29.1.0",
+    "ts-jest": "^29.1.1",
     "tslib": "^2.6.0",
     "typedoc": "^0.24.8"
   },
