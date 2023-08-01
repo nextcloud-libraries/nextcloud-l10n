@@ -1,6 +1,6 @@
 # @nextcloud/l10n
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/nextcloud/nextcloud-l10n/node.yml?branch=master)](https://github.com/nextcloud/nextcloud-l10n/actions/workflows/node.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/nextcloud-libraries/nextcloud-l10n/node.yml?branch=master)](https://github.com/nextcloud-libraries/nextcloud-l10n/actions/workflows/node.yml)
 [![npm](https://img.shields.io/npm/v/@nextcloud/l10n.svg)](https://www.npmjs.com/package/@nextcloud/l10n)
 [![Documentation](https://img.shields.io/badge/Documentation-online-brightgreen)](https://nextcloud.github.io/nextcloud-l10n/)
 

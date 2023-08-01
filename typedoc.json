@@ -4,7 +4,7 @@
     "out": "dist/doc",
     "excludePrivate": true,
     "navigationLinks": {
-        "GitHub": "https://github.com/nextcloud/nextcloud-l10n/",
+        "GitHub": "https://github.com/nextcloud-libraries/nextcloud-l10n/",
         "Nextcloud": "https://docs.nextcloud.com/server/stable/developer_manual/basics/front-end/l10n.html"
     }
 }
