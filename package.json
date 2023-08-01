@@ -59,7 +59,7 @@
     "mock-xmlhttprequest": "^8.2.0",
     "rollup": "^3.26.3",
     "ts-jest": "^29.1.1",
-    "tslib": "^2.6.0",
+    "tslib": "^2.6.1",
     "typedoc": "^0.24.8"
   },
   "browserslist": [
