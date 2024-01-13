@@ -48,7 +48,7 @@
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.0.0",
     "@nextcloud/eslint-config": "^8.3.0",
-    "@rollup/plugin-typescript": "^11.1.5",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/jest": "^29.5.11",
     "@types/node-gettext": "^3.0",
     "@zamiell/typedoc-plugin-not-exported": "^0.2.0",
