@@ -399,3 +399,10 @@ export function getPlural(number: number) {
 		return 0
 	}
 }
+
+// Export short-hand
+
+export {
+	translate as t,
+	translatePlural as n,
+}
