@@ -5,6 +5,8 @@ import {
 	translate,
 	translatePlural,
 	unregister,
+	t,
+	n,
 } from '../lib/translation'
 
 declare const window: NextcloudWindowWithRegistry
@@ -138,6 +140,14 @@ describe('translate', () => {
 
 		expect(translatePlural('core', ...text, 1)).toBe('Lade 1 Datei von {url} herunter')
 		expect(translatePlural('core', ...text, 2)).toBe('Lade 2 Dateien von {url} herunter')
+	})
+
+	it('has "t" alias for "translate"', () => {
+		expect(t).toBe(translate)
+	})
+
+	it('has "n" alias for "translatePlural"', () => {
+		expect(n).toBe(translatePlural)
 	})
 })
 
