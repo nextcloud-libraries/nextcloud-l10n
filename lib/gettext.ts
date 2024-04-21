@@ -23,7 +23,7 @@ import { getLanguage } from '.'
 class GettextBuilder {
 
 	private locale?: string
-	private translations = {}
+	private translations = {} as Record<string, unknown>
 	private debug = false
 
 	setLanguage(language: string): GettextBuilder {
@@ -36,7 +36,7 @@ class GettextBuilder {
 		return this.setLanguage(getLanguage().replace('-', '_'))
 	}
 
-	addTranslation(language: string, data: object): GettextBuilder {
+	addTranslation(language: string, data: unknown): GettextBuilder {
 		this.translations[language] = data
 		return this
 	}
@@ -59,14 +59,14 @@ class GettextWrapper {
 
 	private gt: GetText
 
-	constructor(locale: string, data: object, debug: boolean) {
+	constructor(locale: string, data: Record<string|symbol|number, unknown>, debug: boolean) {
 		this.gt = new GetText({
 			debug,
 			sourceLocale: 'en',
 		})
 
 		for (const key in data) {
-			this.gt.addTranslations(key, 'messages', data[key])
+			this.gt.addTranslations(key, 'messages', data[key] as object)
 		}
 
 		this.gt.setLocale(locale)
@@ -92,7 +92,7 @@ class GettextWrapper {
 	gettext(original: string, placeholders: Record<string, string | number> = {}): string {
 		return this.subtitudePlaceholders(
 			this.gt.gettext(original),
-			placeholders
+			placeholders,
 		)
 	}
 
@@ -107,7 +107,7 @@ class GettextWrapper {
 	ngettext(singular: string, plural: string, count: number, placeholders: Record<string, string | number> = {}): string {
 		return this.subtitudePlaceholders(
 			this.gt.ngettext(singular, plural, count).replace(/%n/g, count.toString()),
-			placeholders
+			placeholders,
 		)
 	}
 

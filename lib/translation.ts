@@ -34,7 +34,7 @@ export function translate(
 	text: string,
 	vars?: Record<string, string | number>,
 	number?: number,
-	options?: TranslationOptions
+	options?: TranslationOptions,
 ): string {
 	const defaultOptions = {
 		escape: true,
@@ -42,7 +42,7 @@ export function translate(
 	}
 	const allOptions = Object.assign({}, defaultOptions, options || {})
 
-	const identity = (value) => value
+	const identity = <T, >(value: T): T => value
 	const optSanitize = allOptions.sanitize ? DOMPurify.sanitize : identity
 	const optEscape = allOptions.escape ? escapeHTML : identity
 
@@ -76,7 +76,7 @@ export function translate(
 		return optSanitize(_build(
 			translation,
 			vars,
-			number
+			number,
 		))
 	} else {
 		return optSanitize(translation)
@@ -99,7 +99,7 @@ export function translatePlural(
 	textPlural: string,
 	number: number,
 	vars?: Record<string, string | number>,
-	options?: TranslationOptions
+	options?: TranslationOptions,
 ): string {
 	const identifier = '_' + textSingular + '_::_' + textPlural + '_'
 	const bundle = getAppTranslations(app)
@@ -175,7 +175,7 @@ export function loadTranslations(appName: string, callback: (...args: []) => unk
  * Register an app's translation bundle.
  *
  * @param {string} appName name of the app
- * @param {Object<string, string>} bundle translation bundle
+ * @param {Record<string, string>} bundle translation bundle
  */
 export function register(appName: string, bundle: Translations) {
 	registerAppTranslations(appName, bundle, getPlural)
