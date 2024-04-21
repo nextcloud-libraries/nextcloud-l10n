@@ -7,6 +7,22 @@ const setLocale = (locale) => document.documentElement.setAttribute('data-locale
 describe('loadTranslations', () => {
 	let server: MockXhrServer
 
+	beforeAll(() => {
+		// Mock some server state
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(window as any)._oc_webroot = '';
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(window as any)._oc_appswebroots = {
+			404: '/404',
+			500: '/500',
+			empty: '/empty',
+			invalid: '/invalid',
+			'missing-bundle': '/missing-bundle',
+			myapp: '/myapp',
+			networkissue: '/networkissue',
+		}
+	})
+
 	beforeEach(() => {
 		setLocale('de')
 		server = newServer()
