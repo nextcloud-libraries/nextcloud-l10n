@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /// <reference types="@nextcloud/typings" />
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { getDayNames, getDayNamesMin, getDayNamesShort, getFirstDay, getMonthNames, getMonthNamesShort } from '../lib/date'
 
 declare let window: Nextcloud.v24.WindowWithGlobals
@@ -11,7 +12,7 @@ describe('date', () => {
 		console.warn = orginalWarn
 	})
 	beforeEach(() => {
-		console.warn = jest.fn()
+		console.warn = vi.fn()
 	})
 
 	describe('getFirstDay', () => {

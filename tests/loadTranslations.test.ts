@@ -1,8 +1,9 @@
 import { MockXhrServer, newServer } from 'mock-xmlhttprequest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { loadTranslations, register, translate, unregister } from '../lib/translation'
 
-const setLocale = (locale) => document.documentElement.setAttribute('data-locale', locale)
+const setLocale = (locale: string) => document.documentElement.setAttribute('data-locale', locale)
 
 describe('loadTranslations', () => {
 	let server: MockXhrServer
@@ -73,7 +74,7 @@ describe('loadTranslations', () => {
 
 	afterEach(() => {
 		server.remove()
-		jest.clearAllMocks()
+		vi.clearAllMocks()
 	})
 
 	it('calls callback if app already exists', async () => {
@@ -81,7 +82,7 @@ describe('loadTranslations', () => {
 			Bye: 'Tschüss',
 		})
 
-		const callback = jest.fn()
+		const callback = vi.fn()
 		try {
 			await loadTranslations('myapp', callback)
 			// Callback called
@@ -101,7 +102,7 @@ describe('loadTranslations', () => {
 
 	it('calls callback if locale is English', async () => {
 		setLocale('en')
-		const callback = jest.fn()
+		const callback = vi.fn()
 
 		try {
 			await loadTranslations('myapp', callback)
@@ -115,7 +116,7 @@ describe('loadTranslations', () => {
 	})
 
 	it('registers new translations', async () => {
-		const callback = jest.fn()
+		const callback = vi.fn()
 		try {
 			await loadTranslations('myapp', callback)
 			// Callback called
@@ -130,7 +131,7 @@ describe('loadTranslations', () => {
 	})
 
 	it('does reject on network error', async () => {
-		const callback = jest.fn()
+		const callback = vi.fn()
 		try {
 			await loadTranslations('networkissue', callback)
 			expect('').toBe('Unexpected pass')
@@ -141,7 +142,7 @@ describe('loadTranslations', () => {
 	})
 
 	it('does reject on server error', async () => {
-		const callback = jest.fn()
+		const callback = vi.fn()
 		try {
 			await loadTranslations('500', callback)
 			expect('').toBe('Unexpected pass')
@@ -152,7 +153,7 @@ describe('loadTranslations', () => {
 	})
 
 	it('does reject on unavailable bundle', async () => {
-		const callback = jest.fn()
+		const callback = vi.fn()
 		try {
 			await loadTranslations('404', callback)
 			expect('').toBe('Unexpected pass')
@@ -163,7 +164,7 @@ describe('loadTranslations', () => {
 	})
 
 	it('does reject on invalid bundle', async () => {
-		const callback = jest.fn()
+		const callback = vi.fn()
 		try {
 			await loadTranslations('invalid', callback)
 			expect('').toBe('Unexpected pass')
@@ -174,7 +175,7 @@ describe('loadTranslations', () => {
 	})
 
 	it('does reject on missing bundle', async () => {
-		const callback = jest.fn()
+		const callback = vi.fn()
 		try {
 			await loadTranslations('missing-bundle', callback)
 			expect('').toBe('Unexpected pass')
@@ -185,7 +186,7 @@ describe('loadTranslations', () => {
 	})
 
 	it('does reject on empty response', async () => {
-		const callback = jest.fn()
+		const callback = vi.fn()
 		try {
 			await loadTranslations('empty', callback)
 			expect('').toBe('Unexpected pass')
