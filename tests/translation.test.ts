@@ -1,3 +1,4 @@
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import type { NextcloudWindowWithRegistry } from '../lib/registry'
 import {
 	getPlural,

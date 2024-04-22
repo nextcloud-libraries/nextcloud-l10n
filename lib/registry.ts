@@ -69,20 +69,20 @@ export function hasAppTranslations(appId: string) {
 export function registerAppTranslations(
 	appId: string,
 	translations: Translations,
-	pluralFunction: PluralFunction
+	pluralFunction: PluralFunction,
 ) {
 	window._oc_l10n_registry_translations = Object.assign(
 		window._oc_l10n_registry_translations || {},
 		{
 			[appId]: Object.assign(window._oc_l10n_registry_translations?.[appId] || {}, translations),
-		}
+		},
 	)
 
 	window._oc_l10n_registry_plural_functions = Object.assign(
 		window._oc_l10n_registry_plural_functions || {},
 		{
 			[appId]: pluralFunction,
-		}
+		},
 	)
 }
 

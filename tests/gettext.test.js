@@ -1,10 +1,11 @@
 import { po } from 'gettext-parser'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { getGettextBuilder } from '../lib/gettext.ts'
 
 describe('gettext', () => {
 	beforeEach(() => {
-		jest.spyOn(console, 'warn')
+		vi.spyOn(console, 'warn')
 		console.warn.mockImplementation(() => {})
 	})
 
