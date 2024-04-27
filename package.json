@@ -38,7 +38,7 @@
     "url": "https://github.com/nextcloud-libraries/nextcloud-l10n"
   },
   "dependencies": {
-    "@nextcloud/router": "^3.0.0",
+    "@nextcloud/router": "^3.0.1",
     "@nextcloud/typings": "^1.8.0",
     "@types/dompurify": "^3.0.5",
     "@types/escape-html": "^1.0.4",
