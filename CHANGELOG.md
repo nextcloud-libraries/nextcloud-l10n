@@ -1,6 +1,45 @@
 # Changelog
-
 All notable changes to this project will be documented in this file.
+
+## 3.0.0 - 2024-05-02
+[Full Changelog](https://github.com/nextcloud-libraries/nextcloud-l10n/compare/v2.2.0...v3.0.0)
+
+### Breaking changes
+Instead of also sanitizing the replacing variables, now only the result is sanitized, see [pull request #648](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/648).
+
+This will improve the performance if multiple placeholders are used and it allows this, 
+while the string is still sanitized:
+```js
+t(
+	'See {linkstart}documentation{linkend}',
+	{
+		linkstart: '<a ...>',
+		linkend: '</a>',
+	},
+	// No number
+	undefined,
+	{
+		// Do not escape the result as we want the HTML anchor element
+		escape: false,
+	}
+)
+```
+
+### Added
+* feat: export aliases `t` and `n` for `translate` and `translatePlural`
+
+### Fixed
+* fix!: Only sanitize the result string when replacing variables
+
+### Changed
+* Update NPM to latest LTS v10
+* Migrate to vite for transpiling and vitest for testing
+* chore: Added more tests for special cases on plural forms
+* chore(deps): Bump tough-cookie to 4.1.3
+* chore(deps): Bump postcss to 8.4.31
+* chore(deps): Bump @nextcloud/typings to 1.8.0
+* chore(deps): Bump dompurify to 3.1.1
+* chore(deps): Bump @nextcloud/router to 3.0.1
 
 ## 2.2.0 - 2023-06-26
 
