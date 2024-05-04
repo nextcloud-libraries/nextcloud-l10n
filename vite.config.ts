@@ -7,5 +7,8 @@ export default createLibConfig(
 	},
 	{
 		libraryFormats: ['cjs', 'es'],
+		DTSPluginOptions: {
+			rollupTypes: true,
+		},
 	},
 )
