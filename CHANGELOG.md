@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.0.1 - 2024-05-04
+
+### Fixed
+* Ensure that built type definitions are bundled with the release and located in the correct directory
+
 ## 3.0.0 - 2024-05-02
 [Full Changelog](https://github.com/nextcloud-libraries/nextcloud-l10n/compare/v2.2.0...v3.0.0)
 
