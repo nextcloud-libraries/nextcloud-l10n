@@ -57,6 +57,47 @@ describe('translate', () => {
 		expect(translation).toBe('Hallo &lt;del&gt;Name&lt;/del&gt;')
 	})
 
+	it('with global placeholder HTML escaping and enabled on parameter', () => {
+		const text = 'Hello {name}'
+		const translation = translate('core', text, { name: { value: '<del>Name</del>', escape: true } }, undefined, { escape: true })
+		expect(translation).toBe('Hallo &lt;del&gt;Name&lt;/del&gt;')
+	})
+
+	it('with global placeholder HTML escaping but disabled on parameter', () => {
+		const text = 'Hello {name}'
+		const translation = translate('core', text, { name: { value: '<del>Name</del>', escape: false } }, undefined, { escape: true })
+		expect(translation).toBe('Hallo <del>Name</del>')
+	})
+
+	it('without global placeholder HTML escaping but enabled on parameter', () => {
+		const text = 'Hello {name}'
+		const translation = translate('core', text, { name: { value: '<del>Name</del>', escape: true } }, undefined, { escape: false })
+		expect(translation).toBe('Hallo &lt;del&gt;Name&lt;/del&gt;')
+	})
+
+	it('without global placeholder HTML escaping and disabled on parameter', () => {
+		const text = 'Hello {name}'
+		const translation = translate('core', text, { name: { value: '<del>Name</del>', escape: false } }, undefined, { escape: false })
+		expect(translation).toBe('Hallo <del>Name</del>')
+	})
+
+	it('with global placeholder HTML escaping and invalid per-parameter escaping', () => {
+		const text = 'Hello {name}'
+		// @ts-expect-error We test calling it with an invalid value (missing)
+		const translation = translate('core', text, { name: { value: '<del>Name</del>' } }, undefined, { escape: true })
+		// `escape` needs to be an boolean, otherwise we fallback to `false` to prevent security issues
+		// So in this case `undefined` is falsy but we still enforce escaping as we only accept `false`
+		expect(translation).toBe('Hallo &lt;del&gt;Name&lt;/del&gt;')
+	})
+
+	it('witout global placeholder HTML escaping and invalid per-parameter escaping', () => {
+		const text = 'Hello {name}'
+		// @ts-expect-error We test calling it with an invalid value
+		const translation = translate('core', text, { name: { value: '<del>Name</del>', escape: 0 } }, undefined, { escape: false })
+		// `escape` needs to be an boolean, otherwise we fallback to `false` to prevent security issues
+		expect(translation).toBe('Hallo &lt;del&gt;Name&lt;/del&gt;')
+	})
+
 	it('without placeholder XSS sanitizing', () => {
 		const text = 'Hello {name}'
 		const translation = translate('core', text, { name: '<img src=x onerror=alert(1)//>' }, undefined, { sanitize: false, escape: false })
