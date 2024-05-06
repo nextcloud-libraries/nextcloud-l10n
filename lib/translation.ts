@@ -19,6 +19,17 @@ interface TranslationOptions {
 	sanitize?: boolean
 }
 
+/** @notExported */
+interface TranslationVariableReplacementObject<T> {
+	/** The value to use for the replacement */
+	value: T
+	/** Overwrite the `escape` option just for this replacement */
+	escape: boolean
+}
+
+/** @notExported */
+type TranslationVariables = Record<string, string | number | TranslationVariableReplacementObject<string | number>>
+
 /**
  * Translate a string
  *
@@ -27,37 +38,48 @@ interface TranslationOptions {
  * @param {object} vars map of placeholder key to value
  * @param {number} number to replace %n with
  * @param {object} [options] options object
+ * @param {boolean} options.escape enable/disable auto escape of placeholders (by default enabled)
+ * @param {boolean} options.sanitize enable/disable sanitization (by default enabled)
+ *
  * @return {string}
  */
 export function translate(
 	app: string,
 	text: string,
-	vars?: Record<string, string | number>,
+	vars?: TranslationVariables,
 	number?: number,
 	options?: TranslationOptions,
 ): string {
-	const defaultOptions = {
+	const allOptions = {
+		// defaults
 		escape: true,
 		sanitize: true,
+		// overwrite with user config
+		...(options || {}),
 	}
-	const allOptions = Object.assign({}, defaultOptions, options || {})
 
 	const identity = <T, >(value: T): T => value
 	const optSanitize = allOptions.sanitize ? DOMPurify.sanitize : identity
 	const optEscape = allOptions.escape ? escapeHTML : identity
 
+	const isValidReplacement = (value: unknown) => typeof value === 'string' || typeof value === 'number'
+
 	// TODO: cache this function to avoid inline recreation
 	// of the same function over and over again in case
 	// translate() is used in a loop
-	const _build = (text: string, vars?: Record<string, string | number>, number?: number) => {
+	const _build = (text: string, vars?: TranslationVariables, number?: number) => {
 		return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
 			if (vars === undefined || !(key in vars)) {
 				return optEscape(match)
 			}
 
 			const replacement = vars[key]
-			if (typeof replacement === 'string' || typeof replacement === 'number') {
+			if (isValidReplacement(replacement)) {
 				return optEscape(`${replacement}`)
+			} else if (typeof replacement === 'object' && isValidReplacement(replacement.value)) {
+				// Replacement is an object so indiviual escape handling
+				const escape = replacement.escape !== false ? escapeHTML : identity
+				return escape(`${replacement.value}`)
 			} else {
 				/* This should not happen,
 				 * but the variables are used defined so not allowed types could still be given,
