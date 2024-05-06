@@ -1,6 +1,32 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.1.0 - 2024-05-07
+
+### Added
+
+*   Allow setting `escape` option per parameter replacing.\
+	For more security this should be used instead of disabling paramter escaping,
+	see [pull request #756](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/756)
+	```js
+	// Example
+	t(
+		'my-app',
+		'{a}{userInput}{a_end}',
+		{
+			a: {
+				value: '<a>',
+				escape: false,
+			},
+			userInput: somePossiblyInsecureValue, // This will be escaped
+			a_end: {
+				value: '</a>',
+				escape: false,
+			}
+		},
+	)
+	```
+
 ## 3.0.1 - 2024-05-04
 
 ### Fixed
