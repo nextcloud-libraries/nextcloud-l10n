@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.0.1",
-    "@nextcloud/eslint-config": "^8.3.0",
+    "@nextcloud/eslint-config": "^8.4.1",
     "@nextcloud/vite-config": "^1.2.3",
     "@types/dompurify": "^3.0.5",
     "@types/escape-html": "^1.0.4",
