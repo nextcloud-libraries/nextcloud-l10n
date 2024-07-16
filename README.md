@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: GPL-3.0-or-later
+-->
 # @nextcloud/l10n
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/nextcloud-libraries/nextcloud-l10n/node.yml?branch=master)](https://github.com/nextcloud-libraries/nextcloud-l10n/actions/workflows/node.yml)

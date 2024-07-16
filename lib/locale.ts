@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+ 
+/**
  * Returns the user's locale
  */
 export function getLocale(): string {

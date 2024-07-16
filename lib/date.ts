@@ -1,5 +1,10 @@
 /// <reference types="@nextcloud/typings" />
 
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 declare let window: Nextcloud.v27.WindowWithGlobals
 
 /**

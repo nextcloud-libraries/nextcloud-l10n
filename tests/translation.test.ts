@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import type { NextcloudWindowWithRegistry } from '../lib/registry'
 import {

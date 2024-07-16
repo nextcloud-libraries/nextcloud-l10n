@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/**
  * This module provides functionality to translate applications independent from Nextcloud
  *
  * @packageDocumentation

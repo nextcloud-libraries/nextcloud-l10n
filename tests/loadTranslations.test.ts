@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 import { MockXhrServer, newServer } from 'mock-xmlhttprequest'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
