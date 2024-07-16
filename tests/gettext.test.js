@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 import { po } from 'gettext-parser'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
