@@ -53,13 +53,13 @@
     "@types/dompurify": "^3.0.5",
     "@types/escape-html": "^1.0.4",
     "@types/node-gettext": "^3.0",
-    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/coverage-v8": "^2.0.3",
     "@zamiell/typedoc-plugin-not-exported": "^0.3.0",
     "gettext-parser": "^8.0.0",
     "mock-xmlhttprequest": "^8.3.0",
     "typedoc": "^0.26.4",
     "vite": "^5.3.4",
-    "vitest": "^1.5.0"
+    "vitest": "^2.0.3"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
