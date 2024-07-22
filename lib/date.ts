@@ -8,15 +8,17 @@ import { getCanonicalLocale } from './locale'
 
 declare let window: Nextcloud.v27.WindowWithGlobals
 
+export type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
+
 /**
  * Get the first day of the week
  *
- * @return {number}
+ * @return The first day where 0 is Sunday, 1 is Monday etc.
  */
-export function getFirstDay(): number {
+export function getFirstDay(): WeekDay {
 	// Server rendered
 	if (typeof window.firstDay !== 'undefined') {
-		return window.firstDay
+		return window.firstDay as WeekDay
 	}
 
 	// Try to fallback to Intl
@@ -33,7 +35,7 @@ export function getFirstDay(): number {
 	const weekInfo: WeekInfo = intl.getWeekInfo?.() ?? intl.weekInfo
 	if (weekInfo) {
 		// Convert 1..7 to 0..6 format
-		return weekInfo.firstDay % 7
+		return weekInfo.firstDay % 7 as WeekDay
 	}
 
 	// Fallback to Monday
