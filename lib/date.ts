@@ -10,9 +10,9 @@ declare let window: Nextcloud.v27.WindowWithGlobals
 /**
  * Get the first day of the week
  *
- * @return {number}
+ * @return {number} The first day where 0 is Sunday, 1 is Monday etc.
  */
-export function getFirstDay(): number {
+export function getFirstDay(): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
 	if (typeof window.firstDay === 'undefined') {
 		console.warn('No firstDay found')
 		return 1
