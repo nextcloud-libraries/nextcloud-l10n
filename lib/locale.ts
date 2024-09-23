@@ -33,40 +33,17 @@ export function getLanguage(): string {
 export function isRTL(language?: string): boolean {
 	const languageCode = language || getLanguage()
 
-	// Source: https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
 	const rtlLanguages = [
 		/* eslint-disable no-multi-spaces */
-		'ae',  // Avestan
-		'ar',  // 'العربية', Arabic
-		'arc', // Aramaic
-		'arz', // 'مصرى', Egyptian
-		'bcc', // 'بلوچی مکرانی', Southern Balochi
-		'bqi', // 'بختياري', Bakthiari
-		'ckb', // 'Soranî / کوردی', Sorani
-		'dv',  // Dhivehi
-		'fa',  // 'فارسی', Persian
-		'glk', // 'گیلکی', Gilaki
-		'ha',  // 'هَوُسَ', Hausa
-		'he',  // 'עברית', Hebrew
-		'khw', // 'کھوار', Khowar
-		'ks',  // 'कॉशुर / کٲشُر', Kashmiri
-		'ku',  // 'Kurdî / كوردی', Kurdish
-		'mzn', // 'مازِرونی', Mazanderani
-		'nqo', // 'ߒߞߏ', N’Ko
-		'pnb', // 'پنجابی', Western Punjabi
-		'ps',  // 'پښتو', Pashto,
-		'sd',  // 'سنڌي', Sindhi
-		'ug',  // 'Uyghurche / ئۇيغۇرچە', Uyghur
-		'ur',  // 'اردو', Urdu
-		'uzs', // 'اوزبیکی', Uzbek Afghan
-		'yi',  // 'ייִדיש', Yiddish
+		'ar', // Arabic
+		'fa', // Persian
+		'he', // Hebrew
+		'ps', // Pashto,
+		'ug', // 'Uyghurche / Uyghur
+		'ur_PK', // Urdu
+		'uz', // Uzbek Afghan
 		/* eslint-enable no-multi-spaces */
 	]
-
-	// special case for Uzbek Afghan
-	if ((language || getCanonicalLocale()).startsWith('uz-AF')) {
-		return true
-	}
 
 	return rtlLanguages.includes(languageCode)
 }
