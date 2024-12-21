@@ -31,8 +31,17 @@ interface TranslationVariableReplacementObject<T> {
 	escape: boolean
 }
 
+/**
+ * Extracts variables from a translation key
+ * @notExported
+ */
+type ExtractedVariables<T extends string> =
+	T extends `${string}{${infer Variable}}${infer Rest}`
+		? Variable | ExtractedVariables<Rest>
+		: never
+
 /** @notExported */
-type TranslationVariables = Record<string, string | number | TranslationVariableReplacementObject<string | number>>
+type TranslationVariables<K extends string> = Record<ExtractedVariables<K>, string | number | TranslationVariableReplacementObject<string | number>>
 
 /**
  * Translate a string
@@ -47,10 +56,10 @@ type TranslationVariables = Record<string, string | number | TranslationVariable
  *
  * @return {string}
  */
-export function translate(
+export function translate<T extends string>(
 	app: string,
-	text: string,
-	vars?: TranslationVariables,
+	text: T,
+	vars?: TranslationVariables<T>,
 	number?: number,
 	options?: TranslationOptions,
 ): string {
@@ -71,8 +80,8 @@ export function translate(
 	// TODO: cache this function to avoid inline recreation
 	// of the same function over and over again in case
 	// translate() is used in a loop
-	const _build = (text: string, vars?: TranslationVariables, number?: number) => {
-		return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
+	const _build = (text: string, vars?: TranslationVariables<T>, number?: number) => {
+		return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key: ExtractedVariables<T>) => {
 			if (vars === undefined || !(key in vars)) {
 				return optEscape(match)
 			}
@@ -119,12 +128,12 @@ export function translate(
  * @param {object} vars of placeholder key to value
  * @param {object} options options object
  */
-export function translatePlural(
+export function translatePlural<T extends string, K extends string, >(
 	app: string,
-	textSingular: string,
-	textPlural: string,
+	textSingular: T,
+	textPlural: K,
 	number: number,
-	vars?: Record<string, string | number>,
+	vars?: TranslationVariables<T> & TranslationVariables<K>,
 	options?: TranslationOptions,
 ): string {
 	const identifier = '_' + textSingular + '_::_' + textPlural + '_'
@@ -139,10 +148,11 @@ export function translatePlural(
 		}
 	}
 
+	// vars type is casted to allow extra keys without runtime filtering (they are harmless), and without allowing wrong keys in translate
 	if (number === 1) {
-		return translate(app, textSingular, vars, number, options)
+		return translate(app, textSingular, vars as TranslationVariables<T>, number, options)
 	} else {
-		return translate(app, textPlural, vars, number, options)
+		return translate(app, textPlural, vars as TranslationVariables<K>, number, options)
 	}
 }
 
