@@ -18,7 +18,8 @@ const gt = getGettextBuilder()
 gt.gettext('some string to translate')
 ```
  */
-import GetText from 'node-gettext'
+// @ts-expect-error missing type definition
+import GetText from '@postalsys/gettext'
 
 import { getLanguage } from '.'
 
