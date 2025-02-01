@@ -1,16 +1,19 @@
 {
-    "$schema": "https://json.schemastore.org/tsconfig",
-    "include": ["lib/", "*.ts"],
-    "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
-        "declaration": true,
-        "moduleResolution": "Bundler",
-        "outDir": "./dist",
-        "strict": true,
-        "lib": [
-            "es6",
-            "dom"
-        ]
-    }
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"include": ["lib/", "*.ts"],
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"declaration": true,
+		"moduleResolution": "Bundler",
+		"outDir": "./dist",
+		"strict": true,
+		"types": [
+			"vitest"
+		],
+		"lib": [
+			"ESNext",
+			"DOM"
+		]
+	}
 }
