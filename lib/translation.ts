@@ -1,4 +1,4 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -15,7 +15,6 @@ import { generateFilePath } from '@nextcloud/router'
 import DOMPurify from 'dompurify'
 import escapeHTML from 'escape-html'
 
-/** @notExported */
 interface TranslationOptions {
 	/** enable/disable auto escape of placeholders (by default enabled) */
 	escape?: boolean
@@ -23,7 +22,6 @@ interface TranslationOptions {
 	sanitize?: boolean
 }
 
-/** @notExported */
 interface TranslationVariableReplacementObject<T> {
 	/** The value to use for the replacement */
 	value: T
@@ -33,14 +31,12 @@ interface TranslationVariableReplacementObject<T> {
 
 /**
  * Extracts variables from a translation key
- * @notExported
  */
 type ExtractedVariables<T extends string> =
 	T extends `${string}{${infer Variable}}${infer Rest}`
 		? Variable | ExtractedVariables<Rest>
 		: never
 
-/** @notExported */
 type TranslationVariables<K extends string> = Record<ExtractedVariables<K>, string | number | TranslationVariableReplacementObject<string | number>>
 
 /**

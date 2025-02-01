@@ -1,4 +1,4 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -22,9 +22,6 @@ import GetText from 'node-gettext'
 
 import { getLanguage } from '.'
 
-/**
- * @notExported
- */
 class GettextBuilder {
 
 	private locale?: string
@@ -57,9 +54,6 @@ class GettextBuilder {
 
 }
 
-/**
- * @notExported
- */
 class GettextWrapper {
 
 	private gt: GetText
