@@ -140,6 +140,7 @@ describe('translate', () => {
 
 	it('singular with missing variable', () => {
 		const text = 'Hello {name}'
+		// @ts-expect-error We test the fault tolerance when passing invalid options
 		const translation = translate('core', text, {})
 		expect(translation).toBe('Hallo {name}')
 	})
@@ -335,5 +336,10 @@ describe('getPlural', () => {
 		setLanguage('xxx')
 		expect(getPlural(0)).toBe<number>(0)
 		expect(getPlural(1)).toBe<number>(0)
+	})
+
+	it('supports manual language option', () => {
+		expect(getPlural(2, 'az')).toBe<number>(0)
+		expect(getPlural(2, 'am')).toBe<number>(1)
 	})
 })
