@@ -1,11 +1,10 @@
-/// <reference types="@nextcloud/typings" />
-
-import { getCanonicalLocale } from './locale'
-
-/**
+/*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+/// <reference types="@nextcloud/typings" />
+
+import { getCanonicalLocale } from './locale'
 
 declare let window: Nextcloud.v27.WindowWithGlobals
 
