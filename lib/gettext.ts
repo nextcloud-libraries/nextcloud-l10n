@@ -33,8 +33,21 @@ class GettextBuilder {
 		return this
 	}
 
-	/** Try to detect locale from context with `en` as fallback value */
+	/**
+	 * Try to detect locale from context with `en` as fallback value
+	 * This only works within a Nextcloud page context.
+	 *
+	 * @deprecated use `detectLanguage` instead.
+	 */
 	detectLocale(): GettextBuilder {
+		return this.detectLanguage()
+	}
+
+	/**
+	 * Try to detect locale from context with `en` as fallback value.
+	 * This only works within a Nextcloud page context.
+	 */
+	detectLanguage(): GettextBuilder {
 		return this.setLanguage(getLanguage().replace('-', '_'))
 	}
 
