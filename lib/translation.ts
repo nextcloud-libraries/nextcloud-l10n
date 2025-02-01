@@ -39,32 +39,49 @@ type ExtractedVariables<T extends string> =
 
 type TranslationVariables<K extends string> = Record<ExtractedVariables<K>, string | number | TranslationVariableReplacementObject<string | number>>
 
+export function translate<T extends string>(app: string, text: T, placeholders?: TranslationVariables<T>, options?: TranslationOptions): string
+export function translate<T extends string>(app: string, text: T, number?: number, options?: TranslationOptions): string
+/**
+ * @inheritdoc
+ * @deprecated This overload is deprecated either use placeholders or a number but not both
+ */
+export function translate<T extends string>(app: string, text: T, placeholders?: TranslationVariables<T>, number?: number, options?: TranslationOptions): string
+
 /**
  * Translate a string
  *
- * @param {string} app the id of the app for which to translate the string
- * @param {string} text the string to translate
- * @param {object} vars map of placeholder key to value
- * @param {number} number to replace %n with
- * @param {object} [options] options object
- * @param {boolean} options.escape enable/disable auto escape of placeholders (by default enabled)
- * @param {boolean} options.sanitize enable/disable sanitization (by default enabled)
- *
- * @return {string}
+ * @param app the id of the app for which to translate the string
+ * @param text the string to translate
+ * @param placeholdersOrNumber map of placeholder key to value or a number replacing `%n`
+ * @param optionsOrNumber the translation options or a number to replace `%n` with
+ * @param options options object
+ * @param options.escape enable/disable auto escape of placeholders (by default enabled)
+ * @param options.sanitize enable/disable sanitization (by default enabled)
  */
 export function translate<T extends string>(
 	app: string,
 	text: T,
-	vars?: TranslationVariables<T>,
-	number?: number,
+	placeholdersOrNumber?: TranslationVariables<T>|number,
+	optionsOrNumber?: number|TranslationOptions,
 	options?: TranslationOptions,
 ): string {
+	const vars = typeof placeholdersOrNumber === 'object' ? placeholdersOrNumber : undefined
+	const number = typeof optionsOrNumber === 'number' ? optionsOrNumber : (typeof placeholdersOrNumber === 'number' ? placeholdersOrNumber : undefined)
+
 	const allOptions = {
 		// defaults
 		escape: true,
 		sanitize: true,
 		// overwrite with user config
-		...(options || {}),
+		...(
+			typeof options === 'object'
+				? options
+				: (
+					typeof optionsOrNumber === 'object'
+						? optionsOrNumber
+						: {}
+				)
+		),
 	}
 
 	const identity = <T, >(value: T): T => value
