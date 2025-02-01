@@ -22,6 +22,6 @@ export default createLibConfig(
 					reporter: ['text', 'lcov'],
 				},
 			},
-		})
+		}),
 	},
 )
