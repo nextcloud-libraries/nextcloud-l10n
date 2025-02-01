@@ -1,9 +1,16 @@
 {
 	"extends": [
-		"@nextcloud"
+		"@nextcloud/eslint-config/typescript"
 	],
 	"ignorePatterns": ["dist"],
 	"overrides": [
+		{
+			"files": ["**.ts"],
+			"rules": {
+				"no-useless-constructor": "off",
+				"@typescript-eslint/no-useless-constructor": "error"
+			}
+		},
 		{
 			"files": ["tests/*.js"],
 			"rules": {
