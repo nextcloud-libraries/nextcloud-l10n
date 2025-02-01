@@ -4,9 +4,11 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "ESNext",
-		"declaration": true,
 		"moduleResolution": "Bundler",
 		"outDir": "./dist",
+		"allowImportingTsExtensions": true,
+		"declaration": true,
+		"emitDeclarationOnly": true,
 		"strict": true,
 		"types": [
 			"vitest"

@@ -3,18 +3,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 import { po } from 'gettext-parser'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getGettextBuilder } from '../lib/gettext.ts'
+
+const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
 
 describe('gettext', () => {
 	beforeEach(() => {
-		vi.spyOn(console, 'warn')
-		console.warn.mockImplementation(() => {})
-	})
-
-	afterEach(() => {
-		console.warn.mockRestore()
+		setLanguage('en')
+		vi.spyOn(console, 'debug')
+			.mockImplementation(() => {})
 	})
 
 	it('falls back to the original string', () => {
@@ -34,7 +32,7 @@ describe('gettext', () => {
 
 		gt.gettext('Settings')
 
-		expect(console.warn).not.toHaveBeenCalled()
+		expect(console.debug).not.toHaveBeenCalled()
 	})
 
 	it('has optional debug logs', () => {
@@ -45,7 +43,7 @@ describe('gettext', () => {
 
 		gt.gettext('Settings')
 
-		expect(console.warn).toHaveBeenCalled()
+		expect(console.debug).toHaveBeenCalled()
 	})
 
 	it('falls back to the original singular string', () => {
@@ -68,18 +66,6 @@ describe('gettext', () => {
 		expect(translated).toEqual('2 Settings')
 	})
 
-	it('detects en as default locale/language', () => {
-		const detected = getGettextBuilder()
-			.detectLocale()
-			.build()
-
-		const manual = getGettextBuilder()
-			.setLanguage('en')
-			.build()
-
-		expect(detected).toEqual(manual)
-	})
-
 	it('used nextcloud-style placeholder replacement', () => {
 		const gt = getGettextBuilder()
 			.setLanguage('de')
@@ -98,6 +84,7 @@ describe('gettext', () => {
 			.build()
 
 		const translation = gt.gettext('This is {value}', {
+			// @ts-expect-error We check the fault tolerance so this will be a typescript issue
 			value: false,
 		})
 
@@ -147,7 +134,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "One file removed"
-msgid_plural "%d files removed"
+msgid_plural "%n files removed"
 msgstr[0] "%n slika uklonjenih"
 msgstr[1] "%n slika uklonjenih"
 msgstr[2] "%n slika uklonjenih"
@@ -191,6 +178,40 @@ msgstr "xyz"
 		const translation = gt.gettext('test & stuff')
 
 		expect(translation).toEqual('test & stuff')
+	})
+
+	it('can autodetect the language', () => {
+		const pot = `msgid ""
+msgstr ""
+"Last-Translator: Translator, 2020\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "abc"
+msgstr "correct"
+`
+
+		const potEn = `msgid ""
+msgstr ""
+"Last-Translator: Translator, 2020\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "abc"
+msgstr "incorrect"
+`
+		setLanguage('sv')
+		const gt = getGettextBuilder()
+			.addTranslation('sv', po.parse(pot))
+			.addTranslation('en', po.parse(potEn))
+			.detectLocale()
+			.build()
+
+		const translation = gt.gettext('abc')
+
+		expect(translation).toEqual('correct')
 	})
 
 })
