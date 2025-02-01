@@ -6,6 +6,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 3.2.0 - UNRELEASED
+### ℹ️ Notes
+The `GettextBuilder.detectLocale` method is deprecated and will be removed in the next major version.
+It is replaced with the `detectLanguage` method to make the method naming more consistent.
+
+### Added
+- TBD
+### Fixed
+- TBD
+### Changed
+- TBD
+
 ## 3.1.0 - 2024-05-07
 
 ### Added
