@@ -91,7 +91,9 @@ describe('isRTL', () => {
 
 		// configured as current language
 		setLanguage('uz')
-		setLocale('uz_AF')
+		expect(isRTL()).toBe(false)
+
+		setLanguage('uz-AF')
 		expect(isRTL()).toBe(true)
 	})
 })

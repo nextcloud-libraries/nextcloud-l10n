@@ -57,16 +57,12 @@ export function isRTL(language?: string): boolean {
 		'ps',  // 'پښتو', Pashto,
 		'sd',  // 'سنڌي', Sindhi
 		'ug',  // 'Uyghurche / ئۇيغۇرچە', Uyghur
-		'ur',  // 'اردو', Urdu
-		'uzs', // 'اوزبیکی', Uzbek Afghan
-		'yi',  // 'ייִדיש', Yiddish
+		'ur',    // 'اردو', Urdu
+		'ur-PK', // 'اردو', Urdu (nextcloud BCP47 variant)
+		'uz-AF', // 'اوزبیکی', Uzbek Afghan
+		'yi',    // 'ייִדיש', Yiddish
 		/* eslint-enable no-multi-spaces */
 	]
-
-	// special case for Uzbek Afghan
-	if ((language || getCanonicalLocale()).startsWith('uz-AF')) {
-		return true
-	}
 
 	return rtlLanguages.includes(languageCode)
 }
