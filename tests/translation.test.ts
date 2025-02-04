@@ -114,6 +114,18 @@ describe('translate', () => {
 		expect(translation).toBe('Hallo <img src="x">')
 	})
 
+	it('with number as third parameter', () => {
+		const text = 'Number: %n'
+		const translation = translate('core', text, 4)
+		expect(translation).toBe('Number: 4')
+	})
+
+	it('with options as forth parameter', () => {
+		const text = 'Hello {name}'
+		const translation = translate('core', text, { name: '<img src=x onerror=alert(1)//>' }, { escape: false })
+		expect(translation).toBe('Hallo <img src="x">')
+	})
+
 	it('singular', () => {
 		const text = 'Hello world!'
 		const translation = translate('core', text)
