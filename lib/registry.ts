@@ -46,7 +46,7 @@ export interface NextcloudWindowWithRegistry extends Nextcloud.v27.WindowWithGlo
 
 declare const window: NextcloudWindowWithRegistry
 
-interface AppTranslations {
+export interface AppTranslations {
 	translations: Translations
 	pluralFunction: PluralFunction
 }

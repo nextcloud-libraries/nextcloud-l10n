@@ -2,15 +2,15 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import type { Translations } from './registry'
-import { getLanguage, getLocale } from './locale'
+import type { AppTranslations, Translations } from './registry.ts'
+import { generateFilePath } from '@nextcloud/router'
+import { getLanguage, getLocale } from './locale.ts'
 import {
 	getAppTranslations,
 	hasAppTranslations,
 	registerAppTranslations,
 	unregisterAppTranslations,
-} from './registry'
-import { generateFilePath } from '@nextcloud/router'
+} from './registry.ts'
 
 import DOMPurify from 'dompurify'
 import escapeHTML from 'escape-html'
@@ -20,6 +20,12 @@ interface TranslationOptions {
 	escape?: boolean
 	/** enable/disable sanitization (by default enabled) */
 	sanitize?: boolean
+
+	/**
+	 * This is only intended for internal usage.
+	 * @private
+	 */
+	bundle?: AppTranslations
 }
 
 interface TranslationVariableReplacementObject<T> {
@@ -116,7 +122,7 @@ export function translate<T extends string>(
 		})
 	}
 
-	const bundle = getAppTranslations(app)
+	const bundle = options?.bundle ?? getAppTranslations(app)
 	let translation = bundle.translations[text] || text
 	translation = Array.isArray(translation) ? translation[0] : translation
 
@@ -150,7 +156,7 @@ export function translatePlural<T extends string, K extends string, >(
 	options?: TranslationOptions,
 ): string {
 	const identifier = '_' + textSingular + '_::_' + textPlural + '_'
-	const bundle = getAppTranslations(app)
+	const bundle = options?.bundle ?? getAppTranslations(app)
 	const value = bundle.translations[identifier]
 
 	if (typeof value !== 'undefined') {
@@ -245,10 +251,10 @@ export function unregister(appName: string) {
  *
  *
  * @param {number} number the number of elements
+ * @param {string|undefined} language the language to use (or autodetect if not set)
  * @return {number} 0 for the singular form(, 1 for the first plural form, ...)
  */
-export function getPlural(number: number) {
-	let language = getLanguage()
+export function getPlural(number: number, language = getLanguage()) {
 	if (language === 'pt-BR') {
 		// temporary set a locale for brazilian
 		language = 'xbr'

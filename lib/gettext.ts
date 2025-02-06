@@ -18,18 +18,36 @@ const gt = getGettextBuilder()
 gt.gettext('some string to translate')
 ```
  */
-import GetText from 'node-gettext'
+import type { AppTranslations } from './registry.ts'
+import { getLanguage, getPlural, translate, translatePlural } from './index.ts'
 
-import { getLanguage } from '.'
+export interface GettextTranslation {
+	msgid: string
+	msgid_plural?: string
+	msgstr: string[]
+}
+
+export interface GettextTranslationContext {
+	[msgid: string]: GettextTranslation
+}
+
+export interface GettextTranslationBundle {
+	headers: {
+		[headerName: string]: string
+	},
+	translations: {
+		[context: string]: GettextTranslationContext
+	}
+}
 
 class GettextBuilder {
 
-	private locale?: string
-	private translations = {} as Record<string, unknown>
 	private debug = false
+	private language = 'en'
+	private translations = {} as Record<string, GettextTranslationBundle>
 
-	setLanguage(language: string): GettextBuilder {
-		this.locale = language
+	setLanguage(language: string): this {
+		this.language = language
 		return this
 	}
 
@@ -39,7 +57,7 @@ class GettextBuilder {
 	 *
 	 * @deprecated use `detectLanguage` instead.
 	 */
-	detectLocale(): GettextBuilder {
+	detectLocale(): this {
 		return this.detectLanguage()
 	}
 
@@ -47,52 +65,48 @@ class GettextBuilder {
 	 * Try to detect locale from context with `en` as fallback value.
 	 * This only works within a Nextcloud page context.
 	 */
-	detectLanguage(): GettextBuilder {
+	detectLanguage(): this {
 		return this.setLanguage(getLanguage().replace('-', '_'))
 	}
 
-	addTranslation(language: string, data: unknown): GettextBuilder {
+	addTranslation(language: string, data: GettextTranslationBundle): this {
 		this.translations[language] = data
 		return this
 	}
 
-	enableDebugMode(): GettextBuilder {
+	enableDebugMode(): this {
 		this.debug = true
 		return this
 	}
 
 	build(): GettextWrapper {
-		return new GettextWrapper(this.locale || 'en', this.translations, this.debug)
+		if (this.debug) {
+			console.debug(`Creating gettext instance for language ${this.language}`)
+		}
+
+		const translations = Object.values(this.translations[this.language]?.translations[''] ?? {})
+			.map(({ msgid, msgid_plural: msgidPlural, msgstr }) => {
+				if (msgidPlural !== undefined) {
+					return [`_${msgid}_::_${msgidPlural}_`, msgstr]
+				}
+				return [msgid, msgstr[0]]
+			})
+
+		const bundle: AppTranslations = {
+			pluralFunction: (n: number) => getPlural(n, this.language),
+			translations: Object.fromEntries(translations),
+		}
+
+		return new GettextWrapper(bundle)
 	}
 
 }
 
 class GettextWrapper {
 
-	private gt: GetText
-
-	constructor(locale: string, data: Record<string|symbol|number, unknown>, debug: boolean) {
-		this.gt = new GetText({
-			debug,
-			sourceLocale: 'en',
-		})
-
-		for (const key in data) {
-			this.gt.addTranslations(key, 'messages', data[key] as object)
-		}
-
-		this.gt.setLocale(locale)
-	}
-
-	private subtitudePlaceholders(translated: string, vars: Record<string, string | number>): string {
-		return translated.replace(/{([^{}]*)}/g, (a, b) => {
-			const r = vars[b]
-			if (typeof r === 'string' || typeof r === 'number') {
-				return r.toString()
-			} else {
-				return a
-			}
-		})
+	constructor(
+		private bundle: AppTranslations,
+	) {
 	}
 
 	/**
@@ -102,10 +116,7 @@ class GettextWrapper {
 	 * @param placeholders map of placeholder key to value
 	 */
 	gettext(original: string, placeholders: Record<string, string | number> = {}): string {
-		return this.subtitudePlaceholders(
-			this.gt.gettext(original),
-			placeholders,
-		)
+		return translate('', original, placeholders, undefined, { bundle: this.bundle })
 	}
 
 	/**
@@ -117,10 +128,7 @@ class GettextWrapper {
 	 * @param placeholders optional map of placeholder key to value
 	 */
 	ngettext(singular: string, plural: string, count: number, placeholders: Record<string, string | number> = {}): string {
-		return this.subtitudePlaceholders(
-			this.gt.ngettext(singular, plural, count).replace(/%n/g, count.toString()),
-			placeholders,
-		)
+		return translatePlural('', singular, plural, count, placeholders, { bundle: this.bundle })
 	}
 
 }
