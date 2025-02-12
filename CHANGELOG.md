@@ -6,6 +6,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## UNRELEASED
+### ℹ️ Notes
+The Node version was increased to current LTS version 22.
+
 ## 3.2.0 - 2025-02-13
 ### ℹ️ Notes
 The `GettextBuilder.detectLocale` method is deprecated and will be removed in the next major version.
