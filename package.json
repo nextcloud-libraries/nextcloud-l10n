@@ -1,6 +1,6 @@
 {
   "name": "@nextcloud/l10n",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Nextcloud localization and translation helpers for apps and libraries",
   "keywords": [
     "nextcloud",

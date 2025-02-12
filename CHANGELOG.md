@@ -6,20 +6,34 @@
 
 All notable changes to this project will be documented in this file.
 
-## 3.2.0 - UNRELEASED
+## 3.2.0 - 2025-02-13
 ### ℹ️ Notes
 The `GettextBuilder.detectLocale` method is deprecated and will be removed in the next major version.
 It is replaced with the `detectLanguage` method to make the method naming more consistent.
 
 ### Added
-- TBD
+* feat(date): fallback to Intl [\#831](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/831) \([ShGKme](https://github.com/ShGKme)\)
+* feat(gettext): Add `detectLanguage` method and deprecate `detectLocale` [\#850](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/850) \([susnux](https://github.com/susnux)\)
+* feat: Overload translate function to either allow number or placeholder as third arg [\#854](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/854) \([susnux](https://github.com/susnux)\)
+
 ### Fixed
-- TBD
+* fix(types): type translation variable keys [\#807](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/807) \([ShGKme](https://github.com/ShGKme)\)
+* fix(isRTL): Correctly handle Urdu and Uzbek Afghan [\#855](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/855) \([susnux](https://github.com/susnux)\)
+* fix(registry): Prevent prototype polluting [\#860](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/860) \([susnux](https://github.com/susnux)\)
+
 ### Changed
-- TBD
+* refactor(gettext): Drop `node-gettext` dependency and use our translation logic [\#851](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/851) \([susnux](https://github.com/susnux)\)
+* license: Add SPDX header [\#781](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/781) \([AndyScherzinger](https://github.com/AndyScherzinger)\)
+* chore: Add missing trailing comma in vite config [\#852](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/852) \([susnux](https://github.com/susnux)\)
+* docs: Clarify readme about Nextcloud provided and custom translations [\#853](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/853) \([susnux](https://github.com/susnux)\)
+* docs: improve return type of getFirstDay() [\#784](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/784) \([st3iny](https://github.com/st3iny)\)
+* docs: replace missing exports plugin to also document internal types [\#846](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/846) \([susnux](https://github.com/susnux)\)
+* ci: Update from org [\#795](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/795) \([AndyScherzinger](https://github.com/AndyScherzinger)\)
+* ci: Update workflows from organization [\#847](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/847) \([susnux](https://github.com/susnux)\)
+* chore(deps): Bump `dompurify` and `@types/dompurify`
+* chore(dev-deps): Update development dependencies
 
 ## 3.1.0 - 2024-05-07
-
 ### Added
 
 *   Allow setting `escape` option per parameter replacing.\
