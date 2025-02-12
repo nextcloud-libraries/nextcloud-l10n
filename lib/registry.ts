@@ -76,6 +76,10 @@ export function registerAppTranslations(
 	translations: Translations,
 	pluralFunction: PluralFunction,
 ) {
+	if (appId === '__proto__' || appId === 'constructor' || appId === 'prototype') {
+		throw new Error('Invalid appId')
+	}
+
 	window._oc_l10n_registry_translations = Object.assign(
 		window._oc_l10n_registry_translations || {},
 		{
