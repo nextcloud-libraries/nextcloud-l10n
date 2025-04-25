@@ -139,3 +139,8 @@ class GettextWrapper {
 export function getGettextBuilder() {
 	return new GettextBuilder()
 }
+
+export type {
+	GettextBuilder,
+	GettextWrapper,
+}
