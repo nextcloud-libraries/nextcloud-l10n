@@ -22,3 +22,9 @@ export type { Translations } from './registry'
 export * from './date'
 export * from './locale'
 export * from './translation'
+
+export {
+	type FormatDateOptions,
+
+	formatRelativeTime,
+} from './time.ts'
