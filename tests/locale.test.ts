@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { afterEach, beforeEach, describe, expect, it, test } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
 	getCanonicalLocale,
 	getLanguage,
@@ -13,54 +13,57 @@ import {
 const setLocale = (locale: string) => document.documentElement.setAttribute('data-locale', locale)
 const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
 
-describe('getCanonicalLocale', () => {
-	afterEach(() => {
+describe('getLanguage', () => {
+	it('returns the set language as it is', () => {
+		setLanguage('de-DE')
+		expect(getLanguage()).toEqual('de-DE')
+	})
+
+	it('returns the navigator language if no language is set', () => {
+		const spy = vi.spyOn(navigator, 'language', 'get')
+		spy.mockImplementationOnce(() => 'ar-EG')
+
+		setLanguage('')
+		expect(getLanguage()).toEqual('ar-EG')
+		expect(spy).toHaveBeenCalledOnce()
+	})
+})
+
+describe('getLocale', () => {
+	it('returns the set locale as it is with underscore', () => {
+		setLocale('de_DE')
+		expect(getLocale()).toEqual('de_DE')
+	})
+
+	it('returns the environment locale with underscore if no locale is set', () => {
 		setLocale('')
+		expect(getLocale()).toEqual(process.env.LANG?.replaceAll('-', '_'))
 	})
+})
 
-	it('Returns primary locales as is', () => {
-		setLocale('de')
-		expect(getCanonicalLocale()).toEqual('de')
-		setLocale('zu')
-		expect(getCanonicalLocale()).toEqual('zu')
-	})
-
-	it('Returns extended locales with hyphens', () => {
-		setLocale('az_Cyrl_AZ')
-		expect(getCanonicalLocale()).toEqual('az-Cyrl-AZ')
+describe('getCanonicalLocale', () => {
+	it('returns the set locale with hyphen', () => {
 		setLocale('de_DE')
 		expect(getCanonicalLocale()).toEqual('de-DE')
 	})
-})
 
-test('getLanguage', () => {
-	document.documentElement.removeAttribute('lang')
-	// Expect fallback
-	expect(getLanguage()).toBe('en')
-	setLanguage('')
-	expect(getLanguage()).toBe('en')
+	it('returns the set locale with multiple hyphen', () => {
+		setLocale('az_Cyrl_AZ')
+		expect(getCanonicalLocale()).toEqual('az-Cyrl-AZ')
+	})
 
-	// Expect value
-	setLanguage('zu')
-	expect(getLanguage()).toBe('zu')
-})
+	it('returns the environment locale with hyphen if no locale is set', () => {
+		expect(process.env.LANG).not.toBe('')
 
-test('getLocale', () => {
-	document.documentElement.removeAttribute('data-locale')
-	// Expect fallback
-	expect(getLocale()).toBe('en')
-	setLocale('')
-	expect(getLocale()).toBe('en')
-
-	// Expect value
-	setLocale('de_DE')
-	expect(getLocale()).toBe('de_DE')
+		setLocale('')
+		expect(getCanonicalLocale()).toEqual(process.env.LANG)
+	})
 })
 
 describe('isRTL', () => {
 	beforeEach(() => document.documentElement.removeAttribute('data-locale'))
 
-	it('fallsback to English which is LTR', () => {
+	it('falls back to English which is LTR', () => {
 		// Expect fallback which is English = LTR
 		expect(isRTL()).toBe(false)
 	})

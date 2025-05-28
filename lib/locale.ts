@@ -3,11 +3,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+const environmentLocale = Intl.DateTimeFormat().resolvedOptions().locale
+
 /**
  * Returns the user's locale
  */
 export function getLocale(): string {
-	return document.documentElement.dataset.locale || 'en'
+	return document.documentElement.dataset.locale || environmentLocale.replaceAll(/-/g, '_')
 }
 
 /**
@@ -15,14 +17,14 @@ export function getLocale(): string {
  * E.g. `en-US` instead of `en_US`
  */
 export function getCanonicalLocale(): string {
-	return getLocale().replace(/_/g, '-')
+	return getLocale().replaceAll(/_/g, '-')
 }
 
 /**
  * Returns the user's language
  */
 export function getLanguage(): string {
-	return document.documentElement.lang || 'en'
+	return document.documentElement.lang || navigator.language
 }
 
 /**
