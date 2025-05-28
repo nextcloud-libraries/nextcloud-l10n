@@ -212,7 +212,7 @@ export async function loadTranslations(appName: string, callback?: (bundle: AppT
 		throw new Error('Network error')
 	}
 
-	if (response.status >= 200 && response.status < 300) {
+	if (response.ok) {
 		try {
 			const bundle = await response.json()
 			if (typeof bundle.translations === 'object') {
