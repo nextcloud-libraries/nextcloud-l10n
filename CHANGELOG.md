@@ -6,11 +6,26 @@
 
 All notable changes to this project will be documented in this file.
 
-## UNRELEASED
+## 3.3.0 - 2025-05-29
 ### ℹ️ Notes
 - The Node version was increased to current LTS version 22.
 - The `callback` parameter of the `loadTranslations` method is deprecated.
   Instead just use the returned promise like `loadTranslations('app').then(callback)`.
+
+### 🚀 Enhancements
+* feat: add method to format relative time [#921](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/921) ([susnux](https://github.com/susnux))
+
+### 🐛 Fixed bugs
+* fix: export types used in gettext exports [#905](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/905) ([susnux](https://github.com/susnux))
+* fix(translations): use language instead of locale + refactor the `loadTranslations` method [#927](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/927) ([susnux](https://github.com/susnux))
+* fix(locale): fallback to device preferences instead of 'en' [#864](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/864) ([ShGKme](https://github.com/ShGKme))
+
+### Other changes
+* refactor: simplify `loadTranslations` [#928](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/928) ([susnux](https://github.com/susnux))
+* chore(deps): drop unnecessary @types/dompurify [#903](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/903) ([max-nextcloud](https://github.com/max-nextcloud))
+* docs(readme): update badges [#904](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/904) ([st3iny](https://github.com/st3iny))
+* chore(deps): Bump dompurify to 3.2.6
+* Bump development dependencies
 
 ## 3.2.0 - 2025-02-13
 ### ℹ️ Notes
