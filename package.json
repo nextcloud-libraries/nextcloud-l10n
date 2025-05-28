@@ -1,6 +1,6 @@
 {
   "name": "@nextcloud/l10n",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Nextcloud localization and translation helpers for apps and libraries",
   "keywords": [
     "nextcloud",
@@ -41,6 +41,7 @@
     "dev": "vite --mode development build --watch",
     "lint": "eslint .",
     "lint:fix": "eslint --fix lib tests",
+    "prerelease:format-changelog": "node build/format-changelog.mjs",
     "test": "LANG=en-US vitest run",
     "test:coverage": "LANG=en-US vitest run --coverage",
     "test:watch": "LANG=en-US vitest watch"
