@@ -2,9 +2,11 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 import type { AppTranslations, Translations } from './registry.ts'
+
 import { generateFilePath } from '@nextcloud/router'
-import { getLanguage, getLocale } from './locale.ts'
+import { getLanguage } from './locale.ts'
 import {
 	getAppTranslations,
 	hasAppTranslations,
@@ -178,52 +180,53 @@ export function translatePlural<T extends string, K extends string, >(
 /**
  * Load an app's translation bundle if not loaded already.
  *
- * @param {string} appName name of the app
- * @param {Function} callback callback to be called when
- * the translations are loaded
- * @return {Promise} promise
+ * @param appName - Name of the app to load
  */
-export function loadTranslations(appName: string, callback: (...args: []) => unknown) {
-	interface TranslationBundle {
-		translations: Translations
-		pluralForm: string
+export async function loadTranslations(appName: string): Promise<AppTranslations>
+/**
+ * Load an app's translation bundle if not loaded already.
+ *
+ * @param appName - Name of the app to load
+ * @param callback - Callback to be called when the translations are loaded
+ * @deprecated Use the returned promise instead
+ */
+export async function loadTranslations(appName: string, callback: (...args: []) => unknown): Promise<AppTranslations>
+/**
+ * Load an app's translation bundle if not loaded already.
+ *
+ * @param appName - Name of the app to load
+ * @param callback - Callback to be called when the translations are loaded (deprecated)
+ */
+export async function loadTranslations(appName: string, callback?: (bundle: AppTranslations) => void): Promise<AppTranslations> {
+	if (hasAppTranslations(appName) || getLanguage() === 'en') {
+		const bundle = getAppTranslations(appName)
+		callback?.(bundle)
+		return bundle
 	}
 
-	if (hasAppTranslations(appName) || getLocale() === 'en') {
-		return Promise.resolve().then(callback)
+	let response: Response
+	try {
+		const url = generateFilePath(appName, 'l10n', getLanguage() + '.json')
+		response = await fetch(url)
+	} catch (error) {
+		throw new Error('Network error')
 	}
 
-	const url = generateFilePath(appName, 'l10n', getLocale() + '.json')
-
-	const promise = new Promise<TranslationBundle>((resolve, reject) => {
-		const request = new XMLHttpRequest()
-		request.open('GET', url, true)
-		request.onerror = () => {
-			reject(new Error(request.statusText || 'Network error'))
-		}
-		request.onload = () => {
-			if (request.status >= 200 && request.status < 300) {
-				try {
-					const bundle = JSON.parse(request.responseText)
-					if (typeof bundle.translations === 'object') resolve(bundle)
-				} catch (error) {
-					// error is probably a SyntaxError due to invalid response text, this is handled by next line
-				}
-				reject(new Error('Invalid content of translation bundle'))
-			} else {
-				reject(new Error(request.statusText))
+	if (response.status >= 200 && response.status < 300) {
+		try {
+			const bundle = await response.json()
+			if (typeof bundle.translations === 'object') {
+				register(appName, bundle.translations)
+				callback?.(bundle)
+				return bundle
 			}
+		} catch (error) {
+			// error is probably a SyntaxError due to invalid response text, this is handled by next line
 		}
-		request.send()
-	})
-
-	// load JSON translation bundle per AJAX
-	return promise
-		.then((result) => {
-			register(appName, result.translations)
-			return result
-		})
-		.then(callback)
+		throw new Error('Invalid content of translation bundle')
+	} else {
+		throw new Error(response.statusText)
+	}
 }
 
 /**
