@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
 	getCanonicalLocale,
 	getLanguage,
@@ -19,10 +19,13 @@ describe('getLanguage', () => {
 		expect(getLanguage()).toEqual('de-DE')
 	})
 
-	it('returns the environment locale if no language is set', () => {
-		const environmentLocale = Intl.DateTimeFormat().resolvedOptions().locale
+	it('returns the navigator language if no language is set', () => {
+		const spy = vi.spyOn(navigator, 'language', 'get')
+		spy.mockImplementationOnce(() => 'ar-EG')
+
 		setLanguage('')
-		expect(getLanguage()).toEqual(environmentLocale)
+		expect(getLanguage()).toEqual('ar-EG')
+		expect(spy).toHaveBeenCalledOnce()
 	})
 })
 
@@ -33,9 +36,8 @@ describe('getLocale', () => {
 	})
 
 	it('returns the environment locale with underscore if no locale is set', () => {
-		const environmentLocale = Intl.DateTimeFormat().resolvedOptions().locale
 		setLocale('')
-		expect(getLocale()).toEqual(environmentLocale.replace(/-/g, '_'))
+		expect(getLocale()).toEqual(process.env.LANG?.replaceAll('-', '_'))
 	})
 })
 
@@ -45,10 +47,16 @@ describe('getCanonicalLocale', () => {
 		expect(getCanonicalLocale()).toEqual('de-DE')
 	})
 
+	it('returns the set locale with multiple hyphen', () => {
+		setLocale('az_Cyrl_AZ')
+		expect(getCanonicalLocale()).toEqual('az-Cyrl-AZ')
+	})
+
 	it('returns the environment locale with hyphen if no locale is set', () => {
-		const environmentLocale = Intl.DateTimeFormat().resolvedOptions().locale
+		expect(process.env.LANG).not.toBe('')
+
 		setLocale('')
-		expect(getCanonicalLocale()).toEqual(environmentLocale)
+		expect(getCanonicalLocale()).toEqual(process.env.LANG)
 	})
 })
 

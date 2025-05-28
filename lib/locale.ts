@@ -9,7 +9,7 @@ const environmentLocale = Intl.DateTimeFormat().resolvedOptions().locale
  * Returns the user's locale
  */
 export function getLocale(): string {
-	return document.documentElement.dataset.locale || environmentLocale.replace(/-/g, '_')
+	return document.documentElement.dataset.locale || environmentLocale.replaceAll(/-/g, '_')
 }
 
 /**
@@ -17,14 +17,14 @@ export function getLocale(): string {
  * E.g. `en-US` instead of `en_US`
  */
 export function getCanonicalLocale(): string {
-	return getLocale().replace(/_/g, '-')
+	return getLocale().replaceAll(/_/g, '-')
 }
 
 /**
  * Returns the user's language
  */
 export function getLanguage(): string {
-	return document.documentElement.lang || environmentLocale
+	return document.documentElement.lang || navigator.language
 }
 
 /**

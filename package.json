@@ -41,9 +41,9 @@
     "dev": "vite --mode development build --watch",
     "lint": "eslint .",
     "lint:fix": "eslint --fix lib tests",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest watch"
+    "test": "LANG=en-US vitest run",
+    "test:coverage": "LANG=en-US vitest run --coverage",
+    "test:watch": "LANG=en-US vitest watch"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
