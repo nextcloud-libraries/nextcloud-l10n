@@ -8,7 +8,9 @@ All notable changes to this project will be documented in this file.
 
 ## UNRELEASED
 ### ℹ️ Notes
-The Node version was increased to current LTS version 22.
+- The Node version was increased to current LTS version 22.
+- The `callback` parameter of the `loadTranslations` method is deprecated.
+  Instead just use the returned promise like `loadTranslations('app').then(callback)`.
 
 ## 3.2.0 - 2025-02-13
 ### ℹ️ Notes
