@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import type { NextcloudWindowWithRegistry } from '../lib/registry'
 import {
 	getPlural,
 	register,
@@ -14,14 +13,12 @@ import {
 	n,
 } from '../lib/translation'
 
-declare const window: NextcloudWindowWithRegistry
-
-const setLocale = (locale: string) => document.documentElement.setAttribute('data-locale', locale)
-const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
+const setLocale = (locale: string) => { globalThis._nc_l10n_locale = locale }
+const setLanguage = (lang: string) => { globalThis._nc_l10n_language = lang }
 
 describe('translate', () => {
 	const mockWindowDE = () => {
-		window._oc_l10n_registry_translations = {
+		globalThis._oc_l10n_registry_translations = {
 			core: {
 				'Hello world!': 'Hallo Welt!',
 				'Hello {name}': 'Hallo {name}',
@@ -35,7 +32,7 @@ describe('translate', () => {
 				],
 			},
 		}
-		window._oc_l10n_registry_plural_functions = {
+		globalThis._oc_l10n_registry_plural_functions = {
 			core: (t) => t === 1 ? 0 : 1,
 		}
 		setLocale('de')
@@ -108,19 +105,20 @@ describe('translate', () => {
 		expect(translation).toBe('Hallo <img src=x onerror=alert(1)//>')
 	})
 
-	it('with placeholder XSS sanitizing', () => {
-		const text = 'Hello {name}'
-		const translation = translate('core', text, { name: '<img src=x onerror=alert(1)//>' }, undefined, { escape: false })
-		expect(translation).toBe('Hallo <img src="x">')
-	})
-
 	it('with number as third parameter', () => {
 		const text = 'Number: %n'
 		const translation = translate('core', text, 4)
 		expect(translation).toBe('Number: 4')
 	})
 
-	it('with options as forth parameter', () => {
+	// DOMPurify only works with real DOM
+	it.skipIf(typeof globalThis.document === 'undefined')('with placeholder XSS sanitizing', () => {
+		const text = 'Hello {name}'
+		const translation = translate('core', text, { name: '<img src=x onerror=alert(1)//>' }, undefined, { escape: false })
+		expect(translation).toBe('Hallo <img src="x">')
+	})
+
+	it.skipIf(typeof globalThis.document === 'undefined')('with options as forth parameter', () => {
 		const text = 'Hello {name}'
 		const translation = translate('core', text, { name: '<img src=x onerror=alert(1)//>' }, { escape: false })
 		expect(translation).toBe('Hallo <img src="x">')
@@ -213,8 +211,8 @@ describe('translate', () => {
 describe('register', () => {
 	beforeEach(() => {
 		setLocale('de_DE')
-		window._oc_l10n_registry_translations = undefined
-		window._oc_l10n_registry_plural_functions = undefined
+		globalThis._oc_l10n_registry_translations = {}
+		globalThis._oc_l10n_registry_plural_functions = {}
 	})
 
 	it('with blank registry', () => {
@@ -228,12 +226,12 @@ describe('register', () => {
 	})
 
 	it('extend registered translations', () => {
-		window._oc_l10n_registry_translations = {
+		globalThis._oc_l10n_registry_translations = {
 			app: {
 				Application: 'Anwendung',
 			},
 		}
-		window._oc_l10n_registry_plural_functions = {
+		globalThis._oc_l10n_registry_plural_functions = {
 			app: (t) => t === 1 ? 0 : 1,
 		}
 		register('app', {
@@ -244,12 +242,12 @@ describe('register', () => {
 	})
 
 	it('extend with another new app', () => {
-		window._oc_l10n_registry_translations = {
+		globalThis._oc_l10n_registry_translations = {
 			core: {
 				'Hello world!': 'Hallo Welt!',
 			},
 		}
-		window._oc_l10n_registry_plural_functions = {
+		globalThis._oc_l10n_registry_plural_functions = {
 			core: (t) => t === 1 ? 0 : 1,
 		}
 		register('app', {
@@ -260,8 +258,8 @@ describe('register', () => {
 	})
 
 	it('unregister', () => {
-		window._oc_l10n_registry_translations = {}
-		window._oc_l10n_registry_plural_functions = {}
+		globalThis._oc_l10n_registry_translations = {}
+		globalThis._oc_l10n_registry_plural_functions = {}
 		register('app', {
 			Application: 'Anwendung',
 		})
@@ -271,6 +269,11 @@ describe('register', () => {
 })
 
 describe('getPlural', () => {
+	beforeEach(() => {
+		globalThis._oc_l10n_registry_translations = {}
+		globalThis._oc_l10n_registry_plural_functions = {}
+	})
+
 	it('handles single form language like Azerbaijani', () => {
 		setLanguage('az')
 		expect(getPlural(0)).toBe(0)
