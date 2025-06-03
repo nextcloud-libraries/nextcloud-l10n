@@ -9,7 +9,7 @@ beforeEach(() => vi.resetModules())
 
 describe('getLanguage', () => {
 	it('returns the set language as it is', async () => {
-		setLanguage('de-DE')
+		mockLanguage('de-DE')
 		expect(await getLanguage()).toEqual('de-DE')
 	})
 
@@ -17,39 +17,67 @@ describe('getLanguage', () => {
 		const spy = vi.spyOn(navigator, 'language', 'get')
 		spy.mockImplementationOnce(() => 'ar-EG')
 
-		setLanguage(undefined)
+		mockLanguage(undefined)
 		expect(await getLanguage()).toEqual('ar-EG')
 		expect(spy).toHaveBeenCalledOnce()
 	})
 })
 
+describe('setLanguage', () => {
+	it('does set the global state', async () => {
+		mockLanguage('de')
+		await setLanguage('ar')
+		expect(globalThis._nc_l10n_language).toBe('ar')
+	})
+
+	it.skipIf(typeof globalThis.document === 'undefined')('does set the DOM attribute', async () => {
+		mockLanguage('de')
+		await setLanguage('ar')
+		expect(document.documentElement.lang).toBe('ar')
+	})
+})
+
 describe('getLocale', () => {
 	it('returns the set locale as it is with underscore', async () => {
-		setLocale('de_DE')
+		mockLocale('de_DE')
 		expect(await getLocale()).toEqual('de_DE')
 	})
 
 	it('returns the environment locale with underscore if no locale is set', async () => {
-		setLocale(undefined)
+		mockLocale(undefined)
 		expect(await getLocale()).toEqual(process.env.LANG?.replaceAll('-', '_').split('.')[0])
+	})
+})
+
+describe('setLocale', () => {
+	it('does set the global state', async () => {
+		mockLocale('de_DE')
+		await setLocale('ar')
+		expect(globalThis._nc_l10n_locale).toBe('ar')
+	})
+
+	it.skipIf(typeof globalThis.document === 'undefined')('does set the DOM attribute', async () => {
+		mockLocale('de_DE')
+		await setLocale('ar')
+		expect(document.documentElement.dataset.locale).toBe('ar')
 	})
 })
 
 describe('getCanonicalLocale', () => {
 	it('returns the set locale with hyphen', async () => {
-		setLocale('de_DE')
+		mockLocale('de_DE')
 		expect(await getCanonicalLocale()).toEqual('de-DE')
 	})
 
 	it('returns the set locale with multiple hyphen', async () => {
-		setLocale('az_Cyrl_AZ')
+		mockLocale('az_Cyrl_AZ')
 		expect(await getCanonicalLocale()).toEqual('az-Cyrl-AZ')
 	})
 
 	it('returns the environment locale with hyphen if no locale is set', async () => {
 		expect(process.env.LANG).toBeTruthy()
 
-		setLocale(undefined)
+		mockLocale(undefined)
 		expect(await getCanonicalLocale()).toEqual(process.env.LANG!.split('.')[0])
 	})
 })
@@ -69,11 +97,24 @@ async function getLanguage() {
 	return getLanguage()
 }
 
-function setLanguage(lang?: string) {
+async function setLocale(locale: string) {
+	const { setLocale } = await import('../lib/locale.ts')
+	return setLocale(locale)
+}
+
+async function setLanguage(language: string) {
+	const { setLanguage } = await import('../lib/locale.ts')
+	return setLanguage(language)
+}
+
+function mockLanguage(lang?: string) {
 	// @ts-expect-error - Mocking global state
 	globalThis._nc_l10n_language = lang
 }
-function setLocale(locale?: string) {
+function mockLocale(locale?: string) {
 	// @ts-expect-error - Mocking global state
 	globalThis._nc_l10n_locale = locale
+	if (typeof globalThis.document !== 'undefined') {
+		delete globalThis.document.documentElement.dataset.locale
+	}
 }

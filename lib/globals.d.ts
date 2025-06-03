@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/* eslint-disable no-var, camelcase */
+/* eslint-disable camelcase */
 
 import type { PluralFunction, Translations } from './registry.ts'
 

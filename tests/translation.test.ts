@@ -3,9 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { NextcloudWindowWithRegistry } from '../lib/registry.ts'
-
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { setLanguage, setLocale } from '../lib/locale.ts'
 import {
 	getPlural,
 	n,
@@ -15,9 +14,6 @@ import {
 	translatePlural,
 	unregister,
 } from '../lib/translation.ts'
-
-const setLocale = (locale: string) => { globalThis._nc_l10n_locale = locale }
-const setLanguage = (lang: string) => { globalThis._nc_l10n_language = lang }
 
 describe('translate', () => {
 	const mockWindowDE = () => {

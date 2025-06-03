@@ -8,20 +8,12 @@ import type { SetupServerApi } from 'msw/node'
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { setLanguage } from '../lib/locale.ts'
 import { loadTranslations, register, translate, unregister } from '../lib/translation.ts'
 
 vi.mock('@nextcloud/router', () => ({
 	generateFilePath: (app: string, type: string, path: string) => `http://localhost/${app}/${type}/${path}`,
 }))
-
-/**
- * Mock the langauge
- *
- * @param lang - The language to mock
- */
-function setLanguage(lang: string): void {
-	globalThis._nc_l10n_language = lang
-}
 
 const requestHandlers = [
 	http.get('http://localhost/myapp/l10n/de.json', () => HttpResponse.json({
