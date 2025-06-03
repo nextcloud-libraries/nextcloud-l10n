@@ -64,7 +64,7 @@ export function translate<T extends string>(app: string, text: T, placeholders?:
  * @param optionsOrNumber the translation options or a number to replace `%n` with
  * @param options options object
  * @param options.escape enable/disable auto escape of placeholders (by default enabled)
- * @param options.sanitize enable/disable sanitization (by default enabled)
+ * @param options.sanitize enable/disable sanitization (by default enabled) [WARNING: This only work in DOM environment!]
  */
 export function translate<T extends string>(
 	app: string,
@@ -93,7 +93,7 @@ export function translate<T extends string>(
 	}
 
 	const identity = <T, >(value: T): T => value
-	const optSanitize = allOptions.sanitize ? DOMPurify.sanitize : identity
+	const optSanitize = (allOptions.sanitize ? DOMPurify.sanitize : identity) || identity
 	const optEscape = allOptions.escape ? escapeHTML : identity
 
 	const isValidReplacement = (value: unknown) => typeof value === 'string' || typeof value === 'number'
