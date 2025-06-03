@@ -5,8 +5,7 @@
 import { po } from 'gettext-parser'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getGettextBuilder } from '../lib/gettext.ts'
-
-const setLanguage = (lang: string) => { globalThis._nc_l10n_language = lang }
+import { setLanguage } from '../lib/locale.ts'
 
 describe('gettext', () => {
 	beforeEach(() => {

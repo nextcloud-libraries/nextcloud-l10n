@@ -12,9 +12,7 @@ import {
 	t,
 	n,
 } from '../lib/translation'
-
-const setLocale = (locale: string) => { globalThis._nc_l10n_locale = locale }
-const setLanguage = (lang: string) => { globalThis._nc_l10n_language = lang }
+import { setLanguage, setLocale } from '../lib'
 
 describe('translate', () => {
 	const mockWindowDE = () => {

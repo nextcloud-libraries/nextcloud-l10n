@@ -4,9 +4,7 @@
  */
 
 import { beforeEach, describe, expect, it } from 'vitest'
-import { isRTL } from '../lib/locale'
-
-const setLanguage = (lang: string) => { globalThis._nc_l10n_language = lang }
+import { isRTL, setLanguage } from '../lib/locale'
 
 describe('isRTL', () => {
 	beforeEach(() => { globalThis._nc_l10n_locale = 'en' })

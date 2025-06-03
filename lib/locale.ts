@@ -19,6 +19,22 @@ export function getCanonicalLocale(): string {
 }
 
 /**
+ * Set the current user's language (locally).
+ * This is to be used only for e.g. usage within web workers etc.
+ *
+ * @param locale - The new language code
+ * @since 3.4.0
+ */
+export function setLocale(locale: string): void {
+	globalThis._nc_l10n_locale = locale
+
+	// also for browsers set the DOM
+	if (typeof document !== 'undefined') {
+		document.documentElement.dataset.locale = locale
+	}
+}
+
+/**
  * Returns the user's language
  */
 export function getLanguage(): string {
@@ -27,8 +43,10 @@ export function getLanguage(): string {
 
 /**
  * Set the current user's language (locally).
+ * This is to be used only for e.g. usage within web workers etc.
  *
  * @param lang - The new language code
+ * @since 3.4.0
  */
 export function setLanguage(lang: string): void {
 	globalThis._nc_l10n_language = lang

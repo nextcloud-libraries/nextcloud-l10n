@@ -4,9 +4,7 @@
  */
 
 import { beforeAll, beforeEach, describe, expect, it, test, vi } from 'vitest'
-import { formatRelativeTime } from '../lib'
-
-const setLanguage = (lang: string) => { globalThis._nc_l10n_language = lang }
+import { formatRelativeTime, setLanguage } from '../lib'
 
 describe('time - formatRelativeTime', () => {
 
