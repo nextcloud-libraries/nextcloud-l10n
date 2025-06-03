@@ -10,46 +10,43 @@ import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { loadTranslations, register, translate, unregister } from '../lib/translation.ts'
 
-const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
+vi.mock('@nextcloud/router', () => ({
+	generateFilePath: (app: string, type: string, path: string) => `http://localhost/${app}/${type}/${path}`,
+}))
+
+/**
+ * Mock the langauge
+ *
+ * @param lang - The language to mock
+ */
+function setLanguage(lang: string): void {
+	globalThis._nc_l10n_language = lang
+}
 
 const requestHandlers = [
-	http.get('/myapp/l10n/de.json', () => HttpResponse.json({
+	http.get('http://localhost/myapp/l10n/de.json', () => HttpResponse.json({
 		translations: {
 			'Hello world!': 'Hallo Welt!',
 		},
 	})),
 	// Response with empty body
-	http.get('/empty/l10n/de.json', () => HttpResponse.json()),
+	http.get('http://localhost/empty/l10n/de.json', () => HttpResponse.json()),
 	// Response contains JSON but no translations
-	http.get('/missing-bundle/l10n/de.json', () => HttpResponse.json({})),
+	http.get('http://localhost/missing-bundle/l10n/de.json', () => HttpResponse.json({})),
 	// Response contains JSON but the translations are invalid
-	http.get('/invalid/l10n/de.json', () => HttpResponse.json({
+	http.get('http://localhost/invalid/l10n/de.json', () => HttpResponse.json({
 		translations: 'invalid',
 	})),
 	// errors
-	http.get('/404/l10n/de.json', () => HttpResponse.json({}, { status: 404 })),
-	http.get('/500/l10n/de.json', () => HttpResponse.json({}, { status: 500 })),
-	http.get('/networkissue/l10n/de.json', () => HttpResponse.error()),
+	http.get('http://localhost/404/l10n/de.json', () => HttpResponse.json({}, { status: 404 })),
+	http.get('http://localhost/500/l10n/de.json', () => HttpResponse.json({}, { status: 500 })),
+	http.get('http://localhost/networkissue/l10n/de.json', () => HttpResponse.error()),
 ]
 
 const server: SetupServerApi = setupServer(...requestHandlers)
 
 describe('loadTranslations', () => {
 	beforeAll(() => {
-		// Mock some server state
-
-		(window as any)._oc_webroot = '';
-
-		(window as any)._oc_appswebroots = {
-			404: '/404',
-			500: '/500',
-			empty: '/empty',
-			invalid: '/invalid',
-			'missing-bundle': '/missing-bundle',
-			myapp: '/myapp',
-			networkissue: '/networkissue',
-		}
-
 		server.listen({ onUnhandledRequest: 'error' })
 	})
 
@@ -160,6 +157,6 @@ describe('loadTranslations', () => {
 	})
 
 	it('does reject on empty response', async () => {
-		expect(() => loadTranslations('empty')).rejects.toThrowErrorMatchingInlineSnapshot('[Error: Invalid content of translation bundle]')
+		await expect(() => loadTranslations('empty')).rejects.toThrowErrorMatchingInlineSnapshot('[Error: Invalid content of translation bundle]')
 	})
 })

@@ -6,7 +6,7 @@
 import { beforeAll, beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { formatRelativeTime } from '../lib/time.ts'
 
-const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
+const setLanguage = (lang: string) => { globalThis._nc_l10n_language = lang }
 
 describe('time - formatRelativeTime', () => {
 	beforeAll(() => {

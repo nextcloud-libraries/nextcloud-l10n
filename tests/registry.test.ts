@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { NextcloudWindowWithRegistry } from '../lib/registry.ts'
-
 import { afterEach, beforeAll, beforeEach, describe, expect, it, test } from 'vitest'
 import {
 	getAppTranslations,
@@ -13,29 +11,7 @@ import {
 	unregisterAppTranslations,
 } from '../lib/registry.ts'
 
-declare const window: NextcloudWindowWithRegistry
-
-function clearWindow() {
-	delete window._oc_l10n_registry_plural_functions
-	delete window._oc_l10n_registry_translations
-}
-
 const pluralFunction = (number: number) => (number > 1 ? 1 : 0)
-
-function mockWindow() {
-	window._oc_l10n_registry_plural_functions = {
-		core: pluralFunction,
-	}
-	window._oc_l10n_registry_translations = {
-		core: {
-			foo: 'foo',
-			'_%n bar_::_%n bars_': [
-				'%n bar',
-				'%n bars',
-			],
-		},
-	}
-}
 
 describe('registry', () => {
 	beforeAll(clearWindow)
@@ -50,7 +26,7 @@ describe('registry', () => {
 		expect(hasAppTranslations('doesnotexist')).toBe(false)
 
 		// not fully initialized registry
-		delete window._oc_l10n_registry_plural_functions
+		globalThis._oc_l10n_registry_plural_functions = {}
 		expect(hasAppTranslations('core')).toBe(false)
 	})
 
@@ -90,16 +66,16 @@ describe('registry', () => {
 			mockWindow()
 
 			expect(() => unregisterAppTranslations('doesnotexist')).not.toThrowError()
-			expect(window._oc_l10n_registry_plural_functions?.core).toBe(pluralFunction)
-			expect(Object.keys(window._oc_l10n_registry_translations?.core || {}).length > 0).toBe(true)
+			expect(globalThis._oc_l10n_registry_plural_functions?.core).toBe(pluralFunction)
+			expect(Object.keys(globalThis._oc_l10n_registry_translations?.core || {}).length > 0).toBe(true)
 		})
 
 		it('works with registered app', () => {
 			mockWindow()
 
 			expect(() => unregisterAppTranslations('core')).not.toThrowError()
-			expect(window._oc_l10n_registry_plural_functions?.core).toBe(undefined)
-			expect(window._oc_l10n_registry_translations?.core).toBe(undefined)
+			expect(globalThis._oc_l10n_registry_plural_functions?.core).toBe(undefined)
+			expect(globalThis._oc_l10n_registry_translations?.core).toBe(undefined)
 		})
 	})
 
@@ -111,8 +87,8 @@ describe('registry', () => {
 				foo: 'foo',
 			}
 			expect(() => registerAppTranslations('myapp', translations, pluralFunction)).not.toThrowError()
-			expect(window._oc_l10n_registry_translations?.myapp).toMatchObject(translations)
-			expect(window._oc_l10n_registry_plural_functions?.myapp).toBe(pluralFunction)
+			expect(globalThis._oc_l10n_registry_translations?.myapp).toMatchObject(translations)
+			expect(globalThis._oc_l10n_registry_plural_functions?.myapp).toBe(pluralFunction)
 		})
 
 		it('works with new app', () => {
@@ -122,11 +98,11 @@ describe('registry', () => {
 				foo: 'foo',
 			}
 			expect(() => registerAppTranslations('myapp', translations, pluralFunction)).not.toThrowError()
-			expect(window._oc_l10n_registry_translations?.myapp).toMatchObject(translations)
-			expect(window._oc_l10n_registry_plural_functions?.myapp).toBe(pluralFunction)
+			expect(globalThis._oc_l10n_registry_translations?.myapp).toMatchObject(translations)
+			expect(globalThis._oc_l10n_registry_plural_functions?.myapp).toBe(pluralFunction)
 			// Unchanged other apps
-			expect(Object.keys(window._oc_l10n_registry_translations?.core || {}).length > 0).toBe(true)
-			expect(window._oc_l10n_registry_plural_functions?.core).toBe(pluralFunction)
+			expect(Object.keys(globalThis._oc_l10n_registry_translations?.core || {}).length > 0).toBe(true)
+			expect(globalThis._oc_l10n_registry_plural_functions?.core).toBe(pluralFunction)
 		})
 
 		it('works with already registered app', () => {
@@ -135,12 +111,32 @@ describe('registry', () => {
 			}
 			mockWindow()
 
-			const numBefore = Object.keys(window._oc_l10n_registry_translations!.core).length
+			const numBefore = Object.keys(globalThis._oc_l10n_registry_translations!.core).length
 
 			expect(() => registerAppTranslations('core', newTranslations, pluralFunction)).not.toThrowError()
 
-			expect(Object.keys(window._oc_l10n_registry_translations!.core).length).toBe(numBefore + 1)
-			expect(window._oc_l10n_registry_plural_functions?.core).toBe(pluralFunction)
+			expect(Object.keys(globalThis._oc_l10n_registry_translations!.core).length).toBe(numBefore + 1)
+			expect(globalThis._oc_l10n_registry_plural_functions?.core).toBe(pluralFunction)
 		})
 	})
 })
+
+function mockWindow() {
+	globalThis._oc_l10n_registry_plural_functions = {
+		core: pluralFunction,
+	}
+	globalThis._oc_l10n_registry_translations = {
+		core: {
+			foo: 'foo',
+			'_%n bar_::_%n bars_': [
+				'%n bar',
+				'%n bars',
+			],
+		},
+	}
+}
+
+function clearWindow() {
+	globalThis._oc_l10n_registry_plural_functions = {}
+	globalThis._oc_l10n_registry_translations = {}
+}

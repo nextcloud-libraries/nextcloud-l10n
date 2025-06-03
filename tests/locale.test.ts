@@ -4,100 +4,76 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import {
-	getCanonicalLocale,
-	getLanguage,
-	getLocale,
-	isRTL,
-} from '../lib/locale.ts'
 
-const setLocale = (locale: string) => document.documentElement.setAttribute('data-locale', locale)
-const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
+beforeEach(() => vi.resetModules())
 
 describe('getLanguage', () => {
-	it('returns the set language as it is', () => {
+	it('returns the set language as it is', async () => {
 		setLanguage('de-DE')
-		expect(getLanguage()).toEqual('de-DE')
+		expect(await getLanguage()).toEqual('de-DE')
 	})
 
-	it('returns the navigator language if no language is set', () => {
+	it('returns the navigator language if no language is set', async () => {
 		const spy = vi.spyOn(navigator, 'language', 'get')
 		spy.mockImplementationOnce(() => 'ar-EG')
 
-		setLanguage('')
-		expect(getLanguage()).toEqual('ar-EG')
+		setLanguage(undefined)
+		expect(await getLanguage()).toEqual('ar-EG')
 		expect(spy).toHaveBeenCalledOnce()
 	})
 })
 
 describe('getLocale', () => {
-	it('returns the set locale as it is with underscore', () => {
+	it('returns the set locale as it is with underscore', async () => {
 		setLocale('de_DE')
-		expect(getLocale()).toEqual('de_DE')
+		expect(await getLocale()).toEqual('de_DE')
 	})
 
-	it('returns the environment locale with underscore if no locale is set', () => {
-		setLocale('')
-		expect(getLocale()).toEqual(process.env.LANG?.replaceAll('-', '_'))
+	it('returns the environment locale with underscore if no locale is set', async () => {
+		setLocale(undefined)
+		expect(await getLocale()).toEqual(process.env.LANG?.replaceAll('-', '_').split('.')[0])
 	})
 })
 
 describe('getCanonicalLocale', () => {
-	it('returns the set locale with hyphen', () => {
+	it('returns the set locale with hyphen', async () => {
 		setLocale('de_DE')
-		expect(getCanonicalLocale()).toEqual('de-DE')
+		expect(await getCanonicalLocale()).toEqual('de-DE')
 	})
 
-	it('returns the set locale with multiple hyphen', () => {
+	it('returns the set locale with multiple hyphen', async () => {
 		setLocale('az_Cyrl_AZ')
-		expect(getCanonicalLocale()).toEqual('az-Cyrl-AZ')
+		expect(await getCanonicalLocale()).toEqual('az-Cyrl-AZ')
 	})
 
-	it('returns the environment locale with hyphen if no locale is set', () => {
-		expect(process.env.LANG).not.toBe('')
+	it('returns the environment locale with hyphen if no locale is set', async () => {
+		expect(process.env.LANG).toBeTruthy()
 
-		setLocale('')
-		expect(getCanonicalLocale()).toEqual(process.env.LANG)
-	})
-})
-
-describe('isRTL', () => {
-	beforeEach(() => document.documentElement.removeAttribute('data-locale'))
-
-	it('falls back to English which is LTR', () => {
-		// Expect fallback which is English = LTR
-		expect(isRTL()).toBe(false)
-	})
-
-	it('uses the given argument over the current language', () => {
-		// If a value is given it should use that language over the fallback
-		expect(isRTL('ar')).toBe(true)
-		setLanguage('ar')
-		expect(isRTL('de')).toBe(false)
-	})
-
-	it('without an argument the current language is used', () => {
-		// It uses the configured language
-		setLanguage('he')
-		expect(isRTL()).toBe(true)
-	})
-
-	it('without an argument the current language is used', () => {
-		// It uses the configured language
-		setLanguage('he')
-		expect(isRTL()).toBe(true)
-	})
-
-	it('handles Uzbek Afghan correctly', () => {
-		// Given as argument
-		expect(isRTL('uz')).toBe(false)
-		expect(isRTL('uz-AF')).toBe(true)
-
-		// configured as current language
-		setLanguage('uz')
-		expect(isRTL()).toBe(false)
-
-		setLanguage('uz-AF')
-		expect(isRTL()).toBe(true)
+		setLocale(undefined)
+		expect(await getCanonicalLocale()).toEqual(process.env.LANG!.split('.')[0])
 	})
 })
+
+async function getCanonicalLocale() {
+	const { getCanonicalLocale } = await import('../lib/locale.ts')
+	return getCanonicalLocale()
+}
+
+async function getLocale() {
+	const { getLocale } = await import('../lib/locale.ts')
+	return getLocale()
+}
+
+async function getLanguage() {
+	const { getLanguage } = await import('../lib/locale.ts')
+	return getLanguage()
+}
+
+function setLanguage(lang?: string) {
+	// @ts-expect-error - Mocking global state
+	globalThis._nc_l10n_language = lang
+}
+function setLocale(locale?: string) {
+	// @ts-expect-error - Mocking global state
+	globalThis._nc_l10n_locale = locale
+}

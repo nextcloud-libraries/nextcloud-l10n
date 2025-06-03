@@ -19,6 +19,11 @@ export default createLibConfig(
 		config: defineConfig({
 			test: {
 				environment: 'jsdom',
+				environmentOptions: {
+					jsdom: {
+						url: 'http://localhost',
+					},
+				},
 				coverage: {
 					reporter: ['text', 'lcov'],
 				},
