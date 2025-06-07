@@ -1,5 +1,3 @@
-/// <reference types="@nextcloud/typings" />
-
 /*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -33,19 +31,6 @@ export type Translations = Record<string, string | string[] | undefined>
  */
 export type PluralFunction = (number: number) => number
 
-/**
- * Extended window interface with translation registry
- * Exported just for internal testing purpose
- *
- * @private
- */
-export interface NextcloudWindowWithRegistry extends Nextcloud.v27.WindowWithGlobals {
-	_oc_l10n_registry_translations?: Record<string, Translations>
-	_oc_l10n_registry_plural_functions?: Record<string, PluralFunction>
-}
-
-declare const window: NextcloudWindowWithRegistry
-
 export interface AppTranslations {
 	translations: Translations
 	pluralFunction: PluralFunction
@@ -54,66 +39,61 @@ export interface AppTranslations {
 /**
  * Check if translations and plural function are set for given app
  *
- * @param {string} appId the app id
- * @return {boolean}
+ * @param appId - The app id
  */
-export function hasAppTranslations(appId: string) {
+export function hasAppTranslations(appId: string): boolean {
 	return (
-		window._oc_l10n_registry_translations?.[appId] !== undefined
-		&& window._oc_l10n_registry_plural_functions?.[appId] !== undefined
+		appId in globalThis._oc_l10n_registry_translations
+		&& appId in globalThis._oc_l10n_registry_plural_functions
 	)
 }
 
 /**
  * Register new, or extend available, translations for an app
  *
- * @param {string} appId the app id
- * @param {object} translations the translations list
- * @param {Function} pluralFunction the plural function
+ * @param appId - The app id
+ * @param translations - The translations list
+ * @param pluralFunction - The plural function
  */
 export function registerAppTranslations(
 	appId: string,
 	translations: Translations,
 	pluralFunction: PluralFunction,
-) {
+): void {
 	if (appId === '__proto__' || appId === 'constructor' || appId === 'prototype') {
 		throw new Error('Invalid appId')
 	}
 
-	window._oc_l10n_registry_translations = Object.assign(
-		window._oc_l10n_registry_translations || {},
-		{
-			[appId]: Object.assign(window._oc_l10n_registry_translations?.[appId] || {}, translations),
-		},
-	)
+	globalThis._oc_l10n_registry_translations[appId] = {
+		...(globalThis._oc_l10n_registry_translations[appId] || {}),
+		...translations,
+	}
 
-	window._oc_l10n_registry_plural_functions = Object.assign(
-		window._oc_l10n_registry_plural_functions || {},
-		{
-			[appId]: pluralFunction,
-		},
-	)
+	globalThis._oc_l10n_registry_plural_functions[appId] = pluralFunction
 }
 
 /**
  * Unregister all translations and plural function for given app
  *
- * @param {string} appId the app id
+ * @param appId - The app id
  */
-export function unregisterAppTranslations(appId: string) {
-	delete window._oc_l10n_registry_translations?.[appId]
-	delete window._oc_l10n_registry_plural_functions?.[appId]
+export function unregisterAppTranslations(appId: string): void {
+	delete globalThis._oc_l10n_registry_translations[appId]
+	delete globalThis._oc_l10n_registry_plural_functions[appId]
 }
 
 /**
  * Get translations bundle for given app and current locale
  *
- * @param {string} appId the app id
- * @return {object}
+ * @param appId - The app id
  */
 export function getAppTranslations(appId: string): AppTranslations {
 	return {
-		translations: window._oc_l10n_registry_translations?.[appId] ?? {},
-		pluralFunction: window._oc_l10n_registry_plural_functions?.[appId] ?? ((number: number) => number),
+		translations: globalThis._oc_l10n_registry_translations[appId] ?? {},
+		pluralFunction: globalThis._oc_l10n_registry_plural_functions[appId] ?? ((number: number) => number),
 	}
 }
+
+// Initialize global state if needed
+globalThis._oc_l10n_registry_translations ??= {}
+globalThis._oc_l10n_registry_plural_functions ??= {}
