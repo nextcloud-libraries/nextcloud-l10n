@@ -63,7 +63,7 @@
     "@types/escape-html": "^1.0.4",
     "@types/gettext-parser": "^8.0.0",
     "@types/node": "^22.15.30",
-    "@vitest/coverage-v8": "^3.2.3",
+    "@vitest/coverage-v8": "^3.2.4",
     "gettext-parser": "^8.0.0",
     "jsdom": "^26.1.0",
     "msw": "^2.10.2",
