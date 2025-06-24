@@ -4,9 +4,7 @@
  */
 
 import { beforeAll, beforeEach, describe, expect, it, test, vi } from 'vitest'
-import { formatRelativeTime } from '../lib'
-
-const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
+import { formatRelativeTime, setLanguage } from '../lib'
 
 describe('time - formatRelativeTime', () => {
 
