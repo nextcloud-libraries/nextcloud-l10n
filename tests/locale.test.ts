@@ -1,14 +1,15 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
 	getCanonicalLocale,
 	getLanguage,
 	getLocale,
 	isRTL,
-} from '../lib/locale'
+} from '../lib/locale.ts'
 
 const setLocale = (locale: string) => document.documentElement.setAttribute('data-locale', locale)
 const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)

@@ -37,33 +37,33 @@ export function isRTL(language?: string): boolean {
 
 	// Source: https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
 	const rtlLanguages = [
-		/* eslint-disable no-multi-spaces */
-		'ae',  // Avestan
-		'ar',  // 'العربية', Arabic
+
+		'ae', // Avestan
+		'ar', // 'العربية', Arabic
 		'arc', // Aramaic
 		'arz', // 'مصرى', Egyptian
 		'bcc', // 'بلوچی مکرانی', Southern Balochi
 		'bqi', // 'بختياري', Bakthiari
 		'ckb', // 'Soranî / کوردی', Sorani
-		'dv',  // Dhivehi
-		'fa',  // 'فارسی', Persian
+		'dv', // Dhivehi
+		'fa', // 'فارسی', Persian
 		'glk', // 'گیلکی', Gilaki
-		'ha',  // 'هَوُسَ', Hausa
-		'he',  // 'עברית', Hebrew
+		'ha', // 'هَوُسَ', Hausa
+		'he', // 'עברית', Hebrew
 		'khw', // 'کھوار', Khowar
-		'ks',  // 'कॉशुर / کٲشُر', Kashmiri
-		'ku',  // 'Kurdî / كوردی', Kurdish
+		'ks', // 'कॉशुर / کٲشُر', Kashmiri
+		'ku', // 'Kurdî / كوردی', Kurdish
 		'mzn', // 'مازِرونی', Mazanderani
 		'nqo', // 'ߒߞߏ', N’Ko
 		'pnb', // 'پنجابی', Western Punjabi
-		'ps',  // 'پښتو', Pashto,
-		'sd',  // 'سنڌي', Sindhi
-		'ug',  // 'Uyghurche / ئۇيغۇرچە', Uyghur
-		'ur',    // 'اردو', Urdu
+		'ps', // 'پښتو', Pashto,
+		'sd', // 'سنڌي', Sindhi
+		'ug', // 'Uyghurche / ئۇيغۇرچە', Uyghur
+		'ur', // 'اردو', Urdu
 		'ur-PK', // 'اردو', Urdu (nextcloud BCP47 variant)
 		'uz-AF', // 'اوزبیکی', Uzbek Afghan
-		'yi',    // 'ייִדיש', Yiddish
-		/* eslint-enable no-multi-spaces */
+		'yi', // 'ייִדיש', Yiddish
+
 	]
 
 	return rtlLanguages.includes(languageCode)

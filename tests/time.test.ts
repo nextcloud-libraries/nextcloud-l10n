@@ -4,12 +4,11 @@
  */
 
 import { beforeAll, beforeEach, describe, expect, it, test, vi } from 'vitest'
-import { formatRelativeTime } from '../lib'
+import { formatRelativeTime } from '../lib/time.ts'
 
 const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
 
 describe('time - formatRelativeTime', () => {
-
 	beforeAll(() => {
 		vi.useFakeTimers({ now: new Date('2025-01-01T00:00:00Z') })
 	})
@@ -60,5 +59,4 @@ describe('time - formatRelativeTime', () => {
 		setLanguage('de')
 		expect(formatRelativeTime(new Date('2024-12-31T23:58:00Z'), { language: 'en' })).toBe('2 minutes ago')
 	})
-
 })

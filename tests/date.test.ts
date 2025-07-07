@@ -1,15 +1,16 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /// <reference types="@nextcloud/typings" />
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import type { Mocked } from 'vitest'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getDayNames, getDayNamesMin, getDayNamesShort, getFirstDay, getMonthNames, getMonthNamesShort } from '../lib/date'
-import * as localeModule from '../lib/locale'
 
-vi.mock('../lib/locale')
+import type { Mocked } from 'vitest'
+
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { getDayNames, getDayNamesMin, getDayNamesShort, getFirstDay, getMonthNames, getMonthNamesShort } from '../lib/date.ts'
+import * as localeModule from '../lib/locale.ts'
+
+vi.mock('../lib/locale.ts')
 const { getCanonicalLocale } = localeModule as Mocked<typeof localeModule>
 
 declare let window: Nextcloud.v24.WindowWithGlobals
@@ -33,7 +34,7 @@ describe('date', () => {
 		const originalWeekInfoDescriptor = Object.getOwnPropertyDescriptor(Intl.Locale.prototype, 'weekInfo')!
 
 		beforeEach(() => {
-			// @ts-ignore
+			// @ts-expect-error - Mocking for tests
 			delete window.firstDay
 		})
 
@@ -83,7 +84,7 @@ describe('date', () => {
 
 	describe('getDayNames', () => {
 		afterEach(() => {
-			// @ts-ignore
+			// @ts-expect-error - Mocking for tests
 			delete window.dayNames
 		})
 
@@ -105,7 +106,7 @@ describe('date', () => {
 
 	describe('getDayNamesShort', () => {
 		afterEach(() => {
-			// @ts-ignore
+			// @ts-expect-error - Mocking for tests
 			delete window.dayNamesShort
 		})
 
@@ -127,7 +128,7 @@ describe('date', () => {
 
 	describe('getDayNamesMin', () => {
 		afterEach(() => {
-			// @ts-ignore
+			// @ts-expect-error - Mocking for tests
 			delete window.dayNamesMin
 		})
 
@@ -149,7 +150,7 @@ describe('date', () => {
 
 	describe('getMonthNames', () => {
 		afterEach(() => {
-			// @ts-ignore
+			// @ts-expect-error - Mocking for tests
 			delete window.monthNames
 		})
 
@@ -171,7 +172,7 @@ describe('date', () => {
 
 	describe('getMonthNamesShort', () => {
 		afterEach(() => {
-			// @ts-ignore
+			// @ts-expect-error - Mocking for tests
 			delete window.monthNamesShort
 		})
 

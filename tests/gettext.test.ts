@@ -1,7 +1,8 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 import { po } from 'gettext-parser'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getGettextBuilder } from '../lib/gettext.ts'
@@ -213,5 +214,4 @@ msgstr "incorrect"
 
 		expect(translation).toEqual('correct')
 	})
-
 })

@@ -1,27 +1,28 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { afterEach, beforeAll, beforeEach, describe, expect, it, test } from 'vitest'
-import type { NextcloudWindowWithRegistry } from '../lib/registry'
 
+import type { NextcloudWindowWithRegistry } from '../lib/registry.ts'
+
+import { afterEach, beforeAll, beforeEach, describe, expect, it, test } from 'vitest'
 import {
 	getAppTranslations,
 	hasAppTranslations,
 	registerAppTranslations,
 	unregisterAppTranslations,
-} from '../lib/registry'
+} from '../lib/registry.ts'
 
 declare const window: NextcloudWindowWithRegistry
 
-const clearWindow = () => {
+function clearWindow() {
 	delete window._oc_l10n_registry_plural_functions
 	delete window._oc_l10n_registry_translations
 }
 
 const pluralFunction = (number: number) => (number > 1 ? 1 : 0)
 
-const mockWindow = () => {
+function mockWindow() {
 	window._oc_l10n_registry_plural_functions = {
 		core: pluralFunction,
 	}
@@ -134,11 +135,10 @@ describe('registry', () => {
 			}
 			mockWindow()
 
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const numBefore = Object.keys(window._oc_l10n_registry_translations!.core).length
 
 			expect(() => registerAppTranslations('core', newTranslations, pluralFunction)).not.toThrowError()
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 			expect(Object.keys(window._oc_l10n_registry_translations!.core).length).toBe(numBefore + 1)
 			expect(window._oc_l10n_registry_plural_functions?.core).toBe(pluralFunction)
 		})

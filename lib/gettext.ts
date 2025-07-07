@@ -18,7 +18,9 @@ const gt = getGettextBuilder()
 gt.gettext('some string to translate')
 ```
  */
+
 import type { AppTranslations } from './registry.ts'
+
 import { getLanguage, getPlural, translate, translatePlural } from './index.ts'
 
 export interface GettextTranslation {
@@ -34,14 +36,40 @@ export interface GettextTranslationContext {
 export interface GettextTranslationBundle {
 	headers: {
 		[headerName: string]: string
-	},
+	}
 	translations: {
 		[context: string]: GettextTranslationContext
 	}
 }
 
-class GettextBuilder {
+class GettextWrapper {
+	constructor(private bundle: AppTranslations) {
+	}
 
+	/**
+	 * Get translated string (singular form), optionally with placeholders
+	 *
+	 * @param original original string to translate
+	 * @param placeholders map of placeholder key to value
+	 */
+	gettext(original: string, placeholders: Record<string, string | number> = {}): string {
+		return translate('', original, placeholders, undefined, { bundle: this.bundle })
+	}
+
+	/**
+	 * Get translated string with plural forms
+	 *
+	 * @param singular Singular text form
+	 * @param plural Plural text form to be used if `count` requires it
+	 * @param count The number to insert into the text
+	 * @param placeholders optional map of placeholder key to value
+	 */
+	ngettext(singular: string, plural: string, count: number, placeholders: Record<string, string | number> = {}): string {
+		return translatePlural('', singular, plural, count, placeholders, { bundle: this.bundle })
+	}
+}
+
+class GettextBuilder {
 	private debug = false
 	private language = 'en'
 	private translations = {} as Record<string, GettextTranslationBundle>
@@ -81,6 +109,7 @@ class GettextBuilder {
 
 	build(): GettextWrapper {
 		if (this.debug) {
+			// eslint-disable-next-line no-console
 			console.debug(`Creating gettext instance for language ${this.language}`)
 		}
 
@@ -99,38 +128,6 @@ class GettextBuilder {
 
 		return new GettextWrapper(bundle)
 	}
-
-}
-
-class GettextWrapper {
-
-	constructor(
-		private bundle: AppTranslations,
-	) {
-	}
-
-	/**
-	 * Get translated string (singular form), optionally with placeholders
-	 *
-	 * @param original original string to translate
-	 * @param placeholders map of placeholder key to value
-	 */
-	gettext(original: string, placeholders: Record<string, string | number> = {}): string {
-		return translate('', original, placeholders, undefined, { bundle: this.bundle })
-	}
-
-	/**
-	 * Get translated string with plural forms
-	 *
-	 * @param singular Singular text form
-	 * @param plural Plural text form to be used if `count` requires it
-	 * @param count The number to insert into the text
-	 * @param placeholders optional map of placeholder key to value
-	 */
-	ngettext(singular: string, plural: string, count: number, placeholders: Record<string, string | number> = {}): string {
-		return translatePlural('', singular, plural, count, placeholders, { bundle: this.bundle })
-	}
-
 }
 
 /**
