@@ -19,7 +19,7 @@ gt.gettext('some string to translate')
 ```
  */
 
-import type { AppTranslations } from './registry.ts'
+import type { AppTranslations, PluralFunction } from './registry.ts'
 
 import { getLanguage, getPlural, translate, translatePlural } from './index.ts'
 
@@ -43,7 +43,36 @@ export interface GettextTranslationBundle {
 }
 
 class GettextWrapper {
-	constructor(private bundle: AppTranslations) {
+	private bundle: AppTranslations
+
+	constructor(pluralFunction: PluralFunction) {
+		this.bundle = {
+			pluralFunction,
+			translations: {},
+		}
+	}
+
+	/**
+	 * Append new translations to the wrapper.
+	 *
+	 * This is useful if translations should be added on demand,
+	 * e.g. depending on component usage.
+	 *
+	 * @param bundle - The new translation bundle to append
+	 */
+	addTranslations(bundle: GettextTranslationBundle): void {
+		const dict = Object.values(bundle.translations[''] ?? {})
+			.map(({ msgid, msgid_plural: msgidPlural, msgstr }) => {
+				if (msgidPlural !== undefined) {
+					return [`_${msgid}_::_${msgidPlural}_`, msgstr]
+				}
+				return [msgid, msgstr[0]]
+			})
+
+		this.bundle.translations = {
+			...this.bundle.translations,
+			...Object.fromEntries(dict),
+		}
 	}
 
 	/**
@@ -97,6 +126,14 @@ class GettextBuilder {
 		return this.setLanguage(getLanguage().replace('-', '_'))
 	}
 
+	/**
+	 * Register a new translation bundle for a specified language.
+	 *
+	 * Please note that existing translations for that language will be overwritten.
+	 *
+	 * @param language - Language this is the translation for
+	 * @param data - The translation bundle
+	 */
 	addTranslation(language: string, data: GettextTranslationBundle): this {
 		this.translations[language] = data
 		return this
@@ -113,20 +150,11 @@ class GettextBuilder {
 			console.debug(`Creating gettext instance for language ${this.language}`)
 		}
 
-		const translations = Object.values(this.translations[this.language]?.translations[''] ?? {})
-			.map(({ msgid, msgid_plural: msgidPlural, msgstr }) => {
-				if (msgidPlural !== undefined) {
-					return [`_${msgid}_::_${msgidPlural}_`, msgstr]
-				}
-				return [msgid, msgstr[0]]
-			})
-
-		const bundle: AppTranslations = {
-			pluralFunction: (n: number) => getPlural(n, this.language),
-			translations: Object.fromEntries(translations),
+		const wrapper = new GettextWrapper((n: number) => getPlural(n, this.language))
+		if (this.language in this.translations) {
+			wrapper.addTranslations(this.translations[this.language])
 		}
-
-		return new GettextWrapper(bundle)
+		return wrapper
 	}
 }
 
