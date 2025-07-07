@@ -6,6 +6,17 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## 3.4.0 - 2025-07-09
+### 🚀 Enhancements
+- feat: add support for universal environment [\#933](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/933) \([susnux](https://github.com/susnux)\)
+- feat(gettext): allow to add translations to the wrapper [\#953](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/953) \([susnux](https://github.com/susnux)\)
+
+### Other changes
+- chore: update ESLint to v9 and adjust code style [\#955](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/955) \([susnux](https://github.com/susnux)\)
+- chore: update support Node versions and use `devEngines` [\#954](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/954) \([susnux](https://github.com/susnux)\)
+- Updated development dependencies
+
 ## 3.3.0 - 2025-05-29
 ### ℹ️ Notes
 - The Node version was increased to current LTS version 22.
