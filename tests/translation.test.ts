@@ -1,18 +1,20 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
+import type { NextcloudWindowWithRegistry } from '../lib/registry.ts'
+
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import type { NextcloudWindowWithRegistry } from '../lib/registry'
 import {
 	getPlural,
+	n,
 	register,
+	t,
 	translate,
 	translatePlural,
 	unregister,
-	t,
-	n,
-} from '../lib/translation'
+} from '../lib/translation.ts'
 
 declare const window: NextcloudWindowWithRegistry
 

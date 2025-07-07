@@ -17,11 +17,11 @@ console.warn(n('my-app', 'Got an error', 'Got multiple errors', 2));
 ```
  */
 
-export type { Translations } from './registry'
+export type { Translations } from './registry.ts'
 
-export * from './date'
-export * from './locale'
-export * from './translation'
+export * from './date.ts'
+export * from './locale.ts'
+export * from './translation.ts'
 
 export {
 	type FormatDateOptions,

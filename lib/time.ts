@@ -8,18 +8,21 @@ import { getLanguage } from './locale.ts'
 export interface FormatDateOptions {
 	/**
 	 * If set then instead of showing seconds since the timestamp show the passed message.
+	 *
 	 * @default false
 	 */
 	ignoreSeconds?: string | false
 
 	/**
 	 * The relative time formatting option to use
+	 *
 	 * @default 'long
 	 */
 	relativeTime?: 'long' | 'short' | 'narrow'
 
 	/**
 	 * Language to use
+	 *
 	 * @default 'current language'
 	 */
 	language?: string
@@ -32,7 +35,7 @@ export interface FormatDateOptions {
  * @param opts Options for the formatting
  */
 export function formatRelativeTime(
-	timestamp: Date|number = Date.now(),
+	timestamp: Date | number = Date.now(),
 	opts: FormatDateOptions = {},
 ): string {
 	const options: Required<FormatDateOptions> = {

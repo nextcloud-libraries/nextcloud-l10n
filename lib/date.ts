@@ -1,12 +1,12 @@
+/// <reference types="@nextcloud/typings" />
 /*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-/// <reference types="@nextcloud/typings" />
 
-import { getCanonicalLocale } from './locale'
+import { getCanonicalLocale } from './locale.ts'
 
-declare let window: Nextcloud.v27.WindowWithGlobals
+declare let window: Nextcloud.v29.WindowWithGlobals
 
 export type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
@@ -26,10 +26,10 @@ export function getFirstDay(): WeekDay {
 	// Node.js and Samsung Internet only has accessor property weekInfo instead
 	type WeekInfoDay = 1 | 2 | 3 | 4 | 5 | 6 | 7
 	type WeekInfo = {
-		firstDay: WeekInfoDay,
-		weekend: WeekInfoDay,
-		minimalDays: WeekInfoDay,
-	 }
+		firstDay: WeekInfoDay
+		weekend: WeekInfoDay
+		minimalDays: WeekInfoDay
+	}
 	const intl = new Intl.Locale(getCanonicalLocale())
 	// @ts-expect-error These properties are not part of the standard
 	const weekInfo: WeekInfo = intl.getWeekInfo?.() ?? intl.weekInfo
@@ -44,8 +44,6 @@ export function getFirstDay(): WeekDay {
 
 /**
  * Get a list of day names (full names)
- *
- * @return {string[]}
  */
 export function getDayNames(): string[] {
 	// Server rendered
@@ -68,8 +66,6 @@ export function getDayNames(): string[] {
 
 /**
  * Get a list of day names (short names)
- *
- * @return {string[]}
  */
 export function getDayNamesShort(): string[] {
 	if (typeof window.dayNamesShort !== 'undefined') {
@@ -92,8 +88,6 @@ export function getDayNamesShort(): string[] {
 
 /**
  * Get a list of day names (minified names)
- *
- * @return {string[]}
  */
 export function getDayNamesMin(): string[] {
 	// Server rendered
@@ -116,8 +110,6 @@ export function getDayNamesMin(): string[] {
 
 /**
  * Get a list of month names (full names)
- *
- * @return {string[]}
  */
 export function getMonthNames(): string[] {
 	// Server rendered
@@ -145,8 +137,6 @@ export function getMonthNames(): string[] {
 
 /**
  * Get a list of month names (short names)
- *
- * @return {string[]}
  */
 export function getMonthNamesShort(): string[] {
 	// Server rendered

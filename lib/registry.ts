@@ -1,5 +1,4 @@
 /// <reference types="@nextcloud/typings" />
-
 /*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -54,8 +53,8 @@ export interface AppTranslations {
 /**
  * Check if translations and plural function are set for given app
  *
- * @param {string} appId the app id
- * @return {boolean}
+ * @param appId - The app id
+ * @return
  */
 export function hasAppTranslations(appId: string) {
 	return (
@@ -67,9 +66,9 @@ export function hasAppTranslations(appId: string) {
 /**
  * Register new, or extend available, translations for an app
  *
- * @param {string} appId the app id
- * @param {object} translations the translations list
- * @param {Function} pluralFunction the plural function
+ * @param appId - The app id
+ * @param translations - The translations list
+ * @param pluralFunction - The plural function
  */
 export function registerAppTranslations(
 	appId: string,
@@ -98,7 +97,7 @@ export function registerAppTranslations(
 /**
  * Unregister all translations and plural function for given app
  *
- * @param {string} appId the app id
+ * @param appId - The app id
  */
 export function unregisterAppTranslations(appId: string) {
 	delete window._oc_l10n_registry_translations?.[appId]
@@ -108,8 +107,7 @@ export function unregisterAppTranslations(appId: string) {
 /**
  * Get translations bundle for given app and current locale
  *
- * @param {string} appId the app id
- * @return {object}
+ * @param appId - The app id
  */
 export function getAppTranslations(appId: string): AppTranslations {
 	return {

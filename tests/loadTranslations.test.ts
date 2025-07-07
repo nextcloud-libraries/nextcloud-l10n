@@ -1,12 +1,14 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { http, HttpResponse } from 'msw'
-import { setupServer, SetupServerApi } from 'msw/node'
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { loadTranslations, register, translate, unregister } from '../lib/translation'
+import type { SetupServerApi } from 'msw/node'
+
+import { http, HttpResponse } from 'msw'
+import { setupServer } from 'msw/node'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { loadTranslations, register, translate, unregister } from '../lib/translation.ts'
 
 const setLanguage = (lang: string) => document.documentElement.setAttribute('lang', lang)
 
@@ -33,12 +35,11 @@ const requestHandlers = [
 const server: SetupServerApi = setupServer(...requestHandlers)
 
 describe('loadTranslations', () => {
-
 	beforeAll(() => {
 		// Mock some server state
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 		(window as any)._oc_webroot = '';
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 		(window as any)._oc_appswebroots = {
 			404: '/404',
 			500: '/500',

@@ -6,6 +6,8 @@
 import type { AppTranslations, Translations } from './registry.ts'
 
 import { generateFilePath } from '@nextcloud/router'
+import DOMPurify from 'dompurify'
+import escapeHTML from 'escape-html'
 import { getLanguage } from './locale.ts'
 import {
 	getAppTranslations,
@@ -13,9 +15,6 @@ import {
 	registerAppTranslations,
 	unregisterAppTranslations,
 } from './registry.ts'
-
-import DOMPurify from 'dompurify'
-import escapeHTML from 'escape-html'
 
 interface TranslationOptions {
 	/** enable/disable auto escape of placeholders (by default enabled) */
@@ -25,7 +24,7 @@ interface TranslationOptions {
 
 	/**
 	 * This is only intended for internal usage.
-	 * @private
+	 *
 	 */
 	bundle?: AppTranslations
 }
@@ -58,19 +57,19 @@ export function translate<T extends string>(app: string, text: T, placeholders?:
 /**
  * Translate a string
  *
- * @param app the id of the app for which to translate the string
- * @param text the string to translate
- * @param placeholdersOrNumber map of placeholder key to value or a number replacing `%n`
- * @param optionsOrNumber the translation options or a number to replace `%n` with
- * @param options options object
- * @param options.escape enable/disable auto escape of placeholders (by default enabled)
- * @param options.sanitize enable/disable sanitization (by default enabled)
+ * @param app - The id of the app for which to translate the string
+ * @param text - The string to translate
+ * @param placeholdersOrNumber - Map of placeholder key to value or a number replacing `%n`
+ * @param optionsOrNumber - The translation options or a number to replace `%n` with
+ * @param options - Options object
+ * @param options.escape - Enable/disable auto escape of placeholders (by default enabled)
+ * @param options.sanitize - Enable/disable sanitization (by default enabled)
  */
 export function translate<T extends string>(
 	app: string,
 	text: T,
-	placeholdersOrNumber?: TranslationVariables<T>|number,
-	optionsOrNumber?: number|TranslationOptions,
+	placeholdersOrNumber?: TranslationVariables<T> | number,
+	optionsOrNumber?: number | TranslationOptions,
 	options?: TranslationOptions,
 ): string {
 	const vars = typeof placeholdersOrNumber === 'object' ? placeholdersOrNumber : undefined
@@ -85,14 +84,14 @@ export function translate<T extends string>(
 			typeof options === 'object'
 				? options
 				: (
-					typeof optionsOrNumber === 'object'
-						? optionsOrNumber
-						: {}
-				)
+						typeof optionsOrNumber === 'object'
+							? optionsOrNumber
+							: {}
+					)
 		),
 	}
 
-	const identity = <T, >(value: T): T => value
+	const identity = <T>(value: T): T => value
 	const optSanitize = allOptions.sanitize ? DOMPurify.sanitize : identity
 	const optEscape = allOptions.escape ? escapeHTML : identity
 
@@ -142,14 +141,14 @@ export function translate<T extends string>(
 /**
  * Translate a string containing an object which possibly requires a plural form
  *
- * @param {string} app the id of the app for which to translate the string
- * @param {string} textSingular the string to translate for exactly one object
- * @param {string} textPlural the string to translate for n objects
- * @param {number} number number to determine whether to use singular or plural
- * @param {object} vars of placeholder key to value
- * @param {object} options options object
+ * @param app - The id of the app for which to translate the string
+ * @param textSingular - The string to translate for exactly one object
+ * @param textPlural - The string to translate for n objects
+ * @param number - Number to determine whether to use singular or plural
+ * @param vars - Mapping of placeholder key to value
+ * @param options - Options object
  */
-export function translatePlural<T extends string, K extends string, >(
+export function translatePlural<T extends string, K extends string>(
 	app: string,
 	textSingular: T,
 	textPlural: K,
@@ -209,7 +208,7 @@ export async function loadTranslations(appName: string, callback?: (bundle: AppT
 		const url = generateFilePath(appName, 'l10n', getLanguage() + '.json')
 		response = await fetch(url)
 	} catch (error) {
-		throw new Error('Network error')
+		throw new Error('Network error', { cause: error })
 	}
 
 	if (response.ok) {
@@ -220,7 +219,7 @@ export async function loadTranslations(appName: string, callback?: (bundle: AppT
 				callback?.(bundle)
 				return bundle
 			}
-		} catch (error) {
+		} catch {
 			// error is probably a SyntaxError due to invalid response text, this is handled by next line
 		}
 		throw new Error('Invalid content of translation bundle')
@@ -232,8 +231,8 @@ export async function loadTranslations(appName: string, callback?: (bundle: AppT
 /**
  * Register an app's translation bundle.
  *
- * @param {string} appName name of the app
- * @param {Record<string, string>} bundle translation bundle
+ * @param appName name of the app
+ * @param bundle translation bundle
  */
 export function register(appName: string, bundle: Translations) {
 	registerAppTranslations(appName, bundle, getPlural)
@@ -252,10 +251,9 @@ export function unregister(appName: string) {
 /**
  * Get array index of translations for a plural form
  *
- *
- * @param {number} number the number of elements
- * @param {string|undefined} language the language to use (or autodetect if not set)
- * @return {number} 0 for the singular form(, 1 for the first plural form, ...)
+ * @param number - The number of elements
+ * @param language - The language to use (or autodetect if not set)
+ * @return 0 for the singular form(, 1 for the first plural form, ...)
  */
 export function getPlural(number: number, language = getLanguage()) {
 	if (language === 'pt-BR') {
@@ -273,194 +271,194 @@ export function getPlural(number: number, language = getLanguage()) {
 	 * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
 	 */
 	switch (language) {
-	case 'az':
-	case 'bo':
-	case 'dz':
-	case 'id':
-	case 'ja':
-	case 'jv':
-	case 'ka':
-	case 'km':
-	case 'kn':
-	case 'ko':
-	case 'ms':
-	case 'th':
-	case 'tr':
-	case 'vi':
-	case 'zh':
-		return 0
+		case 'az':
+		case 'bo':
+		case 'dz':
+		case 'id':
+		case 'ja':
+		case 'jv':
+		case 'ka':
+		case 'km':
+		case 'kn':
+		case 'ko':
+		case 'ms':
+		case 'th':
+		case 'tr':
+		case 'vi':
+		case 'zh':
+			return 0
 
-	case 'af':
-	case 'bn':
-	case 'bg':
-	case 'ca':
-	case 'da':
-	case 'de':
-	case 'el':
-	case 'en':
-	case 'eo':
-	case 'es':
-	case 'et':
-	case 'eu':
-	case 'fa':
-	case 'fi':
-	case 'fo':
-	case 'fur':
-	case 'fy':
-	case 'gl':
-	case 'gu':
-	case 'ha':
-	case 'he':
-	case 'hu':
-	case 'is':
-	case 'it':
-	case 'ku':
-	case 'lb':
-	case 'ml':
-	case 'mn':
-	case 'mr':
-	case 'nah':
-	case 'nb':
-	case 'ne':
-	case 'nl':
-	case 'nn':
-	case 'no':
-	case 'oc':
-	case 'om':
-	case 'or':
-	case 'pa':
-	case 'pap':
-	case 'ps':
-	case 'pt':
-	case 'so':
-	case 'sq':
-	case 'sv':
-	case 'sw':
-	case 'ta':
-	case 'te':
-	case 'tk':
-	case 'ur':
-	case 'zu':
-		return number === 1 ? 0 : 1
+		case 'af':
+		case 'bn':
+		case 'bg':
+		case 'ca':
+		case 'da':
+		case 'de':
+		case 'el':
+		case 'en':
+		case 'eo':
+		case 'es':
+		case 'et':
+		case 'eu':
+		case 'fa':
+		case 'fi':
+		case 'fo':
+		case 'fur':
+		case 'fy':
+		case 'gl':
+		case 'gu':
+		case 'ha':
+		case 'he':
+		case 'hu':
+		case 'is':
+		case 'it':
+		case 'ku':
+		case 'lb':
+		case 'ml':
+		case 'mn':
+		case 'mr':
+		case 'nah':
+		case 'nb':
+		case 'ne':
+		case 'nl':
+		case 'nn':
+		case 'no':
+		case 'oc':
+		case 'om':
+		case 'or':
+		case 'pa':
+		case 'pap':
+		case 'ps':
+		case 'pt':
+		case 'so':
+		case 'sq':
+		case 'sv':
+		case 'sw':
+		case 'ta':
+		case 'te':
+		case 'tk':
+		case 'ur':
+		case 'zu':
+			return number === 1 ? 0 : 1
 
-	case 'am':
-	case 'bh':
-	case 'fil':
-	case 'fr':
-	case 'gun':
-	case 'hi':
-	case 'hy':
-	case 'ln':
-	case 'mg':
-	case 'nso':
-	case 'xbr':
-	case 'ti':
-	case 'wa':
-		return number === 0 || number === 1 ? 0 : 1
+		case 'am':
+		case 'bh':
+		case 'fil':
+		case 'fr':
+		case 'gun':
+		case 'hi':
+		case 'hy':
+		case 'ln':
+		case 'mg':
+		case 'nso':
+		case 'xbr':
+		case 'ti':
+		case 'wa':
+			return number === 0 || number === 1 ? 0 : 1
 
-	case 'be':
-	case 'bs':
-	case 'hr':
-	case 'ru':
-	case 'sh':
-	case 'sr':
-	case 'uk':
-		return number % 10 === 1 && number % 100 !== 11
-			? 0
-			: number % 10 >= 2
-				  && number % 10 <= 4
-				  && (number % 100 < 10 || number % 100 >= 20)
-				? 1
-				: 2
+		case 'be':
+		case 'bs':
+		case 'hr':
+		case 'ru':
+		case 'sh':
+		case 'sr':
+		case 'uk':
+			return number % 10 === 1 && number % 100 !== 11
+				? 0
+				: number % 10 >= 2
+					&& number % 10 <= 4
+					&& (number % 100 < 10 || number % 100 >= 20)
+					? 1
+					: 2
 
-	case 'cs':
-	case 'sk':
-		return number === 1 ? 0 : number >= 2 && number <= 4 ? 1 : 2
+		case 'cs':
+		case 'sk':
+			return number === 1 ? 0 : number >= 2 && number <= 4 ? 1 : 2
 
-	case 'ga':
-		return number === 1 ? 0 : number === 2 ? 1 : 2
+		case 'ga':
+			return number === 1 ? 0 : number === 2 ? 1 : 2
 
-	case 'lt':
-		return number % 10 === 1 && number % 100 !== 11
-			? 0
-			: number % 10 >= 2 && (number % 100 < 10 || number % 100 >= 20)
-				? 1
-				: 2
+		case 'lt':
+			return number % 10 === 1 && number % 100 !== 11
+				? 0
+				: number % 10 >= 2 && (number % 100 < 10 || number % 100 >= 20)
+					? 1
+					: 2
 
-	case 'sl':
-		return number % 100 === 1
-			? 0
-			: number % 100 === 2
-				? 1
-				: number % 100 === 3 || number % 100 === 4
-					? 2
-					: 3
+		case 'sl':
+			return number % 100 === 1
+				? 0
+				: number % 100 === 2
+					? 1
+					: number % 100 === 3 || number % 100 === 4
+						? 2
+						: 3
 
-	case 'mk':
-		return number % 10 === 1 ? 0 : 1
+		case 'mk':
+			return number % 10 === 1 ? 0 : 1
 
-	case 'mt':
-		return number === 1
-			? 0
-			: number === 0 || (number % 100 > 1 && number % 100 < 11)
-				? 1
-				: number % 100 > 10 && number % 100 < 20
-					? 2
-					: 3
+		case 'mt':
+			return number === 1
+				? 0
+				: number === 0 || (number % 100 > 1 && number % 100 < 11)
+					? 1
+					: number % 100 > 10 && number % 100 < 20
+						? 2
+						: 3
 
-	case 'lv':
-		return number === 0
-			? 0
-			: number % 10 === 1 && number % 100 !== 11
-				? 1
-				: 2
+		case 'lv':
+			return number === 0
+				? 0
+				: number % 10 === 1 && number % 100 !== 11
+					? 1
+					: 2
 
-	case 'pl':
-		return number === 1
-			? 0
-			: number % 10 >= 2
-				  && number % 10 <= 4
-				  && (number % 100 < 12 || number % 100 > 14)
-				? 1
-				: 2
+		case 'pl':
+			return number === 1
+				? 0
+				: number % 10 >= 2
+					&& number % 10 <= 4
+					&& (number % 100 < 12 || number % 100 > 14)
+					? 1
+					: 2
 
-	case 'cy':
-		return number === 1
-			? 0
-			: number === 2
-				? 1
-				: number === 8 || number === 11
-					? 2
-					: 3
-
-	case 'ro':
-		return number === 1
-			? 0
-			: number === 0 || (number % 100 > 0 && number % 100 < 20)
-				? 1
-				: 2
-
-	case 'ar':
-		return number === 0
-			? 0
-			: number === 1
-				? 1
+		case 'cy':
+			return number === 1
+				? 0
 				: number === 2
-					? 2
-					: number % 100 >= 3 && number % 100 <= 10
-						? 3
-						: number % 100 >= 11 && number % 100 <= 99
-							? 4
-							: 5
+					? 1
+					: number === 8 || number === 11
+						? 2
+						: 3
 
-	default:
-		return 0
+		case 'ro':
+			return number === 1
+				? 0
+				: number === 0 || (number % 100 > 0 && number % 100 < 20)
+					? 1
+					: 2
+
+		case 'ar':
+			return number === 0
+				? 0
+				: number === 1
+					? 1
+					: number === 2
+						? 2
+						: number % 100 >= 3 && number % 100 <= 10
+							? 3
+							: number % 100 >= 11 && number % 100 <= 99
+								? 4
+								: 5
+
+		default:
+			return 0
 	}
 }
 
 // Export short-hand
 
 export {
-	translate as t,
 	translatePlural as n,
+	translate as t,
 }
