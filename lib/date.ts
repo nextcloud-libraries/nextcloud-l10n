@@ -6,7 +6,7 @@
 
 import { getCanonicalLocale } from './locale.ts'
 
-declare let window: Nextcloud.v29.WindowWithGlobals
+declare let globalThis: Nextcloud.v29.WindowWithGlobals
 
 export type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
@@ -17,8 +17,8 @@ export type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
  */
 export function getFirstDay(): WeekDay {
 	// Server rendered
-	if (typeof window.firstDay !== 'undefined') {
-		return window.firstDay as WeekDay
+	if (typeof globalThis.firstDay !== 'undefined') {
+		return globalThis.firstDay as WeekDay
 	}
 
 	// Try to fallback to Intl
@@ -47,8 +47,8 @@ export function getFirstDay(): WeekDay {
  */
 export function getDayNames(): string[] {
 	// Server rendered
-	if (typeof window.dayNames !== 'undefined') {
-		return window.dayNames
+	if (typeof globalThis.dayNames !== 'undefined') {
+		return globalThis.dayNames
 	}
 
 	// Fallback to Intl
@@ -68,8 +68,8 @@ export function getDayNames(): string[] {
  * Get a list of day names (short names)
  */
 export function getDayNamesShort(): string[] {
-	if (typeof window.dayNamesShort !== 'undefined') {
-		return window.dayNamesShort
+	if (typeof globalThis.dayNamesShort !== 'undefined') {
+		return globalThis.dayNamesShort
 	}
 
 	// Fallback to Intl
@@ -91,8 +91,8 @@ export function getDayNamesShort(): string[] {
  */
 export function getDayNamesMin(): string[] {
 	// Server rendered
-	if (typeof window.dayNamesMin !== 'undefined') {
-		return window.dayNamesMin
+	if (typeof globalThis.dayNamesMin !== 'undefined') {
+		return globalThis.dayNamesMin
 	}
 
 	// Fallback to Intl
@@ -113,8 +113,8 @@ export function getDayNamesMin(): string[] {
  */
 export function getMonthNames(): string[] {
 	// Server rendered
-	if (typeof window.monthNames !== 'undefined') {
-		return window.monthNames
+	if (typeof globalThis.monthNames !== 'undefined') {
+		return globalThis.monthNames
 	}
 
 	// Fallback to Intl
@@ -140,8 +140,8 @@ export function getMonthNames(): string[] {
  */
 export function getMonthNamesShort(): string[] {
 	// Server rendered
-	if (typeof window.monthNamesShort !== 'undefined') {
-		return window.monthNamesShort
+	if (typeof globalThis.monthNamesShort !== 'undefined') {
+		return globalThis.monthNamesShort
 	}
 
 	// Fallback to Intl
