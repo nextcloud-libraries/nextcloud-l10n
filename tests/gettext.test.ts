@@ -213,4 +213,26 @@ msgstr "incorrect"
 
 		expect(translation).toEqual('correct')
 	})
+
+	it('can add translations afterwards', () => {
+		const pot = `msgid ""
+msgstr ""
+"Last-Translator: Translator, 2020\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "abc"
+msgstr "def"
+`
+		const gt = getGettextBuilder()
+			.setLanguage('sv')
+			.build()
+
+		expect(gt.gettext('abc')).toBe('abc')
+
+		gt.addTranslations(po.parse(pot))
+
+		expect(gt.gettext('abc')).toBe('def')
+	})
 })
