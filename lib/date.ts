@@ -74,6 +74,7 @@ export function getDayNamesShort(): string[] {
 	}
 
 	// Fallback to Intl
+	// Note: short is shorter than server's "short", but it's the closest we can get
 	const locale = getCanonicalLocale()
 	return [
 		new Date('1970-01-04T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
