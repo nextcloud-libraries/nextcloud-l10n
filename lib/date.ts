@@ -68,6 +68,7 @@ export function getDayNames(): string[] {
  * Get a list of day names (short names)
  */
 export function getDayNamesShort(): string[] {
+	// Server rendered
 	if (typeof globalThis.dayNamesShort !== 'undefined') {
 		return globalThis.dayNamesShort
 	}
