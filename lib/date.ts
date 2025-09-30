@@ -73,7 +73,6 @@ export function getDayNamesShort(): string[] {
 	}
 
 	// Fallback to Intl
-	// Note: narrow is shorter than server's "min", but it's the closest we can get
 	const locale = getCanonicalLocale()
 	return [
 		new Date('1970-01-04T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
@@ -96,6 +95,7 @@ export function getDayNamesMin(): string[] {
 	}
 
 	// Fallback to Intl
+	// Note: narrow is shorter than server's "min", but it's the closest we can get
 	const locale = getCanonicalLocale()
 	return [
 		new Date('1970-01-04T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'narrow' }),
