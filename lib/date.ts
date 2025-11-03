@@ -54,13 +54,13 @@ export function getDayNames(): string[] {
 	// Fallback to Intl
 	const locale = getCanonicalLocale()
 	return [
-		new Date('1970-01-04T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'long' }),
-		new Date('1970-01-05T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'long' }),
-		new Date('1970-01-06T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'long' }),
-		new Date('1970-01-07T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'long' }),
-		new Date('1970-01-08T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'long' }),
-		new Date('1970-01-09T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'long' }),
-		new Date('1970-01-10T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'long' }),
+		new Date(1970, 0, 4).toLocaleDateString(locale, { weekday: 'long' }),
+		new Date(1970, 0, 5).toLocaleDateString(locale, { weekday: 'long' }),
+		new Date(1970, 0, 6).toLocaleDateString(locale, { weekday: 'long' }),
+		new Date(1970, 0, 7).toLocaleDateString(locale, { weekday: 'long' }),
+		new Date(1970, 0, 8).toLocaleDateString(locale, { weekday: 'long' }),
+		new Date(1970, 0, 9).toLocaleDateString(locale, { weekday: 'long' }),
+		new Date(1970, 0, 10).toLocaleDateString(locale, { weekday: 'long' }),
 	]
 }
 
@@ -68,21 +68,22 @@ export function getDayNames(): string[] {
  * Get a list of day names (short names)
  */
 export function getDayNamesShort(): string[] {
+	// Server rendered
 	if (typeof globalThis.dayNamesShort !== 'undefined') {
 		return globalThis.dayNamesShort
 	}
 
 	// Fallback to Intl
-	// Note: narrow is shorter than server's "min", but it's the closest we can get
+	// Note: short is shorter than server's "short", but it's the closest we can get
 	const locale = getCanonicalLocale()
 	return [
-		new Date('1970-01-04T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
-		new Date('1970-01-05T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
-		new Date('1970-01-06T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
-		new Date('1970-01-07T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
-		new Date('1970-01-08T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
-		new Date('1970-01-09T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
-		new Date('1970-01-10T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'short' }),
+		new Date(1970, 0, 4).toLocaleDateString(locale, { weekday: 'short' }),
+		new Date(1970, 0, 5).toLocaleDateString(locale, { weekday: 'short' }),
+		new Date(1970, 0, 6).toLocaleDateString(locale, { weekday: 'short' }),
+		new Date(1970, 0, 7).toLocaleDateString(locale, { weekday: 'short' }),
+		new Date(1970, 0, 8).toLocaleDateString(locale, { weekday: 'short' }),
+		new Date(1970, 0, 9).toLocaleDateString(locale, { weekday: 'short' }),
+		new Date(1970, 0, 10).toLocaleDateString(locale, { weekday: 'short' }),
 	]
 }
 
@@ -96,15 +97,16 @@ export function getDayNamesMin(): string[] {
 	}
 
 	// Fallback to Intl
+	// Note: narrow is shorter than server's "min", but it's the closest we can get
 	const locale = getCanonicalLocale()
 	return [
-		new Date('1970-01-04T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'narrow' }),
-		new Date('1970-01-05T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'narrow' }),
-		new Date('1970-01-06T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'narrow' }),
-		new Date('1970-01-07T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'narrow' }),
-		new Date('1970-01-08T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'narrow' }),
-		new Date('1970-01-09T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'narrow' }),
-		new Date('1970-01-10T00:00:00.000Z').toLocaleDateString(locale, { weekday: 'narrow' }),
+		new Date(1970, 0, 4).toLocaleDateString(locale, { weekday: 'narrow' }),
+		new Date(1970, 0, 5).toLocaleDateString(locale, { weekday: 'narrow' }),
+		new Date(1970, 0, 6).toLocaleDateString(locale, { weekday: 'narrow' }),
+		new Date(1970, 0, 7).toLocaleDateString(locale, { weekday: 'narrow' }),
+		new Date(1970, 0, 8).toLocaleDateString(locale, { weekday: 'narrow' }),
+		new Date(1970, 0, 9).toLocaleDateString(locale, { weekday: 'narrow' }),
+		new Date(1970, 0, 10).toLocaleDateString(locale, { weekday: 'narrow' }),
 	]
 }
 
@@ -120,18 +122,18 @@ export function getMonthNames(): string[] {
 	// Fallback to Intl
 	const locale = getCanonicalLocale()
 	return [
-		new Date('1970-01-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-02-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-03-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-04-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-05-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-06-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-07-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-08-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-09-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-10-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-11-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
-		new Date('1970-12-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 0).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 1).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 2).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 3).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 4).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 5).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 6).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 7).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 8).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 9).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 10).toLocaleDateString(locale, { month: 'long' }),
+		new Date(1970, 11).toLocaleDateString(locale, { month: 'long' }),
 	]
 }
 
@@ -147,17 +149,17 @@ export function getMonthNamesShort(): string[] {
 	// Fallback to Intl
 	const locale = getCanonicalLocale()
 	return [
-		new Date('1970-01-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-02-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-03-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-04-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-05-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-06-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-07-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-08-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-09-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-10-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-11-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
-		new Date('1970-12-01T00:00:00.000Z').toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 0).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 1).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 2).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 3).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 4).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 5).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 6).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 7).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 8).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 9).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 10).toLocaleDateString(locale, { month: 'short' }),
+		new Date(1970, 11).toLocaleDateString(locale, { month: 'short' }),
 	]
 }
