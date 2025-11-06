@@ -6,6 +6,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 3.4.1 - 2025-11-06
+### 🐛 Fixed bugs
+* Fix array order inconsistencies for weekdays when using timezone with negative offset [\#958](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/958) \([Sector6759](https://github.com/Sector6759)\)
+
+### Other changes
+* Updated development dependencies
+* chore: update Node and NPM dev versions to align with apps [\#960](https://github.com/nextcloud-libraries/nextcloud-l10n/pull/960) \([susnux](https://github.com/susnux)\)
 
 ## 3.4.0 - 2025-07-09
 ### 🚀 Enhancements
