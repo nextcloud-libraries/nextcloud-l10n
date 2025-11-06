@@ -81,11 +81,11 @@
   "devEngines": {
     "packageManager": {
       "name": "npm",
-      "version": "^10.6.0"
+      "version": "^11.3.0"
     },
     "runtime": {
       "name": "node",
-      "version": "^22"
+      "version": "^24"
     }
   }
 }
