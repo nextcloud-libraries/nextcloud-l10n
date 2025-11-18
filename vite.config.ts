@@ -4,7 +4,7 @@
  */
 
 import { createLibConfig } from '@nextcloud/vite-config'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 
 export default createLibConfig(
 	{
