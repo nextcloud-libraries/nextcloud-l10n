@@ -14,3 +14,12 @@ updates:
     - "type: dependencies"
   open-pull-requests-limit: 10
   versioning-strategy: increase
+  groups:
+    vite:
+      patterns:
+        - "vite"
+        - "@nextcloud/vite-config"
+    vitest:
+      patterns:
+        - "vitest"
+        - "@vitest/*"
