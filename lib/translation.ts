@@ -39,10 +39,9 @@ interface TranslationVariableReplacementObject<T> {
 /**
  * Extracts variables from a translation key
  */
-type ExtractedVariables<T extends string> =
-	T extends `${string}{${infer Variable}}${infer Rest}`
-		? Variable | ExtractedVariables<Rest>
-		: never
+type ExtractedVariables<T extends string> = T extends `${string}{${infer Variable}}${infer Rest}`
+	? Variable | ExtractedVariables<Rest>
+	: never
 
 type TranslationVariables<K extends string> = Record<ExtractedVariables<K>, string | number | TranslationVariableReplacementObject<string | number>>
 
