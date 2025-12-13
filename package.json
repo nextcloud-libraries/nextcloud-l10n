@@ -55,7 +55,7 @@
     "@nextcloud/router": "^3.1.0",
     "@nextcloud/typings": "^1.10.0",
     "@types/escape-html": "^1.0.4",
-    "dompurify": "^3.3.0",
+    "dompurify": "^3.3.1",
     "escape-html": "^1.0.3"
   },
   "devDependencies": {
