@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { getCapabilities } from '@nextcloud/capabilities'
+
 /**
  * Returns the user's locale
  */
@@ -55,6 +57,42 @@ export function setLanguage(lang: string): void {
 	if (typeof document !== 'undefined') {
 		document.documentElement.lang = lang
 	}
+}
+
+/**
+ * Returns the user's timezone
+ *
+ * @since 3.5.0
+ */
+export function getTimezone(): string {
+	if (!globalThis._nc_l10n_timezone) {
+		let capabilities: undefined | { core?: { user?: { timezone?: string } } }
+		try {
+			capabilities = getCapabilities()
+		} catch {
+			// An error indicates getCapabilities threw due to no window object being present,
+			// which is the case when called outside of a browser runtime
+
+			// TODO: this try/catch block should be removed as soon as the @nextcloud/capabilities
+			// package has been updated to check for presence of the window object.
+			// Furthermore, everything except the return statement should be moved to the
+			// end of this file where the remaining global state is initialized.
+		}
+		globalThis._nc_l10n_timezone ??= capabilities?.core?.user?.timezone
+			|| Intl.DateTimeFormat().resolvedOptions().timeZone
+	}
+	return globalThis._nc_l10n_timezone
+}
+
+/**
+ * Set the current user's timezone (locally).
+ * This is to be used only for e.g. usage within web workers etc.
+ *
+ * @param timezone - The new timezone
+ * @since 3.5.0
+ */
+export function setTimezone(timezone: string): void {
+	globalThis._nc_l10n_timezone = timezone
 }
 
 /**
