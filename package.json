@@ -46,7 +46,8 @@
     "test:coverage": "LANG=en-US TZ=America/Chicago vitest run --coverage",
     "test:dom": "LANG=en-US TZ=America/Chicago vitest run",
     "test:node": "LANG=en-US TZ=America/Chicago vitest run --environment node",
-    "test:watch": "LANG=en-US TZ=America/Chicago vitest watch"
+    "test:watch": "LANG=en-US TZ=America/Chicago vitest watch",
+    "ts:check": "tsc --noEmit"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
