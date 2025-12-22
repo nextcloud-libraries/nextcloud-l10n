@@ -43,7 +43,9 @@ export interface AppTranslations {
  */
 export function hasAppTranslations(appId: string): boolean {
 	return (
-		appId in globalThis._oc_l10n_registry_translations
+		globalThis._oc_l10n_registry_translations !== undefined
+		&& globalThis._oc_l10n_registry_plural_functions !== undefined
+		&& appId in globalThis._oc_l10n_registry_translations
 		&& appId in globalThis._oc_l10n_registry_plural_functions
 	)
 }
@@ -64,6 +66,9 @@ export function registerAppTranslations(
 		throw new Error('Invalid appId')
 	}
 
+	globalThis._oc_l10n_registry_translations ??= {}
+	globalThis._oc_l10n_registry_plural_functions ??= {}
+
 	globalThis._oc_l10n_registry_translations[appId] = {
 		...(globalThis._oc_l10n_registry_translations[appId] || {}),
 		...translations,
@@ -78,8 +83,8 @@ export function registerAppTranslations(
  * @param appId - The app id
  */
 export function unregisterAppTranslations(appId: string): void {
-	delete globalThis._oc_l10n_registry_translations[appId]
-	delete globalThis._oc_l10n_registry_plural_functions[appId]
+	delete globalThis._oc_l10n_registry_translations?.[appId]
+	delete globalThis._oc_l10n_registry_plural_functions?.[appId]
 }
 
 /**
@@ -89,11 +94,7 @@ export function unregisterAppTranslations(appId: string): void {
  */
 export function getAppTranslations(appId: string): AppTranslations {
 	return {
-		translations: globalThis._oc_l10n_registry_translations[appId] ?? {},
-		pluralFunction: globalThis._oc_l10n_registry_plural_functions[appId] ?? ((number: number) => number),
+		translations: globalThis._oc_l10n_registry_translations?.[appId] ?? {},
+		pluralFunction: globalThis._oc_l10n_registry_plural_functions?.[appId] ?? ((number: number) => number),
 	}
 }
-
-// Initialize global state if needed
-globalThis._oc_l10n_registry_translations ??= {}
-globalThis._oc_l10n_registry_plural_functions ??= {}

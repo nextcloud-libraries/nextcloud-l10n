@@ -9,6 +9,9 @@ import { getCapabilities } from '@nextcloud/capabilities'
  * Returns the user's locale
  */
 export function getLocale(): string {
+	globalThis._nc_l10n_locale ??= (typeof document !== 'undefined' && document.documentElement.dataset.locale)
+		|| Intl.DateTimeFormat().resolvedOptions().locale.replaceAll(/-/g, '_')
+
 	return globalThis._nc_l10n_locale
 }
 
@@ -40,6 +43,9 @@ export function setLocale(locale: string): void {
  * Returns the user's language
  */
 export function getLanguage(): string {
+	globalThis._nc_l10n_language ??= (typeof document !== 'undefined' && document.documentElement.lang)
+		|| (globalThis.navigator?.language ?? 'en')
+
 	return globalThis._nc_l10n_language
 }
 
@@ -136,11 +142,3 @@ export function isRTL(language?: string): boolean {
 
 	return rtlLanguages.includes(languageCode)
 }
-
-// Initialize global state if needed (e.g. when not in DOM context like on WebWorker)
-
-globalThis._nc_l10n_locale ??= (typeof document !== 'undefined' && document.documentElement.dataset.locale)
-	|| Intl.DateTimeFormat().resolvedOptions().locale.replaceAll(/-/g, '_')
-
-globalThis._nc_l10n_language ??= (typeof document !== 'undefined' && document.documentElement.lang)
-	|| (globalThis.navigator?.language ?? 'en')
