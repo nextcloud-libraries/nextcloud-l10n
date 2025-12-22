@@ -16,6 +16,7 @@
   },
   "license": "GPL-3.0-or-later",
   "author": "Nextcloud GmbH and Nextcloud contributors",
+  "sideEffects": false,
   "type": "module",
   "exports": {
     ".": {
