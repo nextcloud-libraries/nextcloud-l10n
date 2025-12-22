@@ -43,15 +43,16 @@
     "lint:fix": "eslint --fix lib tests",
     "prerelease:format-changelog": "node build/format-changelog.mjs",
     "test": "npm run test:dom && npm run test:node",
-    "test:coverage": "LANG=en-US vitest run --coverage",
-    "test:dom": "LANG=en-US vitest run",
-    "test:node": "LANG=en-US vitest run --environment node",
-    "test:watch": "LANG=en-US vitest watch"
+    "test:coverage": "LANG=en-US TZ=America/Chicago vitest run --coverage",
+    "test:dom": "LANG=en-US TZ=America/Chicago vitest run",
+    "test:node": "LANG=en-US TZ=America/Chicago vitest run --environment node",
+    "test:watch": "LANG=en-US TZ=America/Chicago vitest watch"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
   ],
   "dependencies": {
+    "@nextcloud/capabilities": "^1.2.1",
     "@nextcloud/router": "^3.1.0",
     "@nextcloud/typings": "^1.10.0",
     "@types/escape-html": "^1.0.4",

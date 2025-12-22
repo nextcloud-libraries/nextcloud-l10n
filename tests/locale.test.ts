@@ -82,6 +82,27 @@ describe('getCanonicalLocale', () => {
 	})
 })
 
+describe('getTimezone', () => {
+	vi.spyOn(console, 'debug').mockImplementation(() => {})
+	it('returns the set timezone as it is', async () => {
+		mockTimezone('Europe/Berlin')
+		expect(await getTimezone()).toEqual('Europe/Berlin')
+	})
+
+	it('returns the environment timezone if no timezone is set', async () => {
+		mockTimezone(undefined)
+		expect(await getTimezone()).toEqual(process.env.TZ)
+	})
+})
+
+describe('setTimezone', () => {
+	it('sets the global state', async () => {
+		mockTimezone('Europe/Berlin')
+		await setTimezone('America/New_York')
+		expect(globalThis._nc_l10n_timezone).toBe('America/New_York')
+	})
+})
+
 async function getCanonicalLocale() {
 	const { getCanonicalLocale } = await import('../lib/locale.ts')
 	return getCanonicalLocale()
@@ -97,6 +118,11 @@ async function getLanguage() {
 	return getLanguage()
 }
 
+async function getTimezone() {
+	const { getTimezone } = await import('../lib/locale.ts')
+	return getTimezone()
+}
+
 async function setLocale(locale: string) {
 	const { setLocale } = await import('../lib/locale.ts')
 	return setLocale(locale)
@@ -105,6 +131,11 @@ async function setLocale(locale: string) {
 async function setLanguage(language: string) {
 	const { setLanguage } = await import('../lib/locale.ts')
 	return setLanguage(language)
+}
+
+async function setTimezone(timezone: string) {
+	const { setTimezone } = await import('../lib/locale.ts')
+	return setTimezone(timezone)
 }
 
 function mockLanguage(lang?: string) {
@@ -117,4 +148,8 @@ function mockLocale(locale?: string) {
 	if (typeof globalThis.document !== 'undefined') {
 		delete globalThis.document.documentElement.dataset.locale
 	}
+}
+function mockTimezone(timezone?: string) {
+	// @ts-expect-error - Mocking global state
+	globalThis._nc_l10n_timezone = timezone
 }
