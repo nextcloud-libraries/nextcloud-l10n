@@ -70,7 +70,7 @@
     "@types/node": "^24.10.4",
     "@vitest/coverage-v8": "^4.0.16",
     "eslint": "^9.39.2",
-    "gettext-parser": "^8.0.0",
+    "gettext-parser": "^9.0.0",
     "jsdom": "^27.4.0",
     "msw": "^2.12.4",
     "typedoc": "^0.28.15",
