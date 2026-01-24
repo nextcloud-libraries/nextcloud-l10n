@@ -73,7 +73,7 @@
     "gettext-parser": "^9.0.1",
     "jsdom": "^27.4.0",
     "msw": "^2.12.7",
-    "typedoc": "^0.28.15",
+    "typedoc": "^0.28.16",
     "typedoc-plugin-missing-exports": "^4.1.2",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
