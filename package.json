@@ -68,7 +68,7 @@
     "@types/escape-html": "^1.0.4",
     "@types/gettext-parser": "^9.0.0",
     "@types/node": "^24.12.0",
-    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/coverage-v8": "^4.1.0",
     "eslint": "^9.39.2",
     "gettext-parser": "^9.0.1",
     "jsdom": "^28.1.0",
