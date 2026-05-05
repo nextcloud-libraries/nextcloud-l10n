@@ -1,4 +1,3 @@
-/// <reference types="@nextcloud/typings" />
 /*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -12,8 +11,6 @@ import * as localeModule from '../lib/locale.ts'
 
 vi.mock('../lib/locale.ts')
 const { getCanonicalLocale } = localeModule as Mocked<typeof localeModule>
-
-declare let globalThis: Nextcloud.v29.WindowWithGlobals
 
 describe('date', () => {
 	describe('getFirstDay', () => {
@@ -34,7 +31,6 @@ describe('date', () => {
 		const originalWeekInfoDescriptor = Object.getOwnPropertyDescriptor(Intl.Locale.prototype, 'weekInfo')!
 
 		beforeEach(() => {
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.firstDay
 		})
 
@@ -88,7 +84,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.dayNames
 		})
 
@@ -114,7 +109,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.dayNames
 		})
 
@@ -140,7 +134,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.dayNamesShort
 		})
 
@@ -166,7 +159,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.dayNamesShort
 		})
 
@@ -192,7 +184,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.dayNamesMin
 		})
 
@@ -218,7 +209,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.dayNamesMin
 		})
 
@@ -244,7 +234,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.monthNames
 		})
 
@@ -270,7 +259,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.monthNames
 		})
 
@@ -296,7 +284,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.monthNamesShort
 		})
 
@@ -322,7 +309,6 @@ describe('date', () => {
 		})
 		afterEach(() => {
 			vi.unstubAllEnvs()
-			// @ts-expect-error - Mocking for tests
 			delete globalThis.monthNamesShort
 		})
 

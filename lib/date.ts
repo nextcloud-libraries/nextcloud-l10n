@@ -1,12 +1,9 @@
-/// <reference types="@nextcloud/typings" />
 /*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { getCanonicalLocale } from './locale.ts'
-
-declare let globalThis: Nextcloud.v29.WindowWithGlobals
 
 export type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
