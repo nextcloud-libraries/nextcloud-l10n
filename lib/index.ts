@@ -23,8 +23,5 @@ export * from './date.ts'
 export * from './locale.ts'
 export * from './translation.ts'
 
-export {
-	type FormatDateOptions,
-
-	formatRelativeTime,
-} from './time.ts'
+export type { FormatDateOptions } from './time.ts'
+export { formatRelativeTime } from './time.ts'
