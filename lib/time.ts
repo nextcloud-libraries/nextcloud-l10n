@@ -76,8 +76,7 @@ export function formatRelativeTime(
 
 	// For everything above we show year + month like "August 2025" or month + day if same year like "May 12"
 	// This is based on a Nextcloud design decision: https://github.com/nextcloud/server/issues/29807#issuecomment-2431895872
-	const months = days / 30
-	const format: Intl.DateTimeFormatOptions = Math.abs(months) < 11
+	const format: Intl.DateTimeFormatOptions = date.getFullYear() === new Date().getFullYear()
 		? { month: options.relativeTime, day: 'numeric' }
 		: { year: options.relativeTime === 'narrow' ? '2-digit' : 'numeric', month: options.relativeTime }
 
