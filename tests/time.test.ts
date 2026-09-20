@@ -3,13 +3,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { beforeAll, beforeEach, describe, expect, it, test, vi } from 'vitest'
+import { afterAll, beforeAll, beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { setLanguage } from '../lib/locale.ts'
 import { formatRelativeTime } from '../lib/time.ts'
 
 describe('time - formatRelativeTime', () => {
 	beforeAll(() => {
+		vi.stubEnv('TZ', 'UTC')
 		vi.useFakeTimers({ now: new Date('2025-01-01T00:00:00Z') })
+	})
+
+	afterAll(() => {
+		vi.unstubAllEnvs()
 	})
 
 	beforeEach(() => {
@@ -57,5 +62,13 @@ describe('time - formatRelativeTime', () => {
 	it('can override the lange as parameter', () => {
 		setLanguage('de')
 		expect(formatRelativeTime(new Date('2024-12-31T23:58:00Z'), { language: 'en' })).toBe('2 minutes ago')
+	})
+
+	it('uses the calendar year to decide whether to show the year', () => {
+		vi.setSystemTime(new Date('2025-06-01T12:00:00Z'))
+		expect(formatRelativeTime(new Date('2024-11-15T12:00:00Z'))).toBe('November 2024')
+
+		vi.setSystemTime(new Date('2025-12-20T12:00:00Z'))
+		expect(formatRelativeTime(new Date('2025-01-02T12:00:00Z'))).toBe('January 2')
 	})
 })
