@@ -166,15 +166,15 @@ export function translatePlural<T extends string, K extends string>(
 
 	if (typeof value !== 'undefined') {
 		const translation = value
-		if (Array.isArray(translation) && translation.length > 0) {
+		if (Array.isArray(translation)) {
 			// The plural form index of the current language might not be available,
 			// e.g. when translations of a fallback language with less plural forms
-			// are registered, in that case the last available form is used.
-			// Empty entries are treated as untranslated (gettext leaves missing
-			// plural forms as empty strings), so the English default applies.
-			const plural = Math.min(bundle.pluralFunction(number), translation.length - 1)
+			// are registered, then the entry is undefined and the English default
+			// applies. Empty entries are treated the same way (gettext leaves
+			// missing plural forms as empty strings).
+			const plural = bundle.pluralFunction(number)
 			const form = translation[plural]
-			if (typeof form === 'string' && form.length > 0) {
+			if (form) {
 				return translate(app, form, vars, number, options)
 			}
 		}

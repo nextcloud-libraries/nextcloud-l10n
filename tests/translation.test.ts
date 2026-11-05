@@ -406,12 +406,15 @@ describe('translatePlural with less plural forms than the language has', () => {
 		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 form-two')
 	})
 
-	it('uses the only available form if just one is registered', () => {
+	it('falls back to the original strings for a single registered form', () => {
 		setLanguage('lv')
 		register('files', {
 			'_%n file_::_%n files_': ['%n single form'],
 		})
-		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 single form')
+		// The single form is used for the index it covers
+		expect(translatePlural('files', '%n file', '%n files', 0)).toBe('0 single form')
+		// For indices it does not cover, the English default applies
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 files')
 	})
 
 	it('falls back to the original strings if no form is available', () => {
