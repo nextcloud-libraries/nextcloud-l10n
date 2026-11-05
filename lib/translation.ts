@@ -140,6 +140,11 @@ export function translate<T extends string>(
 /**
  * Translate a string containing an object which possibly requires a plural form
  *
+ * If no translation is available for the given texts, the singular text is
+ * used for `number === 1` and the plural text otherwise.
+ * If a translation is available but provides less plural forms than the
+ * current language uses, the last available form is used.
+ *
  * @param app - The id of the app for which to translate the string
  * @param textSingular - The string to translate for exactly one object
  * @param textPlural - The string to translate for n objects
@@ -162,8 +167,16 @@ export function translatePlural<T extends string, K extends string>(
 	if (typeof value !== 'undefined') {
 		const translation = value
 		if (Array.isArray(translation)) {
+			// The plural form index of the current language might not be available,
+			// e.g. when translations of a fallback language with less plural forms
+			// are registered, then the entry is undefined and the English default
+			// applies. Empty entries are treated the same way (gettext leaves
+			// missing plural forms as empty strings).
 			const plural = bundle.pluralFunction(number)
-			return translate(app, translation[plural], vars, number, options)
+			const form = translation[plural]
+			if (form) {
+				return translate(app, form, vars, number, options)
+			}
 		}
 	}
 
