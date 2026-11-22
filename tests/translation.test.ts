@@ -345,3 +345,107 @@ describe('getPlural', () => {
 		expect(getPlural(2, 'am')).toBe<number>(1)
 	})
 })
+
+describe('translatePlural with less plural forms than the language has', () => {
+	beforeEach(() => {
+		globalThis._oc_l10n_registry_translations = {}
+		globalThis._oc_l10n_registry_plural_functions = {}
+	})
+
+	it('uses the last available form for Latvian (3 forms) with an untranslated app', () => {
+		setLanguage('lv')
+		// A fallback bundle of a language with only two plural forms is registered,
+		// like the server does when the app has no translations for the user language
+		register('files', {
+			'_%n file_::_%n files_': ['%n file', '%n files'],
+		})
+		// Latvian uses a third form for numbers like 5 and 25,
+		// which is not available in the registered translations
+		expect(getPlural(5, 'lv')).toBe(2)
+		expect(getPlural(25, 'lv')).toBe(2)
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 files')
+		expect(translatePlural('files', '%n file', '%n files', 25)).toBe('25 files')
+	})
+
+	it('uses the last available form for Arabic (6 forms) with an untranslated app', () => {
+		setLanguage('ar')
+		register('files', {
+			'_%n file_::_%n files_': ['%n file', '%n files'],
+		})
+		// Arabic uses the 4th form for 5 and the 6th form for 100,
+		// neither is available in the registered translations
+		expect(getPlural(5, 'ar')).toBe(3)
+		expect(getPlural(100, 'ar')).toBe(5)
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 files')
+		expect(translatePlural('files', '%n file', '%n files', 100)).toBe('100 files')
+	})
+
+	it('uses the last available form for Slovenian (4 forms) with an untranslated app', () => {
+		setLanguage('sl')
+		register('files', {
+			'_%n file_::_%n files_': ['%n file', '%n files'],
+		})
+		// Slovenian uses the 3rd form for 3 and 4 and the 4th (last) form for 5,
+		// neither is available in the registered translations
+		expect(getPlural(3, 'sl')).toBe(2)
+		expect(getPlural(5, 'sl')).toBe(3)
+		expect(translatePlural('files', '%n file', '%n files', 3)).toBe('3 files')
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 files')
+	})
+
+	it('keeps using the correct form for translated apps with all plural forms', () => {
+		setLanguage('lv')
+		register('files', {
+			'_%n file_::_%n files_': ['%n form-zero', '%n form-one', '%n form-two'],
+		})
+		expect(getPlural(0, 'lv')).toBe(0)
+		expect(getPlural(1, 'lv')).toBe(1)
+		expect(getPlural(5, 'lv')).toBe(2)
+		expect(translatePlural('files', '%n file', '%n files', 0)).toBe('0 form-zero')
+		expect(translatePlural('files', '%n file', '%n files', 1)).toBe('1 form-one')
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 form-two')
+	})
+
+	it('falls back to the original strings for a single registered form', () => {
+		setLanguage('lv')
+		register('files', {
+			'_%n file_::_%n files_': ['%n single form'],
+		})
+		// The single form is used for the index it covers
+		expect(translatePlural('files', '%n file', '%n files', 0)).toBe('0 single form')
+		// For indices it does not cover, the English default applies
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 files')
+	})
+
+	it('falls back to the original strings if no form is available', () => {
+		setLanguage('lv')
+		register('files', {
+			'_%n file_::_%n files_': [],
+		})
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 files')
+		expect(translatePlural('files', '%n file', '%n files', 1)).toBe('1 file')
+	})
+
+	it('falls back to the original strings if the selected form is empty (in range)', () => {
+		setLanguage('lv')
+		// A partially translated bundle: the second form is untranslated,
+		// gettext leaves missing plural forms as empty strings
+		register('files', {
+			'_%n file_::_%n files_': ['%n form-zero', '', '%n form-two'],
+		})
+		expect(getPlural(1, 'lv')).toBe(1)
+		expect(translatePlural('files', '%n file', '%n files', 1)).toBe('1 file')
+		// The non-empty forms are still used for their indices
+		expect(translatePlural('files', '%n file', '%n files', 0)).toBe('0 form-zero')
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 form-two')
+	})
+
+	it('falls back to the original strings if the last form is empty', () => {
+		setLanguage('lv')
+		register('files', {
+			'_%n file_::_%n files_': ['%n datne', '%n datnes', ''],
+		})
+		expect(getPlural(5, 'lv')).toBe(2)
+		expect(translatePlural('files', '%n file', '%n files', 5)).toBe('5 files')
+	})
+})
